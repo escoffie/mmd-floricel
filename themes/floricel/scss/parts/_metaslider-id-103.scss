@@ -1,0 +1,46 @@
+#metaslider-id-103 {
+    position: relative;
+    color: white;
+    text-shadow: 2px 2px 2px black;
+    font-family: $font-serif;
+    font-style: italic;
+    margin: 0;
+    padding: 0;
+    &::before {
+        content: 'Cada boda empieza con un sueño...';
+        position: absolute;
+        z-index: 100;
+        top: 1rem;
+        left: 1rem;
+    }
+    &::after {
+        content: '...Six Sens realiza el suyo.';
+        position: absolute;
+        z-index: 100;
+        bottom: 1rem;
+        right: 1rem;
+    }
+}
+
+:lang(en) {
+    #metaslider-id-103 {
+        &::before {
+            content: 'Each wedding begins with a dream...'
+        }
+        &::after {
+            content: '...Six Sens realizes yours.'
+        }
+    }
+}
+
+:lang(fr) {
+    #metaslider-id-103 {
+        &::before {
+            content: 'Chaque mariage débute par un rêve...'
+        }
+
+        &::after {
+            content: '...Six Sens réalise le vôtre.'
+        }
+    }
+}

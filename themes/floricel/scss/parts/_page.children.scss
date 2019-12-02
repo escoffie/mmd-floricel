@@ -1,0 +1,64 @@
+.page-children-title {
+    text-align: center;
+    background-image: url('img/deco-sencillo.png');
+    background-position: top right;
+    background-repeat: no-repeat;
+    padding-top: 2rem;
+}
+
+.page-children {
+
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+
+    @media screen and (max-width: 768px){
+        grid-template-columns: 1fr;
+    }
+    
+    a.page-child {
+        border-radius: 1.5rem;
+        padding: 3rem;
+        margin: 3rem;
+        transform: translateY(0rem);
+        box-shadow: 5px 5px 15px rgba(153, 121, 121, 0.25);
+        transition: all 0.5s ease;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        
+        &:hover {
+            background-color: theme-color('light');
+            transform: translateY(-1rem);
+            box-shadow: 5px 5px 20px rgba(153, 121, 121, 0.35);
+        }
+
+        .page-child-title {
+            font-size: 2.5rem;
+        }
+
+        .page-child-excerpt {
+            color: theme-color('dark');
+        }
+
+        .page-child-button {
+            background-color: theme-color('secondary');
+            color: white !important;
+            padding: 1rem;
+            text-align: center;
+            display: block;
+            width: 100%;
+            border-radius: .5rem;
+            box-shadow: 0 5px 0 darken(theme-color('secondary'), 10%);
+
+            img {
+                -webkit-filter: brightness(100%) grayscale(100%);
+                filter: brightness(100%) grayscale(100%);
+                width: 23px;
+                height: 11px;
+                display: inline-block;
+                margin: 0 0.5rem;
+            }
+
+        }
+    }
+}

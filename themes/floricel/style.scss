@@ -1,0 +1,34 @@
+/*
+    Theme Name: Floricel
+    Theme URI: 
+    Author: Bernardo Escoffié Torre
+    Author URI: https://meetmedia.mx
+    Description: Sitio web para Floricel
+    Version: 0.1
+    Licence: GNU General Public License v2 or later
+    License URI: http://www.gnu.org/licenses/gpl-2.0.html
+    Tags:
+    Text Domain: floricel
+*/
+
+/* VARIABLES */
+@import './scss/variables';
+
+/* RESETS */
+@import './scss/resets/normalize';
+@import './scss/resets/reset.local';
+@import './scss/resets/typography';
+
+/* LAYOUT */
+@import './scss/common';
+@import './scss/parts/layout';
+@import './scss/parts/layout.header';
+@import './scss/parts/layout.main';
+@import './scss/parts/layout.main.nav';
+@import './scss/parts/layout.blog';
+@import './scss/parts/layout.content';
+@import './scss/parts/layout.footer';
+
+/* PARTICULARES */
+@import './scss/parts/page.children';
+@import './scss/parts/metaslider-id-103';

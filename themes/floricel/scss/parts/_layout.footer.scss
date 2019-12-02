@@ -1,0 +1,45 @@
+.site-footer {
+    background-color: theme-color('dark');
+    color: theme-color('light');
+    text-align: center;
+    p {
+        @media screen and (max-width:768px){
+            margin: 0.2rem;
+            font-size: 1rem !important;
+        }
+    }
+}
+
+.footer-desktop {
+    @media screen and (max-width:768px){
+        display: none;
+    }
+}
+
+.footer-mobile {
+    display: none;
+
+    @media screen and (max-width:768px) {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+
+        div {
+            margin: 5px;
+
+            a {
+                display: block;
+                border-radius: 5px;
+                background-color: theme-color('light');
+                color: theme-color('dark');
+                padding: 0.5rem;
+                text-align: center;
+                font-size: 1rem;
+
+                i {
+                    display: block;
+                    margin: auto;
+                }
+            }
+        }
+    }
+}

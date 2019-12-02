@@ -1,0 +1,40 @@
+$adminbar-height-desktop: 32px;
+$adminbar-height-mobile: 46px;
+
+/* FONTS */
+@import url('https://fonts.googleapis.com/css?family=Alegreya&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Montserrat&display=swap');
+@import url("https://use.typekit.net/sms4ezt.css");
+
+$font-serif: 'Alegreya', serif;
+$font-sans-serif: 'Montserrat', sans-serif;
+$font-header: 'tilda-petite', sans-serif;
+
+/* COLORS */
+$gray: #707070;
+$soft-pink: #ED9C9E;
+$pale-gold: #C0B283;
+$silk: #DCD0D0;
+$paper: #F4F4F4;
+$charcoal: #373737;
+
+$theme-colors: (
+    'primary': $gray,
+    'secondary': $soft-pink,
+    'info': $silk,
+    'light': $paper,
+    'dark': $charcoal,
+);
+
+@function theme-color($key: 'primary') {
+    @return map-get($theme-colors, $key);
+}
+
+/* BREAKPOINTS */
+:root {
+    --breakpoint-xs: 0;
+    --breakpoint-sm: 576px;
+    --breakpoint-md: 768px;
+    --breakpoint-lg: 992px;
+    --breakpoint-xl: 1200px;
+}
