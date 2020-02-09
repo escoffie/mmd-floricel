@@ -17,6 +17,7 @@ if ( ! function_exists( 'porto_ultimate_heading_spacer' ) ) {
 				'main_heading_font_size'       => '',
 				'main_heading_font_weight'     => '',
 				'main_heading_line_height'     => '',
+				'main_heading_letter_spacing'  => '',
 				'main_heading_color'           => '',
 				'main_heading_margin_bottom'   => '',
 				'sub_heading_font'             => '',
@@ -24,6 +25,7 @@ if ( ! function_exists( 'porto_ultimate_heading_spacer' ) ) {
 				'sub_heading_font_size'        => '',
 				'sub_heading_font_weight'      => '',
 				'sub_heading_line_height'      => '',
+				'sub_heading_letter_spacing'   => '',
 				'sub_heading_color'            => '',
 				'sub_heading_margin_bottom'    => '',
 				'spacer'                       => 'no_spacer',
@@ -173,6 +175,9 @@ if ( ! function_exists( 'porto_ultimate_heading_spacer' ) ) {
 		}
 		$main_heading_style_inline .= 'line-height:' . esc_attr( $main_heading_line_height ) . ';';
 	}
+	if ( $main_heading_letter_spacing ) {
+		$main_heading_style_inline .= 'letter-spacing:' . esc_attr( $main_heading_letter_spacing ) . ';';
+	}
 
 	if ( $sub_heading_font_size ) {
 		$unit = trim( preg_replace( '/[0-9.]/', '', $sub_heading_font_size ) );
@@ -187,6 +192,9 @@ if ( ! function_exists( 'porto_ultimate_heading_spacer' ) ) {
 			$sub_heading_line_height .= 'px';
 		}
 		$sub_heading_style_inline .= 'line-height:' . esc_attr( $sub_heading_line_height ) . ';';
+	}
+	if ( $sub_heading_letter_spacing ) {
+		$sub_heading_style_inline .= 'letter-spacing:' . esc_attr( $sub_heading_letter_spacing ) . ';';
 	}
 
 	if ( is_rtl() && 'left' === $alignment ) {

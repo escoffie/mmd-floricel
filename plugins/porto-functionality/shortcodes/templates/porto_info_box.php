@@ -5,52 +5,55 @@ $title_font = $title_font_style = $title_font_size = $title_font_color = $desc_f
 extract(
 	shortcode_atts(
 		array(
-			'icon_type'                 => 'fontawesome',
-			'icon'                      => 'none',
-			'icon_simpleline'           => 'none',
-			'icon_porto'                => 'none',
-			'icon_img'                  => '',
-			'img_width'                 => '48',
-			'icon_size'                 => '32',
-			'icon_color'                => '#333',
-			'icon_style'                => 'none',
-			'icon_color_bg'             => '#ffffff',
-			'icon_color_border'         => '#333333',
-			'icon_border_style'         => '',
-			'icon_border_size'          => '1',
-			'icon_border_radius'        => '500',
-			'icon_border_spacing'       => '50',
-			'icon_animation'            => '',
-			'title'                     => '',
-			'subtitle'                  => '',
-			'link'                      => '',
-			'hover_effect'              => 'style_1',
-			'pos'                       => 'default',
-			'read_more'                 => 'none',
-			'read_text'                 => 'Read More',
-			'heading_tag'               => 'h3',
-			'title_use_theme_fonts'     => '',
-			'title_google_font'         => '',
-			'title_font'                => '',
-			'title_font_style'          => '',
-			'title_font_size'           => '',
-			'title_font_line_height'    => '',
-			'title_font_color'          => '',
-			'subtitle_font_style'       => '',
-			'subtitle_font_size'        => '',
-			'subtitle_font_line_height' => '',
-			'subtitle_font_color'       => '',
-			'desc_use_theme_fonts'      => '',
-			'desc_google_font'          => '',
-			'desc_font'                 => '',
-			'desc_font_style'           => '',
-			'desc_font_size'            => '',
-			'desc_font_color'           => '',
-			'desc_font_line_height'     => '',
-			'el_class'                  => '',
-			'css_info_box'              => '',
-			'animation_type'            => '',
-			'className'                 => '',
+			'icon_type'                    => 'fontawesome',
+			'icon'                         => 'none',
+			'icon_simpleline'              => 'none',
+			'icon_porto'                   => 'none',
+			'icon_img'                     => '',
+			'img_width'                    => '48',
+			'icon_size'                    => '32',
+			'icon_color'                   => '#333',
+			'icon_style'                   => 'none',
+			'icon_color_bg'                => '#ffffff',
+			'icon_color_border'            => '#333333',
+			'icon_border_style'            => '',
+			'icon_border_size'             => '1',
+			'icon_border_radius'           => '500',
+			'icon_border_spacing'          => '50',
+			'icon_animation'               => '',
+			'title'                        => '',
+			'subtitle'                     => '',
+			'link'                         => '',
+			'hover_effect'                 => 'style_1',
+			'pos'                          => 'default',
+			'read_more'                    => 'none',
+			'read_text'                    => 'Read More',
+			'heading_tag'                  => 'h3',
+			'title_use_theme_fonts'        => '',
+			'title_google_font'            => '',
+			'title_font'                   => '',
+			'title_font_style'             => '',
+			'title_font_size'              => '',
+			'title_font_line_height'       => '',
+			'title_font_letter_spacing'    => '',
+			'title_font_color'             => '',
+			'subtitle_font_style'          => '',
+			'subtitle_font_size'           => '',
+			'subtitle_font_line_height'    => '',
+			'subtitle_font_letter_spacing' => '',
+			'subtitle_font_color'          => '',
+			'desc_use_theme_fonts'         => '',
+			'desc_google_font'             => '',
+			'desc_font'                    => '',
+			'desc_font_style'              => '',
+			'desc_font_size'               => '',
+			'desc_font_color'              => '',
+			'desc_font_line_height'        => '',
+			'desc_font_letter_spacing'     => '',
+			'el_class'                     => '',
+			'css_info_box'                 => '',
+			'animation_type'               => '',
+			'className'                    => '',
 		),
 		$atts,
 		'porto_info_box'
@@ -147,6 +150,9 @@ if ( $title_font_line_height ) {
 	}
 	$title_style .= 'line-height:' . esc_attr( $title_font_line_height ) . ';';
 }
+if ( $title_font_letter_spacing ) {
+	$title_style .= 'letter-spacing:' . esc_attr( $title_font_letter_spacing ) . ';';
+}
 if ( $title_font_color ) {
 	$title_style .= 'color:' . esc_attr( $title_font_color ) . ';';
 }
@@ -169,6 +175,9 @@ if ( $subtitle_font_line_height ) {
 		$subtitle_font_line_height .= 'px';
 	}
 	$subtitle_style .= 'line-height:' . esc_attr( $subtitle_font_line_height ) . ';';
+}
+if ( $subtitle_font_letter_spacing ) {
+	$subtitle_style .= 'letter-spacing:' . esc_attr( $subtitle_font_letter_spacing ) . ';';
 }
 if ( $subtitle_font_color ) {
 	$subtitle_style .= 'color:' . esc_attr( $subtitle_font_color ) . ';';
@@ -212,6 +221,9 @@ if ( $desc_font_line_height ) {
 		$desc_font_line_height .= 'px';
 	}
 	$desc_style .= 'line-height:' . esc_attr( $desc_font_line_height ) . ';';
+}
+if ( $desc_font_letter_spacing ) {
+	$desc_style .= 'letter-spacing:' . esc_attr( $desc_font_letter_spacing ) . ';';
 }
 
 if ( $desc_font_color ) {

@@ -413,6 +413,13 @@ function porto_load_info_box_shortcode() {
 					'group'      => 'Typography',
 				),
 				array(
+					'type'       => 'textfield',
+					'class'      => '',
+					'heading'    => __( 'Letter Spacing', 'porto-functionality' ),
+					'param_name' => 'title_font_letter_spacing',
+					'group'      => 'Typography',
+				),
+				array(
 					'type'       => 'colorpicker',
 					'param_name' => 'title_font_color',
 					'heading'    => __( 'Color', 'porto-functionality' ),
@@ -461,6 +468,13 @@ function porto_load_info_box_shortcode() {
 						'Mobile Landscape' => '',
 						'Mobile'           => '',
 					),
+					'group'      => 'Typography',
+				),
+				array(
+					'type'       => 'textfield',
+					'class'      => '',
+					'heading'    => __( 'Letter Spacing', 'porto-functionality' ),
+					'param_name' => 'subtitle_font_letter_spacing',
 					'group'      => 'Typography',
 				),
 				array(
@@ -534,6 +548,13 @@ function porto_load_info_box_shortcode() {
 						'Mobile Landscape' => '',
 						'Mobile'           => '',
 					),
+					'group'      => 'Typography',
+				),
+				array(
+					'type'       => 'textfield',
+					'class'      => '',
+					'heading'    => __( 'Letter Spacing', 'porto-functionality' ),
+					'param_name' => 'desc_font_letter_spacing',
 					'group'      => 'Typography',
 				),
 				array(

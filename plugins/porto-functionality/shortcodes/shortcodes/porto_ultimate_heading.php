@@ -83,10 +83,22 @@ function porto_load_ultimate_heading_shortcode() {
 					'group'      => 'Typography',
 				),
 				array(
-					'type'       => 'textfield',
+					'type'       => 'dropdown',
 					'class'      => '',
 					'heading'    => __( 'Font Weight', 'porto-functionality' ),
 					'param_name' => 'main_heading_font_weight',
+					'value'      => array(
+						__( 'Default', 'porto' ) => '',
+						'100'                    => '100',
+						'200'                    => '200',
+						'300'                    => '300',
+						'400'                    => '400',
+						'500'                    => '500',
+						'600'                    => '600',
+						'700'                    => '700',
+						'800'                    => '800',
+						'900'                    => '900',
+					),
 					'group'      => 'Typography',
 				),
 				array(
@@ -103,6 +115,14 @@ function porto_load_ultimate_heading_shortcode() {
 					'class'      => 'font-size',
 					'heading'    => __( 'Line Height', 'porto-functionality' ),
 					'param_name' => 'main_heading_line_height',
+					'group'      => 'Typography',
+				),
+
+				array(
+					'type'       => 'textfield',
+					'class'      => 'font-size',
+					'heading'    => __( 'Letter Spacing', 'porto-functionality' ),
+					'param_name' => 'main_heading_letter_spacing',
 					'group'      => 'Typography',
 				),
 
@@ -175,10 +195,22 @@ function porto_load_ultimate_heading_shortcode() {
 					'group'      => 'Typography',
 				),
 				array(
-					'type'       => 'textfield',
+					'type'       => 'dropdown',
 					'class'      => '',
 					'heading'    => __( 'Font Weight', 'porto-functionality' ),
 					'param_name' => 'sub_heading_font_weight',
+					'value'      => array(
+						__( 'Default', 'porto' ) => '',
+						'100'                    => '100',
+						'200'                    => '200',
+						'300'                    => '300',
+						'400'                    => '400',
+						'500'                    => '500',
+						'600'                    => '600',
+						'700'                    => '700',
+						'800'                    => '800',
+						'900'                    => '900',
+					),
 					'group'      => 'Typography',
 				),
 				array(
@@ -197,6 +229,15 @@ function porto_load_ultimate_heading_shortcode() {
 					'param_name' => 'sub_heading_line_height',
 					'group'      => 'Typography',
 				),
+
+				array(
+					'type'       => 'textfield',
+					'class'      => '',
+					'heading'    => __( 'Letter Spacing', 'porto-functionality' ),
+					'param_name' => 'sub_heading_letter_spacing',
+					'group'      => 'Typography',
+				),
+
 				array(
 					'type'       => 'number',
 					'heading'    => 'Sub Heading Margin Bottom',

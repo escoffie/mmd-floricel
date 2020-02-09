@@ -63,6 +63,16 @@ function porto_load_interactive_banner_shortcode() {
 					),
 				),
 				array(
+					'type'        => 'textfield',
+					'heading'     => __( 'Video Banner Url', 'porto-functionality' ),
+					'param_name'  => 'banner_video',
+					'dependency'  => array(
+						'element' => 'banner_image',
+						'value'   => array( '' ),
+					),
+					'description' => __( 'Please input mp4 video url.', 'porto-functionality' ),
+				),
+				array(
 					'type'       => 'colorpicker',
 					'heading'    => __( 'Background Color', 'porto-functionality' ),
 					'param_name' => 'banner_color_bg',
@@ -92,6 +102,25 @@ function porto_load_interactive_banner_shortcode() {
 					'heading'     => __( 'Parallax', 'porto-functionality' ),
 					'param_name'  => 'parallax',
 					'description' => __( 'Enter parallax speed ratio if you want to use parallax effect. (Note: Default value is 1.5, min value is 1. Leave empty if you don\'t want.)', 'porto-functionality' ),
+				),
+				array(
+					'type'        => 'textfield',
+					'class'       => '',
+					'heading'     => __( 'Title ', 'porto-functionality' ),
+					'param_name'  => 'banner_title',
+					'admin_label' => true,
+					'value'       => '',
+					'description' => __( 'We recommend using banner layer child element instead of this field.', 'porto-functionality' ),
+					'group'       => 'Depreciated',
+				),
+				array(
+					'type'        => 'textarea_html',
+					'class'       => '',
+					'heading'     => __( 'Description', 'porto-functionality' ),
+					'param_name'  => 'content',
+					'value'       => '',
+					'description' => __( 'We recommend using banner layer child element instead of this field.', 'porto-functionality' ),
+					'group'       => 'Depreciated',
 				),
 				$custom_class,
 

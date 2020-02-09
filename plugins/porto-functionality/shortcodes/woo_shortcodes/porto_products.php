@@ -128,7 +128,7 @@ function porto_load_products_shortcode() {
 						'param_name' => 'columns_mobile',
 						'dependency' => array(
 							'element' => 'view',
-							'value'   => array( 'products-slider', 'grid', 'divider' ),
+							'value'   => array( 'products-slider', 'grid', 'divider', 'list' ),
 						),
 						'std'        => '',
 						'value'      => array(

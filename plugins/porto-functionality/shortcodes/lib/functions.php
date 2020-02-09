@@ -4585,10 +4585,10 @@ function porto_sc_enqueue_google_fonts( $fonts_data ) {
 
 	global $porto_settings, $porto_google_fonts;
 
-	if ( ! isset( $porto_google_fonts ) ) {
+	if ( ! isset( $porto_google_fonts ) && function_exists( 'porto_settings_google_fonts' ) ) {
 		$fonts              = porto_settings_google_fonts();
 		$porto_google_fonts = array();
-		foreach ( $fonts as $option ) {
+		foreach ( $fonts as $option => $weights ) {
 			if ( isset( $porto_settings[ $option . '-font' ]['google'] ) && 'false' !== $porto_settings[ $option . '-font' ]['google'] ) {
 				if ( isset( $porto_settings[ $option . '-font' ]['font-family'] ) && $porto_settings[ $option . '-font' ]['font-family'] && ! in_array( $porto_settings[ $option . '-font' ]['font-family'], $porto_google_fonts ) ) {
 					$porto_google_fonts[] = $porto_settings[ $option . '-font' ]['font-family'];

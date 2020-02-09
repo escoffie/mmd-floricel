@@ -127,7 +127,7 @@ function porto_load_top_rated_products_shortcode() {
 						'param_name' => 'columns_mobile',
 						'dependency' => array(
 							'element' => 'view',
-							'value'   => array( 'products-slider', 'grid', 'divider' ),
+							'value'   => array( 'products-slider', 'grid', 'divider', 'list' ),
 						),
 						'std'        => '',
 						'value'      => array(
@@ -169,6 +169,13 @@ function porto_load_top_rated_products_shortcode() {
 						'description' => __( 'Select position of add to cart, add to wishlist, quickview.', 'porto-functionality' ),
 						'param_name'  => 'addlinks_pos',
 						'value'       => porto_sh_commons( 'products_addlinks_pos' ),
+					),
+					array(
+						'type'        => 'checkbox',
+						'heading'     => __( 'Use simple layout?', 'porto-functionality' ),
+						'description' => __( 'If you check this option, it will display product title and price only.', 'porto-functionality' ),
+						'param_name'  => 'use_simple',
+						'std'         => 'no',
 					),
 					array(
 						'type'       => 'number',

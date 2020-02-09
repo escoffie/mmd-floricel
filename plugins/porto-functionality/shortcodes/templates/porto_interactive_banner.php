@@ -15,6 +15,7 @@ extract(
 			'banner_title'           => '',
 			'banner_desc'            => '',
 			'banner_image'           => '',
+			'banner_video'           => '',
 			'lazyload'               => '',
 			'image_opacity'          => '1',
 			'image_opacity_on_hover' => '1',
@@ -143,9 +144,6 @@ if ( $min_height ) {
 		$min_height .= 'px';
 	}
 	$banner_style_inline .= 'min-height:' . esc_attr( $min_height ) . ';';
-	if ( $banner_image ) {
-		$classes .= ' img-absolute';
-	}
 }
 
 if ( $banner_color_title ) {
@@ -224,6 +222,15 @@ if ( $parallax && $banner_image ) {
 	$classes      .= ' has-parallax-bg';
 }
 
+// video banner
+if ( empty( $banner_image ) && $banner_video && strrpos( $banner_video, '.mp4' ) !== false ) {
+	wp_enqueue_script( 'jquery-vide' );
+	$classes      .= ' section-video';
+	$opacity_attr .= ' data-video-path="' . esc_url( str_replace( '.mp4', '', $banner_video ) ) . '"';
+	$opacity_attr .= ' data-plugin-video-background';
+	$opacity_attr .= ' data-plugin-options="{\'posterType\': \'jpg\', \'position\': \'50% 50%\', \'overlay\': true}"';
+}
+
 $output .= '<div id="' . esc_attr( $interactive_banner_id ) . '" class="' . esc_attr( $classes ) . '" style="' . esc_attr( $banner_style_inline ) . '"' . $opacity_attr . '>';
 if ( $internal_styles ) {
 	$output .= '<style scope="scope">';
@@ -240,11 +247,11 @@ if ( $banner_title || $banner_desc || $content ) {
 	}
 	if ( $content && false !== strpos( $content, '[porto_interactive_banner_layer ' ) ) {
 		if ( $add_container ) {
-			$output .= '<div class="container">';
+			$output .= '<div class="container"><div class="porto-ibanner-container">';
 		}
 		$output .= do_shortcode( $content );
 		if ( $add_container ) {
-			$output .= '</div>';
+			$output .= '</div></div>';
 		}
 	} else {
 		$output .= '<div class="porto-ibanner-content" style="' . esc_attr( $banner_desc_style_inline ) . '">';

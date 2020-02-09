@@ -153,7 +153,7 @@ switch ( $category_layout ) {
 					/* translators: %s: Portfolio count */
 					$output .= '<span class="thumb-info-type">' . sprintf( _n( '%d Portfolio', '%d Portfolios', $term_count, 'porto-functionality' ), number_format_i18n( $term_count ) ) . '</span>';
 				}
-						$output .= '</span>';
+					$output .= '</span>';
 			}
 
 
