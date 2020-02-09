@@ -3095,6 +3095,11 @@ var scrolltotop={
 			rtl: theme.rtl,
 
 			initialize: function($menu, $toggle, $menu_toggle) {
+				if (this.$menu && this.$menu.length && $menu && $menu.length) {
+					this.$menu = $.unique($.merge(this.$menu, $menu));
+					this.build();
+					return this;
+				}
 				this.$menu = ($menu || this.defaults.menu);
 				if (!this.$menu.length) {
 					return this;
@@ -3161,6 +3166,9 @@ var scrolltotop={
 				var self = this;
 				if (!$menus) {
 					$menus = self.$menu;
+				}
+				if (!$menus.length) {
+					return;
 				}
 
 				$menus.each( function() {
@@ -5200,7 +5208,9 @@ function porto_init($wrap) {
 						$placeholder = $real.parent().parent().parent().find('[class="' + $real.attr('class').replace('skeleton-loading', 'skeleton-body') + '"]');
 					}
 					porto_init($real);
-					theme.SidebarMenu.initialize($real.find('.sidebar-menu:not(.side-menu-accordion)'));
+					if ($real.find('.sidebar-menu:not(.side-menu-accordion)').length) {
+						theme.SidebarMenu.initialize($real.find('.sidebar-menu:not(.side-menu-accordion)'));
+					}
 					if (skeletonTimer) {
 						clearTimeout(skeletonTimer);
 					}

@@ -106,7 +106,7 @@
                 width: 24px;
                 height: 24px;
                 line-height: 23px;
-                font-family: 'Font Awesome 5 Free'; font-weight: 900; -webkit-font-smoothing: antialiased;
+                font-family: 'Font Awesome 5 Free'; font-weight: 900;
 
                 &:before {
                     content: $fa-var-plus-square;
@@ -262,7 +262,7 @@
             a {
                 margin-#{$right}: .8571em;
                 &:before {
-                    font-family: 'Font Awesome 5 Free'; font-weight: 900; -webkit-font-smoothing: antialiased;
+                    font-family: 'Font Awesome 5 Free'; font-weight: 900;
                     content: $fa-var-times-circle;
                     margin-#{$right}: .3571em;
                     display: inline-block;
@@ -306,7 +306,7 @@
                     position: relative;
                     &:before {
                         content: $fa-var-times;
-                        font-family: 'Font Awesome 5 Free'; font-weight: 900; -webkit-font-smoothing: antialiased;
+                        font-family: 'Font Awesome 5 Free'; font-weight: 900;
                         font-size: 0.9em;
                         position: absolute;
                         top: 0.1em;

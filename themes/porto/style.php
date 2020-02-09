@@ -535,34 +535,34 @@ ul.products,
 ?>
 <?php if ( 'minicart-arrow-alt' == $minicart_type ) : ?>
 	#mini-cart { line-height: 38px; }
-	#mini-cart .cart-head:after { position: absolute; top: 0; <?php echo porto_filter_output( $right ); ?>: 0; font-family: 'porto'; font-size: 17px; }
-	#header.sticky-header #mini-cart { top: 0; <?php echo porto_filter_output( $right ); ?>: 0; }
-	#header.sticky-header #mini-cart .minicart-icon { font-size: 25px; }
-	#header:not(.sticky-header) #mini-cart .cart-head { padding-<?php echo porto_filter_output( $right ); ?>: 26px; }
-	#header:not(.sticky-header) #mini-cart .cart-head:after { content: "\e81c"; }
+	#mini-cart .cart-head { min-height: 38px; }
+	#mini-cart .cart-head:after { font-family: 'porto'; font-size: 17px; margin-<?php echo porto_filter_output( $left ); ?>: 15px }
+	.sticky-header #mini-cart { font-size: 25px; }
+	#mini-cart .cart-head:after { content: "\e81c"; }
+	#mini-cart .cart-popup:before, #mini-cart .cart-popup:after { margin-right: calc(26px + .5em - 12px); }
 	@media (max-width: 991px) {
-	<?php if ( $header_type ) : ?>
-		#header:not(.sticky-header) #mini-cart { margin-<?php echo porto_filter_output( $left ); ?>: .5rem }
-	<?php endif; ?>
-		#mini-cart .minicart-icon { font-size: 25px }
+		#mini-cart {
+		font-size: 25px;
+		<?php if ( $header_type ) : ?>
+			margin-<?php echo porto_filter_output( $left ); ?>: .5rem;
+		<?php endif; ?>
+		}
 	}
 	#mini-cart .cart-items-text { display: none; margin-<?php echo porto_filter_output( $left ); ?>: 4px; }
 <?php elseif ( 'simple' == $minicart_type ) : ?>
+	#mini-cart { font-size: 15px; }
 	#mini-cart .cart-items-text { display: none; }
-	#mini-cart .cart-items { background: #ed5348; width: 15px; height: 15px; line-height: 15px; <?php echo porto_filter_output( $right ); ?>: -11px; top: -4px; font-size: 9px; box-shadow: -1px 1px 2px 0 rgba(0, 0, 0, 0.3); }
-	#mini-cart .minicart-icon { border: 2px solid; border-radius: 0 0 5px 5px; width: 14px; height: 11px; position: relative; }
-	#mini-cart .minicart-icon:before { content: ""; position: absolute; width: 8px; height: 9px; border: 2px solid; border-bottom: none; border-radius: 4px 4px 0 0; left: 1px; top: -7px; }
-	<?php if ( empty( $header_type ) ) : ?>
-		#mini-cart .cart-head { min-width: auto; }
-		#mini-cart .cart-popup { <?php echo porto_filter_output( $right ); ?>: -10px; }
-		#header .searchform-popup + #mini-cart { margin-<?php echo porto_filter_output( $left ); ?>: .75em; }
-	<?php else : ?>
-		#mini-cart .cart-head { min-width: 32px; }
+	#mini-cart .cart-items { background: #ed5348; width: 15px; height: 15px; line-height: 15px; font-size: 9px; box-shadow: -1px 1px 2px 0 rgba(0, 0, 0, 0.3); top: -5px; <?php echo porto_filter_output( $right ); ?>: -9px }
+	<?php if ( empty( $b['minicart-icon'] ) ) : ?>
+		#mini-cart .minicart-icon { border: 2px solid; border-radius: 0 0 5px 5px; width: 14px; height: 11px; position: relative; margin: 5px 3px 1px }
+		#mini-cart .minicart-icon:before { content: ""; position: absolute; width: 8px; height: 9px; border: 2px solid; border-bottom: none; border-radius: 4px 4px 0 0; left: 1px; top: -7px; margin: 0 }
 	<?php endif; ?>
-	#mini-cart .cart-popup:before,
-	.sticky-header #mini-cart .cart-popup:before { <?php echo porto_filter_output( $right ); ?>: 7.7px; border-width: 8px; top: -16px; }
-	#mini-cart .cart-popup:after,
-	.sticky-header #mini-cart .cart-popup:after { <?php echo porto_filter_output( $right ); ?>: 7px; border-width: 9px; top: -18px; }
+	#mini-cart .cart-head { min-width: 32px; min-height: 30px; }
+	<?php if ( empty( $header_type ) ) : ?>
+		#header .searchform-popup + #mini-cart { margin-<?php echo porto_filter_output( $left ); ?>: .75em; }
+	<?php endif; ?>
+	#mini-cart .cart-popup:before { <?php echo porto_filter_output( $right ); ?>: 7.7px; margin: 0; border-width: 8px; top: -16px; }
+	#mini-cart .cart-popup:after { <?php echo porto_filter_output( $right ); ?>: 7px; margin: 0; border-width: 9px; top: -18px; }
 <?php else : ?>
 	#mini-cart { margin: <?php echo porto_filter_output( $rtl ? '3px 7px 3px 0' : '3px 0 3px 7px' ); ?>; }
 	#mini-cart .cart-head { padding: 0 10px; line-height: 24px; height: 26px; white-space: nowrap; }
@@ -576,18 +576,17 @@ ul.products,
 	@media (max-width: 991px) {
 		#mini-cart { margin-<?php echo porto_filter_output( $left ); ?>: 0; }
 		#mini-cart .cart-subtotal { display: none; }
-		#mini-cart .cart-popup:before { right: 10.7px; }
-		#mini-cart .cart-popup:after { right: 10px; }
 	}
 <?php endif; ?>
+#mini-cart .cart-items-text { font-size: <?php echo ! $b['body-font']['font-size'] ? '14px' : esc_html( $b['body-font']['font-size'] ); ?> }
 
 /* main menu style for shop header and classic headers */
 <?php if ( ( (int) $header_type >= 1 && (int) $header_type <= 9 ) || 18 == $header_type || 19 == $header_type || ( 'side' == $header_type && class_exists( 'Woocommerce' ) ) ) : ?>
-	.sidebar-menu .wide .popup li.sub > a,
-	#header .main-menu .wide .popup li.sub > a { font-weight: 700; }
+	.sidebar-menu .wide li.sub > a,
+	#header .main-menu .wide li.sub > a { font-weight: 700; }
 <?php else : ?>
-	.sidebar-menu .wide .popup li.sub > a,
-	#header .main-menu .wide .popup li.sub > a { font-weight: 600; }
+	.sidebar-menu .wide li.sub > a,
+	#header .main-menu .wide li.sub > a { font-weight: 600; }
 <?php endif; ?>
 
 /* shop header type */
@@ -597,18 +596,17 @@ ul.products,
 	#header .header-top .top-links:last-child > li.menu-item:last-child > a { padding-<?php echo porto_filter_output( $right ); ?>: 0; }
 	#header .header-top .top-links:last-child > li.menu-item:last-child:after { display: none; }
 
-	#header .main-menu .wide .popup li.menu-item li.menu-item > a:hover { background: none; <?php echo ! empty( $b['mainmenu-popup-text-color']['regular'] ) ? ' color: ' . $b['mainmenu-popup-text-color']['regular'] : ''; ?> }
-	#header .main-menu .wide .popup li.menu-item li.menu-item > a:hover,
-	#header .main-menu .wide .popup li.sub > a:hover { text-decoration: underline; }
-	.sidebar-menu .wide .popup li.sub,
-	.mega-menu .wide .popup li.sub { padding: 15px 10px 0; }
+	#header .main-menu .wide li.menu-item li.menu-item > a:hover { background: none; <?php echo ! empty( $b['mainmenu-popup-text-color']['regular'] ) ? ' color: ' . $b['mainmenu-popup-text-color']['regular'] : ''; ?> }
+	#header .main-menu .wide li.menu-item li.menu-item > a:hover,
+	#header .main-menu .wide li.sub > a:hover { text-decoration: underline; }
+	.sidebar-menu .wide li.sub,
+	.mega-menu .wide li.sub { padding: 15px 10px 0; }
 
 	#header .main-menu .popup { <?php echo porto_filter_output( $left ); ?>: -15px; }
 	#header .main-menu .narrow.pos-right .popup { <?php echo porto_filter_output( $right ); ?>: -15px; left: auto; }
-	.mega-menu .wide .popup li.sub li.menu-item > a { padding: 8px; }
-	.mega-menu .narrow .popup li.menu-item > a { border-bottom: none; padding-left: 15px; padding-right: 15px; }
-	.mega-menu .narrow .popup ul.sub-menu { padding-left: 0; padding-right: 0; }
-	.mega-menu .narrow .popup li.menu-item-has-children > a:before { margin-<?php echo porto_filter_output( $right ); ?>: 0; }
+	.mega-menu .narrow li.menu-item > a { border-bottom: none; padding-left: 15px; padding-right: 15px; }
+	.mega-menu .narrow ul.sub-menu { padding-left: 0; padding-right: 0; }
+	.mega-menu .narrow li.menu-item-has-children > a:before { margin-<?php echo porto_filter_output( $right ); ?>: 0; }
 
 	.sidebar-menu .wide .popup { border-<?php echo porto_filter_output( $left ); ?>: none; }
 	.sidebar-menu .wide .popup >.inner { margin-<?php echo porto_filter_output( $left ); ?>: 0; }
@@ -674,9 +672,9 @@ ul.products,
 <?php endif; ?>
 
 <?php if ( 1 == $header_type || 2 == $header_type || 9 == $header_type ) : ?>
+	#header .header-minicart { white-space: nowrap; }
 	@media (max-width: 991px) {
-		#header .header-main .header-center { text-align: <?php echo porto_filter_output( $right ); ?>; }
-		#header .header-main .header-right { width: 1%; }
+		#header .header-main .header-center { -ms-flex: 1; flex: 1; -ms-flex-pack: end; justify-content: flex-end; }
 	}
 	#header .mobile-toggle { padding-left: 11px; padding-right: 11px; }
 	#header .header-top .porto-view-switcher .narrow .popup > .inner > ul.sub-menu { border: 1px solid #ccc; }
@@ -687,11 +685,6 @@ ul.products,
 
 <?php if ( 1 == $header_type ) : ?>
 	#header.sticky-header .main-menu { background: none; }
-	#header .header-minicart { white-space: nowrap; }
-	@media (max-width: 991px) {
-		#header .header-main .header-center { -ms-flex: 1; flex: 1; -ms-flex-pack: end; justify-content: flex-end; }
-		#header .header-main .header-right { width: auto; }
-	}
 	.header-top .share-links a { border-radius: 50%; width: 2em; height: 2em; margin: 0; }
 	.header-top .share-links a:not(:hover) { background: none; }
 	#header .mobile-toggle { margin-<?php echo porto_filter_output( $right ); ?>: .25rem;}
@@ -989,14 +982,10 @@ ul.products,
 <?php elseif ( 18 == $header_type ) : ?>
 	#header .header-contact { border-<?php echo porto_filter_output( $right ); ?>: none; padding-<?php echo porto_filter_output( $right ); ?>: 30px; }
 
-	#header #mini-cart .minicart-icon { font-size: 24px; }
 	#header #mini-cart .cart-items { font-size: 11px; font-weight: 400; }
-	#mini-cart .minicart-icon { font-size: 27px; }
-	#mini-cart .cart-items { background-color: #b7597c; top: 3px; <?php echo porto_filter_output( $left ); ?>: 25px; width: 14px; height: 14px; line-height: 14px; font-size: 9px; }
+	#mini-cart { font-size: 24px; }
+	#mini-cart .cart-items { background-color: #b7597c; width: 14px; height: 14px; line-height: 14px; font-size: 9px; }
 	#mini-cart .cart-head:after { top: -1px; font-size: 16px; }
-	#mini-cart .cart-popup:before { <?php echo porto_filter_output( $right ); ?>: 25.7px; }
-	#mini-cart .cart-popup:after { <?php echo porto_filter_output( $right ); ?>: 25px; }
-	#header:not(.sticky-header) #mini-cart .cart-head { min-width: 56px; padding-<?php echo porto_filter_output( $right ); ?>: 17px; }
 	#header .searchform-popup .search-toggle { font-size: 20px; line-height: 39px; }
 	#header .searchform-popup .search-toggle i:before { content: "\e884"; font-family: "porto"; font-weight: 400; }
 
@@ -1024,7 +1013,7 @@ ul.products,
 		#header .searchform .live-search-list { <?php echo porto_filter_output( $right ); ?>: 0; width: 100%; <?php echo porto_filter_output( $left ); ?>: auto; }
 	<?php endif; ?>
 	#header .searchform input, #header .searchform select, #header .searchform .selectric .label, #header .searchform button { height: 36px; }
-	<?php if ( ! $b['show-minicart'] || ! class_exists( 'Woocommerce' ) ) : ?>
+	<?php if ( 'none' == $b['minicart-type'] || ! class_exists( 'Woocommerce' ) ) : ?>
 		#header .header-top { padding: 5px 0; }
 	<?php endif; ?>
 	#header .header-top .share-links { margin: 5px; }
@@ -1035,7 +1024,7 @@ ul.products,
 	#header .header-main .header-left { text-align: <?php echo porto_filter_output( $right ); ?> }
 	#header .searchform:not(.searchform-cats) input { border-<?php echo porto_filter_output( $right ); ?>: none; }
 	#header .header-main { border-bottom: 1px solid rgba(0, 0, 0, 0.075); }
-	<?php if ( $b['show-minicart'] && class_exists( 'Woocommerce' ) ) : ?>
+	<?php if ( 'none' != $b['minicart-type'] && class_exists( 'Woocommerce' ) ) : ?>
 		#mini-cart { padding: <?php echo porto_filter_output( $rtl ? '5px 25px 5px 0' : '5px 0 5px 25px' ); ?>; line-height: 38px; border-<?php echo porto_filter_output( $left ); ?>: 1px solid rgba(255, 255, 255, 0.15) }
 		#mini-cart .cart-items,
 		#mini-cart .cart-head:after { display: none; }
@@ -1080,8 +1069,8 @@ ul.products,
 		.header-wrapper #header .header-contact { margin: 5px 0 20px; white-space: normal; }
 		.header-wrapper #header .header-copyright { font-size: .9em; }
 		.header-wrapper #mini-cart .cart-popup { <?php echo porto_filter_output( $left ); ?>: 0; <?php echo porto_filter_output( $right ); ?>: auto; }
-		.header-wrapper #mini-cart .cart-popup:before,
-		.header-wrapper #mini-cart .cart-popup:after { <?php echo porto_filter_output( $right ); ?>: auto; <?php echo porto_filter_output( $left ); ?>: 10px; }
+		.header-wrapper #mini-cart .cart-popup:before { <?php echo porto_filter_output( $right ); ?>: auto; <?php echo porto_filter_output( $left ); ?>: .7px; }
+		.header-wrapper #mini-cart .cart-popup:after { <?php echo porto_filter_output( $right ); ?>: auto; <?php echo porto_filter_output( $left ); ?>: 0; }
 		.header-wrapper .side-bottom { text-align: center; position: absolute; bottom: 0; left: 0; right: 0; margin: 20px 10px; }
 		.page-wrapper.side-nav .page-top.fixed-pos { position: fixed; z-index: 1001; width: 100%; box-shadow: 0 1px 0 0 rgba(0, 0, 0, .1); }
 		.page-wrapper.side-nav:not(.side-nav-right) #mini-cart .cart-popup { <?php echo porto_filter_output( $left ); ?>: -32px; }
@@ -1097,9 +1086,11 @@ ul.products,
 		.header-wrapper .side-bottom { margin-left: 30px; margin-right: 30px; }
 	}
 	.sidebar-menu > li.menu-item .popup { margin-<?php echo porto_filter_output( $left ); ?>: 30px; }
+	.page-wrapper.side-nav-right .sidebar-menu > li.menu-item .popup { margin-<?php echo porto_filter_output( $right ); ?>: 30px; }
 	@media (max-width: 1439px) {
 		.header-wrapper #header .header-contact { margin-<?php echo porto_filter_output( $right ); ?>: 5px; }
 		.sidebar-menu > li.menu-item .popup { margin-<?php echo porto_filter_output( $left ); ?>: 15px; }
+		.page-wrapper.side-nav-right .sidebar-menu > li.menu-item .popup { margin-<?php echo porto_filter_output( $right ); ?>: 15px; }
 	}
 
 	.sidebar-menu { margin-bottom: 20px; }
@@ -1760,11 +1751,11 @@ body.boxed .portfolio-ajax-modal .vc_row[data-vc-stretch-content],
 	.mega-menu > li.menu-item.active > a,
 	.mega-menu > li.menu-item:hover > a,
 	.mega-menu .wide .popup,
-	.mega-menu .wide .popup li.sub li.menu-item > a,
-	.mega-menu .narrow .popup ul.sub-menu ul.sub-menu,
+	.mega-menu .wide li.sub li.menu-item > a,
+	.mega-menu .narrow ul.sub-menu ul.sub-menu,
 	#nav-panel .accordion-menu li > a,
 	.sidebar-menu li.menu-item > a > .thumb-info-preview .thumb-info-wrapper,
-	.sidebar-menu .wide .popup li.menu-item li.menu-item > a,
+	.sidebar-menu .wide li.menu-item li.menu-item > a,
 	#bbpress-forums div.bbp-forum-author img.avatar,
 	#bbpress-forums div.bbp-topic-author img.avatar,
 	#bbpress-forums div.bbp-reply-author img.avatar,
@@ -1999,7 +1990,7 @@ body.boxed .portfolio-ajax-modal .vc_row[data-vc-stretch-content],
 
 	#mini-cart .cart-popup,
 	#header .main-menu,
-	.sidebar-menu .narrow .popup ul.sub-menu,
+	.sidebar-menu .narrow ul.sub-menu,
 	.btn-3d,
 	.stats-block.counter-with-border,
 	.gmap-rounded,
@@ -2340,7 +2331,7 @@ body.boxed .portfolio-ajax-modal .vc_row[data-vc-stretch-content],
 	.porto-concept .sun { background-image: url(<?php echo PORTO_URI; ?>/images/concept-icons-dark.png); }
 	.porto-concept .cloud { background-image: url(<?php echo PORTO_URI; ?>/images/concept-icons-dark.png); }
 	.porto-map-section { background-image: url(<?php echo PORTO_URI; ?>/images/map-dark.png); }
-	.slider-title .line { background-image:linear-gradient(to <?php echo porto_filter_output( $right ); ?>, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.15) 70%, rgba(255, 255, 255, 0) 100%); }
+	.slider-title .line, .section-title .line { background-image:linear-gradient(to <?php echo porto_filter_output( $right ); ?>, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.15) 70%, rgba(255, 255, 255, 0) 100%); }
 	@media (max-width: 767px) {
 		.resp-tab-content:last-child,
 		.resp-vtabs .resp-tab-content:last-child { border-bottom: 1px solid <?php echo esc_html( $color_dark_4 ); ?> !important; }
@@ -2360,6 +2351,7 @@ body.boxed .portfolio-ajax-modal .vc_row[data-vc-stretch-content],
 	.dir-arrow.arrow-light { background: transparent url(<?php echo PORTO_URI; ?>/images/arrows-dark.png) no-repeat 0 0; }
 	hr, .divider,
 	.slider-title .line,
+	.section-title .line,
 	.vc_separator .vc_sep_holder.vc_sep_holder_l .vc_sep_line,
 	.vc_separator .vc_sep_holder.vc_sep_holder_r .vc_sep_line { background: rgba(0, 0, 0, 0.08); }
 	hr.light { background: rgba(255, 255, 255, 0.06); }
@@ -2454,8 +2446,8 @@ body.boxed .portfolio-ajax-modal .vc_row[data-vc-stretch-content],
 .sidebar-menu li.menu-item > a > .thumb-info-preview .thumb-info-wrapper { background: <?php echo porto_if_dark( $color_dark_4, '#fff' ); ?>; }
 .mega-menu .wide .popup > .inner,
 .sidebar-menu .wide .popup > .inner { background: <?php echo porto_if_dark( $color_dark_3, '#fff' ); ?>; }
-.mega-menu .wide .popup li.sub > a,
-.sidebar-menu .wide .popup li.sub > a { color: <?php echo porto_if_dark( '#fff', '#333' ); ?>; }
+.mega-menu .wide li.sub > a,
+.sidebar-menu .wide li.sub > a { color: <?php echo porto_if_dark( '#fff', '#333' ); ?>; }
 .mega-menu .wide li.menu-item li.menu-item > a:hover { background: <?php echo porto_if_dark( $porto_color_lib->lighten( $color_dark_3, 5 ), '#f4f4f4' ); ?>; }
 @media (max-width: 991px) {
 	.mobile-sidebar,
@@ -3198,10 +3190,10 @@ if ( $b['mainmenu-wrap-bg-color-sticky'] && 'transparent' != $b['mainmenu-wrap-b
 <?php endif; ?>
 <?php if ( $b['mainmenu-popup-text-color']['regular'] ) : ?>
 	#header .top-links .narrow li.menu-item > a,
-	#header .main-menu .wide .popup li.sub li.menu-item > a,
-	.header-side-nav .sidebar-menu .wide .popup > .inner > ul.sub-menu > li.menu-item li.menu-item > a,
-	.toggle-menu-wrap .sidebar-menu .wide .popup > .inner > ul.sub-menu > li.menu-item li.menu-item > a,
-	.sidebar-menu .wide .popup li.sub li.menu-item > a,
+	#header .main-menu .wide li.sub li.menu-item > a,
+	.header-side-nav .sidebar-menu .wide li.menu-item li.menu-item > a,
+	.toggle-menu-wrap .sidebar-menu .wide li.menu-item li.menu-item > a,
+	.sidebar-menu .wide li.sub li.menu-item > a,
 	.sidebar-menu .narrow li.menu-item > a,
 	.porto-popup-menu .sub-menu a {
 		color: <?php echo esc_html( $b['mainmenu-popup-text-color']['regular'] ); ?>;
@@ -3220,8 +3212,8 @@ if ( $b['mainmenu-wrap-bg-color-sticky'] && 'transparent' != $b['mainmenu-wrap-b
 	.main-menu .wide li.menu-item li.menu-item > a:hover { background-color: <?php echo esc_html( $b['mainmenu-popup-text-hbg-color'] ); ?>; }
 <?php endif; ?>
 <?php if ( 'slide' != $b['side-menu-type'] ) : ?>
-	.header-side-nav .sidebar-menu .wide .popup > .inner > ul.sub-menu > li.menu-item li.menu-item > a:hover,
-	.toggle-menu-wrap .sidebar-menu .wide .popup > .inner > ul.sub-menu > li.menu-item li.menu-item > a:hover {
+	.header-side-nav .sidebar-menu .wide li.menu-item li.menu-item > a:hover,
+	.toggle-menu-wrap .sidebar-menu .wide li.menu-item li.menu-item > a:hover {
 		<?php if ( $b['mainmenu-popup-text-hbg-color'] ) : ?>
 			background-color: <?php echo esc_html( $b['mainmenu-popup-text-hbg-color'] ); ?>;
 		<?php endif; ?>
@@ -3408,7 +3400,7 @@ if ( $b['mainmenu-wrap-bg-color-sticky'] && 'transparent' != $b['mainmenu-wrap-b
 		color: <?php echo esc_html( $b['mainmenu-toplevel-link-color']['hover'] ); ?>;
 	<?php endif; ?>
 }
-#header .main-menu .popup li.menu-item a,
+#header .main-menu .popup a,
 .header-side-nav .sidebar-menu .popup,
 .toggle-menu-wrap .sidebar-menu .popup,
 .main-sidebar-menu .sidebar-menu .popup,
@@ -3460,25 +3452,29 @@ if ( isset( $b['mainmenu-popup-top-border'] ) && isset( $b['mainmenu-popup-top-b
 	<?php endif; ?>
 <?php endif; ?>
 <?php if ( $b['mainmenu-popup-heading-color'] ) : ?>
-	#header .main-menu .wide .popup li.sub > a,
-	.header-side-nav .sidebar-menu .wide .popup > .inner > ul.sub-menu > li.menu-item > a,
-	.toggle-menu-wrap .sidebar-menu .wide .popup > .inner > ul.sub-menu > li.menu-item > a {
+	#header .main-menu .wide li.sub > a,
+	.header-side-nav .sidebar-menu .wide li.sub > a,
+	.toggle-menu-wrap .sidebar-menu .wide li.sub > a {
 		color: <?php echo esc_html( $b['mainmenu-popup-heading-color'] ); ?>;
 	}
 <?php endif; ?>
 <?php if ( isset( $b['mainmenu-popup-narrow-type'] ) && $b['mainmenu-popup-narrow-type'] && $b['mainmenu-toplevel-hbg-color'] && 'transparent' != $b['mainmenu-toplevel-hbg-color'] ) : ?>
-	#header .main-menu .narrow .popup ul.sub-menu {
+	#header .main-menu .narrow ul.sub-menu {
 		background: <?php echo esc_html( $b['mainmenu-toplevel-hbg-color'] ); ?>;
 	}
-	#header .main-menu .narrow .popup li.menu-item > a {
+	#header .main-menu .narrow li.menu-item > a {
 		color: <?php echo esc_html( $b['mainmenu-toplevel-link-color']['hover'] ); ?>;
 		background-color: <?php echo esc_html( $b['mainmenu-toplevel-hbg-color'] ); ?>;
 	}
-	#header .main-menu .narrow .popup li.menu-item:hover > a {
+	#header .main-menu .narrow li.menu-item:hover > a {
 		background: <?php echo esc_html( $porto_color_lib->lighten( $b['mainmenu-toplevel-hbg-color'], 5 ) ); ?>
 	}
+	<?php if ( isset( $b['submenu-arrow'] ) && $b['submenu-arrow'] ) : ?>
+		#header .main-menu .narrow.has-sub:before,
+		#header .main-menu .narrow.has-sub:after { content: none }
+	<?php endif; ?>
 <?php else : ?>
-	#header .main-menu .narrow .popup ul.sub-menu {
+	#header .main-menu .narrow ul.sub-menu {
 		<?php if ( $b['mainmenu-popup-bg-color'] ) : ?>
 			background-color: <?php echo esc_html( $b['mainmenu-popup-bg-color'] ); ?>;
 		<?php endif; ?>
@@ -3487,9 +3483,9 @@ if ( isset( $b['mainmenu-popup-top-border'] ) && isset( $b['mainmenu-popup-top-b
 		<?php endif; ?>
 	}
 	<?php if ( $b['mainmenu-popup-border'] ) : ?>
-		#header .main-menu .narrow ul.sub-menu li.menu-item:hover > ul.sub-menu { top: <?php echo - 5 - (int) str_replace( 'px', '', $b['mainmenu-popup-border'] ); ?>px; }
+		#header .main-menu .narrow li.menu-item:hover > ul.sub-menu { top: <?php echo - 5 - (int) str_replace( 'px', '', $b['mainmenu-popup-border'] ); ?>px; }
 	<?php endif; ?>
-	#header .main-menu .narrow .popup li.menu-item > a {
+	#header .main-menu .narrow li.menu-item > a {
 		<?php if ( $b['mainmenu-popup-text-color']['regular'] ) : ?>
 			color: <?php echo esc_html( $b['mainmenu-popup-text-color']['regular'] ); ?>;
 		<?php endif; ?>
@@ -3504,7 +3500,7 @@ if ( isset( $b['mainmenu-popup-top-border'] ) && isset( $b['mainmenu-popup-top-b
 			<?php endif; ?>
 		<?php endif; ?>
 	}
-	#header .main-menu .narrow .popup li.menu-item:hover > a {
+	#header .main-menu .narrow li.menu-item:hover > a {
 		<?php if ( $b['mainmenu-popup-text-color']['hover'] ) : ?>
 			color: <?php echo esc_html( $b['mainmenu-popup-text-color']['hover'] ); ?>;
 		<?php endif; ?>
@@ -3684,18 +3680,18 @@ if ( isset( $b['mainmenu-popup-top-border'] ) && isset( $b['mainmenu-popup-top-b
 		.page-wrapper.side-nav:not(.side-nav-right) #mini-cart .cart-popup { <?php echo porto_filter_output( $left ); ?>: 0; <?php echo porto_filter_output( $right ); ?>: auto; }
 		.page-wrapper.side-nav:not(.side-nav-right) #mini-cart .cart-popup:before,
 		.page-wrapper.side-nav:not(.side-nav-right) #mini-cart .cart-popup:after { <?php echo porto_filter_output( $left ); ?>: 38.7px; <?php echo porto_filter_output( $right ); ?>: auto; }
-		.page-wrapper.side-nav.side-nav-right > * { padding-<?php echo porto_filter_output( $left ); ?>: 0; padding-<?php echo porto_filter_output( $right ); ?>: 256px; }
-		.page-wrapper.side-nav.side-nav-right > .header-wrapper.header-side-nav { <?php echo porto_filter_output( $right ); ?>: 0; }
+		.page-wrapper.side-nav.side-nav-right > .header-wrapper { -ms-flex-order: 2; order: 2; }
 		.page-wrapper.side-nav.side-nav-right > .header-wrapper.header-side-nav #header { <?php echo porto_filter_output( $left ); ?>: auto; <?php echo porto_filter_output( $right ); ?>: 0; }
-		.page-wrapper.side-nav.side-nav-right > .header-wrapper.header-side-nav #header.initialize { position: fixed; }
-		.page-wrapper.side-nav.side-nav-right .sidebar-menu li.menu-item > a { text-align: <?php echo porto_filter_output( $right ); ?>; }
-		.page-wrapper.side-nav.side-nav-right .sidebar-menu li.menu-item > a > .thumb-info-preview { <?php echo porto_filter_output( $left ); ?>: auto; }
-		.page-wrapper.side-nav.side-nav-right .sidebar-menu li.menu-item > .arrow { <?php echo porto_filter_output( $right ); ?>: auto; <?php echo porto_filter_output( $left ); ?>: -5px; }
-		.page-wrapper.side-nav.side-nav-right .sidebar-menu li.menu-item > .arrow:before { border-<?php echo porto_filter_output( $left ); ?>: none; border-<?php echo porto_filter_output( $right ); ?>: 5px solid <?php echo esc_html( $skin_color ); ?>; }
+		.page-wrapper.side-nav-right > .header-wrapper.header-side-nav #header.initialize { position: fixed; }
+		.page-wrapper.side-nav-right .sidebar-menu > li.has-sub:before { <?php echo porto_filter_output( $left ); ?>: auto; <?php echo porto_filter_output( $right ); ?>: 100%; }
+		.page-wrapper.side-nav-right .sidebar-menu li.menu-item > a,
+		.page-wrapper.side-nav-right .accordion-menu a { text-align: <?php echo porto_filter_output( $right ); ?>; }
+		.page-wrapper.side-nav-right .sidebar-menu li.menu-item > a > .thumb-info-preview { <?php echo porto_filter_output( $left ); ?>: auto; }
+		.page-wrapper.side-nav-right .sidebar-menu > li.menu-item .popup:before { border-<?php echo porto_filter_output( $left ); ?>: 12px solid #fff; border-<?php echo porto_filter_output( $right ); ?>: none; right: -12px; left: auto; }
+		.page-wrapper.side-nav.side-nav-right .sidebar-menu li.menu-item > .arrow { <?php echo porto_filter_output( $right ); ?>: auto; <?php echo porto_filter_output( $left ); ?>: 5px; }
 		.page-wrapper.side-nav.side-nav-right .sidebar-menu li.menu-item:hover > .arrow:before { color: #fff; }
 		.page-wrapper.side-nav.side-nav-right .sidebar-menu .popup,
 		.page-wrapper.side-nav.side-nav-right .sidebar-menu .narrow ul.sub-menu ul.sub-menu { <?php echo porto_filter_output( $left ); ?>: auto; <?php echo porto_filter_output( $right ); ?>: 100%; }
-		.page-wrapper.side-nav.side-nav-right .sidebar-menu .narrow li.menu-item-has-children > a:before { float: <?php echo porto_filter_output( $left ); ?>; content: "\f0d9"; }
 		.page-wrapper.side-nav.side-nav-right .sidebar-menu.subeffect-fadein-<?php echo porto_filter_output( $left ); ?> > li.menu-item .popup,
 		.page-wrapper.side-nav.side-nav-right .sidebar-menu.subeffect-fadein-<?php echo porto_filter_output( $left ); ?> .narrow ul.sub-menu li.menu-item > ul.sub-menu { animation: menuFadeInRight 0.2s ease-out; }
 		.page-wrapper.side-nav.side-nav-right .sidebar-menu.subeffect-fadein-<?php echo porto_filter_output( $right ); ?> > li.menu-item .popup,
@@ -3949,7 +3945,7 @@ ul.list.icons li a,
 .porto-links-block li.porto-links-item > span,
 .vc_general.vc_cta3.vc_cta3-color-white.vc_cta3-style-flat,
 .mega-menu .wide .popup,
-.mega-menu .wide .popup li.menu-item li.menu-item > a,
+.mega-menu .wide li.menu-item li.menu-item > a,
 .sidebar-menu .popup,
 .testimonial.testimonial-style-2 blockquote,
 .testimonial.testimonial-style-3 blockquote,
@@ -5008,11 +5004,11 @@ fieldset[disabled] #geodir-wrapper [type="submit"]:active {
 }
 
 .mega-menu > li.menu-item > a,
-.mega-menu .wide .popup li.sub > a,
+.mega-menu .wide li.sub > a,
 .header-side .sidebar-menu > li.menu-item > a,
 .main-sidebar-menu .sidebar-menu > li.menu-item > a,
 .main-sidebar-menu .sidebar-menu .menu-custom-item a,
-.sidebar-menu .wide .popup li.sub > a,
+.sidebar-menu .wide li.sub > a,
 .porto-view-switcher .narrow li.menu-item > a {
 	text-transform: <?php echo esc_html( $b['menu-text-transform'] ); ?>;
 }

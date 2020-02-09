@@ -9,6 +9,7 @@
 namespace Automattic\WooCommerce\Admin\Features;
 
 use \Automattic\WooCommerce\Admin\Loader;
+use \Automattic\WooCommerce\Admin\Notes\WC_Admin_Notes_Onboarding_Profiler;
 
 /**
  * Contains backend logic for the onboarding profile and checklist feature.
@@ -36,6 +37,16 @@ class Onboarding {
 	const PRODUCT_DATA_TRANSIENT = 'wc_onboarding_product_data';
 
 	/**
+	 * Profile data option name.
+	 */
+	const PROFILE_DATA_OPTION = 'woocommerce_onboarding_profile';
+
+	/**
+	 * Onboarding opt-in option name.
+	 */
+	const OPT_IN_OPTION = 'woocommerce_onboarding_opt_in';
+
+	/**
 	 * Get class instance.
 	 */
 	public static function get_instance() {
@@ -49,8 +60,13 @@ class Onboarding {
 	 * Hook into WooCommerce.
 	 */
 	public function __construct() {
+		// Adds the ability to toggle the new onboarding experience on or off.
+		// @todo This option should be removed when merging the onboarding feature to core.
+		add_action( 'current_screen', array( $this, 'enable_onboarding' ) );
+		add_action( 'woocommerce_updated', array( $this, 'maybe_mark_complete' ) );
 
 		if ( ! Loader::is_onboarding_enabled() ) {
+			add_action( 'current_screen', array( $this, 'update_help_tab' ), 60 );
 			return;
 		}
 
@@ -58,6 +74,14 @@ class Onboarding {
 		if ( self::should_show_tasks() ) {
 			OnboardingTasks::get_instance();
 		}
+
+		// Rest API hooks need to run before is_admin() checks.
+		add_filter( 'woocommerce_rest_prepare_themes', array( $this, 'add_uploaded_theme_data' ) );
+		add_action( 'woocommerce_theme_installed', array( $this, 'delete_themes_transient' ) );
+		add_action( 'after_switch_theme', array( $this, 'delete_themes_transient' ) );
+
+		// Add onboarding notes.
+		new WC_Admin_Notes_Onboarding_Profiler();
 
 		if ( ! is_admin() ) {
 			return;
@@ -71,16 +95,28 @@ class Onboarding {
 		add_filter( 'woocommerce_component_settings_preload_endpoints', array( $this, 'add_preload_endpoints' ) );
 		add_filter( 'woocommerce_admin_preload_options', array( $this, 'preload_options' ) );
 		add_filter( 'woocommerce_admin_preload_settings', array( $this, 'preload_settings' ) );
-		add_action( 'woocommerce_theme_installed', array( $this, 'delete_themes_transient' ) );
-		add_action( 'after_switch_theme', array( $this, 'delete_themes_transient' ) );
 		add_action( 'current_screen', array( $this, 'finish_paypal_connect' ) );
 		add_action( 'current_screen', array( $this, 'finish_square_connect' ) );
-		add_action( 'current_screen', array( $this, 'update_help_tab' ), 60 );
+		add_action( 'current_screen', array( $this, 'add_help_tab' ), 60 );
 		add_action( 'current_screen', array( $this, 'reset_profiler' ) );
 		add_action( 'current_screen', array( $this, 'reset_task_list' ) );
 		add_action( 'current_screen', array( $this, 'calypso_tests' ) );
+		add_action( 'current_screen', array( $this, 'redirect_wccom_install' ) );
+		add_action( 'current_screen', array( $this, 'redirect_old_onboarding' ) );
 		add_filter( 'woocommerce_admin_is_loading', array( $this, 'is_loading' ) );
-		add_filter( 'woocommerce_rest_prepare_themes', array( $this, 'add_uploaded_theme_data' ) );
+		add_filter( 'woocommerce_show_admin_notice', array( $this, 'remove_install_notice' ), 10, 2 );
+	}
+
+	/**
+	 * Redirect the old onboarding wizard to the profiler.
+	 */
+	public static function redirect_old_onboarding() {
+		$current_page = isset( $_GET['page'] ) ? wc_clean( wp_unslash( $_GET['page'] ) ) : false; // phpcs:ignore csrf okay.
+
+		if ( 'wc-setup' === $current_page ) {
+			delete_transient( '_wc_activation_redirect' );
+			wp_safe_redirect( wc_admin_url() );
+		}
 	}
 
 	/**
@@ -89,7 +125,7 @@ class Onboarding {
 	 * @return bool
 	 */
 	public static function should_show_profiler() {
-		$onboarding_data = get_option( 'wc_onboarding_profile', array() );
+		$onboarding_data = get_option( self::PROFILE_DATA_OPTION, array() );
 
 		$is_completed = isset( $onboarding_data['completed'] ) && true === $onboarding_data['completed'];
 
@@ -189,10 +225,11 @@ class Onboarding {
 				);
 
 				foreach ( $theme_data->products as $theme ) {
-					$slug                                       = sanitize_title( $theme->slug );
+					$slug                                       = sanitize_title_with_dashes( $theme->slug );
 					$themes[ $slug ]                            = (array) $theme;
 					$themes[ $slug ]['is_installed']            = false;
 					$themes[ $slug ]['has_woocommerce_support'] = true;
+					$themes[ $slug ]['slug']                    = $slug;
 				}
 			}
 
@@ -200,12 +237,7 @@ class Onboarding {
 			$active_theme     = get_option( 'stylesheet' );
 
 			foreach ( $installed_themes as $slug => $theme ) {
-				$theme_data = self::get_theme_data( $theme );
-
-				if ( ! $theme_data['has_woocommerce_support'] && $active_theme !== $slug ) {
-					continue;
-				}
-
+				$theme_data       = self::get_theme_data( $theme );
 				$installed_themes = wp_get_themes();
 				$themes[ $slug ]  = $theme_data;
 			}
@@ -254,7 +286,7 @@ class Onboarding {
 	}
 
 	/**
-	 * Check if theme has declared support for WooCommerce
+	 * Check if theme has declared support for WooCommerce.
 	 *
 	 * @param WP_Theme $theme Theme to check.
 	 * @return bool
@@ -303,17 +335,25 @@ class Onboarding {
 		$products     = array();
 
 		// Map product data by ID.
-		foreach ( $product_data->products as $product_datum ) {
-			$products[ $product_datum->id ] = $product_datum;
+		if ( isset( $product_data ) && isset( $product_data->products ) ) {
+			foreach ( $product_data->products as $product_datum ) {
+				if ( isset( $product_datum->id ) ) {
+					$products[ $product_datum->id ] = $product_datum;
+				}
+			}
 		}
 
 		// Loop over product types and append data.
 		foreach ( $product_types as $key => $product_type ) {
-			if ( isset( $product_type['product'] ) ) {
+			if ( isset( $product_type['product'] ) && isset( $products[ $product_type['product'] ] ) ) {
 				/* translators: Amount of product per year (e.g. Bookings - $240.00 per year) */
 				$product_types[ $key ]['label']      .= sprintf( __( ' — %s per year', 'woocommerce-admin' ), html_entity_decode( $products[ $product_type['product'] ]->price ) );
 				$product_types[ $key ]['description'] = $products[ $product_type['product'] ]->excerpt;
 				$product_types[ $key ]['more_url']    = $products[ $product_type['product'] ]->link;
+				$product_types[ $key ]['slug']        = strtolower( preg_replace( '~[^\pL\d]+~u', '-', $products[ $product_type['product'] ]->slug ) );
+			} elseif ( isset( $product_type['product'] ) ) {
+				/* translators: site currency symbol (used to show that the product costs money) */
+				$product_types[ $key ]['label'] .= sprintf( __( ' — %s', 'woocommerce-admin' ), html_entity_decode( get_woocommerce_currency_symbol() ) );
 			}
 		}
 
@@ -333,7 +373,7 @@ class Onboarding {
 	 * @param array $settings Component settings.
 	 */
 	public function component_settings( $settings ) {
-		$profile = get_option( 'wc_onboarding_profile', array() );
+		$profile = get_option( self::PROFILE_DATA_OPTION, array() );
 
 		include_once WC_ABSPATH . 'includes/admin/helper/class-wc-helper-options.php';
 		$wccom_auth                 = \WC_Helper_Options::get( 'auth' );
@@ -346,19 +386,20 @@ class Onboarding {
 
 		// Only fetch if the onboarding wizard is incomplete.
 		if ( self::should_show_profiler() ) {
-			$settings['onboarding']['productTypes'] = self::get_allowed_product_types();
-			$settings['onboarding']['themes']       = self::get_themes();
-			$settings['onboarding']['activeTheme']  = get_option( 'stylesheet' );
+			$settings['onboarding']['activeTheme'] = get_option( 'stylesheet' );
 		}
 
 		// Only fetch if the onboarding wizard OR the task list is incomplete.
 		if ( self::should_show_profiler() || self::should_show_tasks() ) {
 			$settings['onboarding']['activePlugins']            = self::get_active_plugins();
+			$settings['onboarding']['installedPlugins']         = self::get_installed_plugins();
 			$settings['onboarding']['stripeSupportedCountries'] = self::get_stripe_supported_countries();
 			$settings['onboarding']['euCountries']              = WC()->countries->get_european_union_countries();
 			$settings['onboarding']['connectNonce']             = wp_create_nonce( 'connect' );
 			$current_user                                       = wp_get_current_user();
 			$settings['onboarding']['userEmail']                = esc_html( $current_user->user_email );
+			$settings['onboarding']['productTypes']             = self::get_allowed_product_types();
+			$settings['onboarding']['themes']                   = self::get_themes();
 		}
 
 		return $settings;
@@ -380,7 +421,7 @@ class Onboarding {
 		$options[] = 'wc_connect_options';
 		$options[] = 'woocommerce_task_list_welcome_modal_dismissed';
 		$options[] = 'woocommerce_task_list_prompt_shown';
-		$options[] = 'woocommerce_onboarding_payments';
+		$options[] = 'woocommerce_task_list_payments';
 		$options[] = 'woocommerce_allow_tracking';
 		$options[] = 'woocommerce_stripe_settings';
 		$options[] = 'woocommerce_default_country';
@@ -463,11 +504,12 @@ class Onboarding {
 	/**
 	 * Gets an array of plugins that can be installed & activated via the onboarding wizard.
 	 *
+	 * @return array
 	 * @todo Handle edgecase of where installed plugins may have versioned folder names (i.e. `jetpack-master/jetpack.php`).
 	 */
 	public static function get_allowed_plugins() {
 		return apply_filters(
-			'woocommerce_onboarding_plugins_whitelist',
+			'woocommerce_admin_onboarding_plugins_whitelist',
 			array(
 				'facebook-for-woocommerce'            => 'facebook-for-woocommerce/facebook-for-woocommerce.php',
 				'mailchimp-for-woocommerce'           => 'mailchimp-for-woocommerce/mailchimp-woocommerce.php',
@@ -482,6 +524,7 @@ class Onboarding {
 			)
 		);
 	}
+
 	/**
 	 * Get a list of active plugins, relevent to the onboarding wizard.
 	 *
@@ -498,6 +541,41 @@ class Onboarding {
 			$active_plugins[] = $slug;
 		}
 		return $active_plugins;
+	}
+
+	/**
+	 * Gets an array of themes that can be installed & activated via the onboarding wizard.
+	 *
+	 * @return array
+	 */
+	public static function get_allowed_themes() {
+		$allowed_themes = array();
+		$themes         = self::get_themes();
+
+		foreach ( $themes as $theme ) {
+			$price = preg_replace( '/&#?[a-z0-9]+;/i', '', $theme['price'] );
+
+			if ( $theme['is_installed'] || '0.00' === $price ) {
+				$allowed_themes[] = $theme['slug'];
+			}
+		}
+
+		return apply_filters( 'woocommerce_admin_onboarding_themes_whitelist', $allowed_themes );
+	}
+
+	/**
+	 * Get an array of installed plugin slugs.
+	 *
+	 * @return array
+	 */
+	public static function get_installed_plugins() {
+		return array_map(
+			function( $plugin_path ) {
+				$path_parts = explode( '/', $plugin_path );
+				return $path_parts[0];
+			},
+			array_keys( get_plugins() )
+		);
 	}
 
 	/**
@@ -593,9 +671,68 @@ class Onboarding {
 	}
 
 	/**
-	 * Update the help tab setup link to reset the onboarding profiler.
+	 * Update the existing help tab and add an option to enable the new onboarding experience.
 	 */
 	public static function update_help_tab() {
+		if ( ! function_exists( 'wc_get_screen_ids' ) ) {
+			return;
+		}
+
+		$screen = get_current_screen();
+
+		if ( ! $screen || ! in_array( $screen->id, wc_get_screen_ids(), true ) ) {
+			return;
+		}
+
+		$help_tabs = $screen->get_help_tabs();
+
+		foreach ( $help_tabs as $help_tab ) {
+			if ( 'woocommerce_onboard_tab' !== $help_tab['id'] ) {
+				continue;
+			}
+
+			$screen->remove_help_tab( 'woocommerce_onboard_tab' );
+			$help_tab['content'] .= '<h3>' . __( 'New onboarding experience', 'woocommerce-admin' ) . '</h3>';
+			$help_tab['content'] .= '<p>' . __( 'If you want to try out the new WooCommerce onboarding experience, click the button below.', 'woocommerce-admin' ) . '</p>';
+			$help_tab['content'] .= '<p><a href="' . wc_admin_url( '&enable_onboarding=1' ) . '" class="button button-primary">' . __( 'Enable', 'woocommerce-admin' ) . '</a></p>';
+			$screen->add_help_tab( $help_tab );
+		}
+	}
+
+	/**
+	 * Reset the onboarding profiler and redirect to the profiler.
+	 */
+	public static function enable_onboarding() {
+		if (
+			! Loader::is_admin_page() ||
+			! isset( $_GET['enable_onboarding'] ) // phpcs:ignore CSRF ok.
+		) {
+			return;
+		}
+
+		$enabled = 1 === absint( $_GET['enable_onboarding'] ); // phpcs:ignore CSRF ok.
+
+		wc_admin_record_tracks_event(
+			'wcadmin_onboarding_toggled',
+			array(
+				'previous'  => ! $enabled,
+				'new_value' => $enabled,
+			)
+		);
+
+		update_option( self::OPT_IN_OPTION, $enabled ? 'yes' : 'no' );
+		wp_safe_redirect( wc_admin_url() );
+		exit;
+	}
+
+	/**
+	 * Update the help tab setup link to reset the onboarding profiler.
+	 */
+	public static function add_help_tab() {
+		if ( ! function_exists( 'wc_get_screen_ids' ) ) {
+			return;
+		}
+
 		$screen = get_current_screen();
 
 		if ( ! $screen || ! in_array( $screen->id, wc_get_screen_ids(), true ) ) {
@@ -612,7 +749,7 @@ class Onboarding {
 			$screen->remove_help_tab( 'woocommerce_onboard_tab' );
 
 			$task_list_hidden = get_option( 'woocommerce_task_list_hidden', 'no' );
-			$onboarding_data  = get_option( 'wc_onboarding_profile', array() );
+			$onboarding_data  = get_option( self::PROFILE_DATA_OPTION, array() );
 			$is_completed     = isset( $onboarding_data['completed'] ) && true === $onboarding_data['completed'];
 			$is_enabled       = ! $is_completed;
 
@@ -643,6 +780,10 @@ class Onboarding {
 				$help_tab['content'] .= '<p><a href="' . wc_admin_url( '&test_wc_helper_connect=1' ) . '" class="button button-primary">' . __( 'Connect', 'woocommerce-admin' ) . '</a></p>';
 			}
 
+			$help_tab['content'] .= '<h3>' . __( 'New onboarding experience', 'woocommerce-admin' ) . '</h3>';
+			$help_tab['content'] .= '<p>' . __( 'To disable the new WooCommerce onboarding experience, click the button below.', 'woocommerce-admin' ) . '</p>';
+			$help_tab['content'] .= '<p><a href="' . wc_admin_url( '&enable_onboarding=0' ) . '" class="button button-primary">' . __( 'Disable', 'woocommerce-admin' ) . '</a></p>';
+
 			$screen->add_help_tab( $help_tab );
 		}
 	}
@@ -651,8 +792,7 @@ class Onboarding {
 	 * Allows quick access to testing the calypso parts of onboarding.
 	 */
 	public static function calypso_tests() {
-		// @todo When implementing user-facing split testing, this should be abled to a default of 'production'.
-		$calypso_env = defined( 'WOOCOMMERCE_CALYPSO_ENVIRONMENT' ) && in_array( WOOCOMMERCE_CALYPSO_ENVIRONMENT, array( 'development', 'wpcalypso', 'horizon', 'stage' ) ) ? WOOCOMMERCE_CALYPSO_ENVIRONMENT : 'wpcalypso';
+		$calypso_env = defined( 'WOOCOMMERCE_CALYPSO_ENVIRONMENT' ) && in_array( WOOCOMMERCE_CALYPSO_ENVIRONMENT, array( 'development', 'wpcalypso', 'horizon', 'stage' ) ) ? WOOCOMMERCE_CALYPSO_ENVIRONMENT : 'production';
 
 		if ( Loader::is_admin_page() && class_exists( 'Jetpack' ) && isset( $_GET['test_wc_jetpack_connect'] ) && 1 === absint( $_GET['test_wc_jetpack_connect'] ) ) { // WPCS: CSRF ok.
 			$redirect_url = esc_url_raw(
@@ -766,5 +906,60 @@ class Onboarding {
 		update_option( 'woocommerce_task_list_hidden', $new_value );
 		wp_safe_redirect( wc_admin_url() );
 		exit;
+	}
+
+	/**
+	 * Remove the install notice that prompts the user to visit the old onboarding setup wizard.
+	 *
+	 * @param bool   $show Show or hide the notice.
+	 * @param string $notice The slug of the notice.
+	 * @return bool
+	 */
+	public static function remove_install_notice( $show, $notice ) {
+		if ( 'install' === $notice ) {
+			return false;
+		}
+
+		return $show;
+	}
+
+	/**
+	 * Redirects the user to the task list if the task list is enabled and finishing a wccom checkout.
+	 *
+	 * @todo Once URL params are added to the redirect, we can check those instead of the referer.
+	 */
+	public static function redirect_wccom_install() {
+		if (
+			! self::should_show_tasks() ||
+			! isset( $_SERVER['HTTP_REFERER'] ) ||
+			0 !== strpos( $_SERVER['HTTP_REFERER'], 'https://woocommerce.com/checkout' ) // phpcs:ignore sanitization ok.
+		) {
+			return;
+		}
+
+		wp_safe_redirect( wc_admin_url() );
+	}
+
+	/**
+	 * When updating WooCommerce, mark the profiler and task list complete.
+	 *
+	 * @todo The `maybe_enable_setup_wizard()` method should be revamped on onboarding enable in core.
+	 * See https://github.com/woocommerce/woocommerce/blob/1ca791f8f2325fe2ee0947b9c47e6a4627366374/includes/class-wc-install.php#L341
+	 */
+	public static function maybe_mark_complete() {
+		// The install notice still exists so don't complete the profiler.
+		if ( ! class_exists( 'WC_Admin_Notices' ) || \WC_Admin_Notices::has_notice( 'install' ) ) {
+			return;
+		}
+
+		$onboarding_data = get_option( self::PROFILE_DATA_OPTION, array() );
+		// Don't make updates if the profiler is completed, but task list is potentially incomplete.
+		if ( isset( $onboarding_data['completed'] ) && $onboarding_data['completed'] ) {
+			return;
+		}
+
+		$onboarding_data['completed'] = true;
+		update_option( self::PROFILE_DATA_OPTION, $onboarding_data );
+		update_option( 'woocommerce_task_list_hidden', 'yes' );
 	}
 }

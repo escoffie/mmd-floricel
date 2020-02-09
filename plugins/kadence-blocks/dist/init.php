@@ -21,6 +21,11 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @since 1.0.0
  */
 function kadence_gutenberg_editor_assets() {
+	// If in the frontend, bail out.
+	if ( ! is_admin() ) {
+		return;
+	}
+
 	// Scripts.
 	wp_register_script( 'kadence-blocks-js', KADENCE_BLOCKS_URL . 'dist/blocks.build.js', array( 'wp-api-fetch', 'wp-blocks', 'wp-i18n', 'wp-element', 'wp-editor', 'wp-api', 'wp-edit-post' ), KADENCE_BLOCKS_VERSION, true );
 	$editor_widths  = get_option( 'kt_blocks_editor_width', array() );
@@ -86,6 +91,7 @@ function kadence_gutenberg_editor_assets() {
 			'userrole'       => $userrole,
 			'pro'            => ( class_exists( 'Kadence_Blocks_Pro' ) ? 'true' : 'false' ),
 			'colors'         => get_option( 'kadence_blocks_colors' ),
+			'global'         => get_option( 'kadence_blocks_global' ),
 			'gutenberg'      => ( function_exists( 'gutenberg_menu' ) ? 'true' : 'false' ),
 			'privacy_link'   => get_privacy_policy_url(),
 			'privacy_title'  => ( get_option( 'wp_page_for_privacy_policy' ) ? get_the_title( get_option( 'wp_page_for_privacy_policy' ) ) : '' ),
@@ -168,36 +174,36 @@ function kadence_blocks_admin_editor_width() {
 		echo '<style type="text/css" id="kt-block-editor-width">';
 		echo 'body.gutenberg-editor-page.kt-editor-width-default .editor-post-title__block,
 		body.gutenberg-editor-page.kt-editor-width-default .editor-default-block-appender,
-		body.gutenberg-editor-page.kt-editor-width-default .editor-block-list__block,
+		body.gutenberg-editor-page.kt-editor-width-default .block-editor-block-list__block,
 		body.block-editor-page.kt-editor-width-default .wp-block {
 			max-width: ' . esc_attr( $default_size ) . ( is_numeric( $default_size ) ? 'px' : '' ) . ';
 		}';
 		echo 'body.gutenberg-editor-page.kt-editor-width-sidebar .editor-post-title__block,
 		body.gutenberg-editor-page.kt-editor-width-sidebar .editor-default-block-appender,
-		body.gutenberg-editor-page.kt-editor-width-sidebar .editor-block-list__block,
+		body.gutenberg-editor-page.kt-editor-width-sidebar .block-editor-block-list__block,
 		body.block-editor-page.kt-editor-width-sidebar .wp-block {
 			max-width: ' . esc_attr( $sidebar_size ) . 'px;
 		}';
 		echo 'body.gutenberg-editor-page.kt-editor-width-nosidebar .editor-post-title__block,
 		body.gutenberg-editor-page.kt-editor-width-nosidebar .editor-default-block-appender,
-		body.gutenberg-editor-page.kt-editor-width-nosidebar .editor-block-list__block,
+		body.gutenberg-editor-page.kt-editor-width-nosidebar .block-editor-block-list__block,
 		body.block-editor-page.kt-editor-width-nosidebar .wp-block {
 			max-width: ' . esc_attr( $nosidebar_size ) . 'px;
 		}';
 		echo 'body.gutenberg-editor-page.kt-editor-width-fullwidth .editor-post-title__block,
 		body.gutenberg-editor-page.kt-editor-width-fullwidth .editor-default-block-appender,
-		body.gutenberg-editor-page.kt-editor-width-fullwidth .editor-block-list__block,
+		body.gutenberg-editor-page.kt-editor-width-fullwidth .block-editor-block-list__block,
 		body.block-editor-page.kt-editor-width-fullwidth .wp-block {
 			max-width: none;
 		}';
-		echo 'body.gutenberg-editor-page .editor-block-list__layout .editor-block-list__block[data-align=wide],
-		body.block-editor-page .editor-block-list__layout .wp-block[data-align=wide] {
+		echo 'body.gutenberg-editor-page .block-editor-block-list__layout .block-editor-block-list__block[data-align=wide],
+		body.block-editor-page .block-editor-block-list__layout .wp-block[data-align=wide] {
 			width: auto;
 			max-width: ' . esc_attr( $nosidebar_size + 200 ) . 'px;
 		}';
 
-		echo 'body.gutenberg-editor-page .editor-block-list__layout .editor-block-list__block[data-align=full],
-		body.block-editor-page .editor-block-list__layout .wp-block[data-align=full] {
+		echo 'body.gutenberg-editor-page .block-editor-block-list__layout .block-editor-block-list__block[data-align=full],
+		body.block-editor-page .block-editor-block-list__layout .wp-block[data-align=full] {
 			max-width: none;
 		}';
 		echo '</style>';

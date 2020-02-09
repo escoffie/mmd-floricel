@@ -102,7 +102,7 @@ class OnboardingProfile extends \WC_REST_Data_Controller {
 	public function get_items( $request ) {
 		include_once WC_ABSPATH . 'includes/admin/helper/class-wc-helper-options.php';
 
-		$onboarding_data = get_option( 'wc_onboarding_profile', array() );
+		$onboarding_data = get_option( Onboarding::PROFILE_DATA_OPTION, array() );
 		$item_schema     = $this->get_item_schema();
 
 		$items = array();
@@ -128,8 +128,8 @@ class OnboardingProfile extends \WC_REST_Data_Controller {
 	public function update_items( $request ) {
 		$params          = $request->get_json_params();
 		$query_args      = $this->prepare_objects_query( $params );
-		$onboarding_data = get_option( 'wc_onboarding_profile', array() );
-		update_option( 'wc_onboarding_profile', array_merge( $onboarding_data, $query_args ) );
+		$onboarding_data = get_option( Onboarding::PROFILE_DATA_OPTION, array() );
+		update_option( Onboarding::PROFILE_DATA_OPTION, array_merge( $onboarding_data, $query_args ) );
 
 		$result = array(
 			'status'  => 'success',
@@ -192,7 +192,7 @@ class OnboardingProfile extends \WC_REST_Data_Controller {
 		 * @param array            $item     The original item.
 		 * @param WP_REST_Request  $request  Request used to generate the response.
 		 */
-		return apply_filters( 'woocommerce_rest_prepare_onboarding_profile', $response, $item, $request );
+		return apply_filters( 'woocommerce_rest_onboarding_prepare_profile', $response, $item, $request );
 	}
 
 	/**
@@ -284,6 +284,7 @@ class OnboardingProfile extends \WC_REST_Data_Controller {
 					'other',
 					'brick-mortar',
 					'brick-mortar-other',
+					'other-woocommerce',
 				),
 			),
 			'revenue'             => array(
@@ -358,7 +359,7 @@ class OnboardingProfile extends \WC_REST_Data_Controller {
 			),
 		);
 
-		return apply_filters( 'woocommerce_onboarding_profile_properties', $properties );
+		return apply_filters( 'woocommerce_rest_onboarding_profile_properties', $properties );
 	}
 
 	/**
@@ -401,6 +402,6 @@ class OnboardingProfile extends \WC_REST_Data_Controller {
 
 		$params['context'] = $this->get_context_param( array( 'default' => 'view' ) );
 
-		return apply_filters( 'rest_onboarding_profile_collection_params', $params );
+		return apply_filters( 'woocommerce_rest_onboarding_profile_collection_params', $params );
 	}
 }

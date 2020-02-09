@@ -1,5 +1,39 @@
 #### [unreleased]
 
+#### 9.3.0 / 2020-02-06
+* remove GitHub deprecation notice
+* transition from GitHub access token query arg to Basic Authentication
+* fixed theme update View details display [#849](https://github.com/afragen/github-updater/issues/849)
+* more fixes PHP 7.4 warnings
+* refactor from using access token endpoints to Basic Authentication headers
+
+#### 9.2.4 / 2020-02-04
+* add notice re: GitHub deprecation notice 🤬
+
+#### 9.2.3 / 2020-01-31
+* fixes for PHP 7.4 warnings
+
+#### 9.2.2 / 2020-01-29
+* fix WP-CLI issue needing to explicitly have class loaded to get class name for `add_command()`, thanks @chesio
+* bunch of WPCS fixes and miles to go...
+
+#### 9.2.1 / 2020-01-28
+* add `Bypass WP-Cron Background Processing` setting
+
+#### 9.2.0 / 2020-01-21
+* fix PHP warning [#823](https://github.com/afragen/github-updater/issues/823), thanks @pbiron
+* remove scheduled cron events on deactivation
+* added function to rename or recursively copy from `$source` to `$destination` and remove files/directories after copying. Should be more versatile than `$wp_filesystem->move()`. Fixes [#826](https://github.com/afragen/github-updater/issues/826)
+* no longer any need to manipulate release assets in `upgrader_source_selection`
+* test for correct REST API key for `repos` endpoint
+* add local version to `repos` REST endpoint, thanks @Raruto
+* remove `repos` and `update` REST endpoints from index, thanks @Raruto
+
+#### 9.1.0 / 2019-12-16
+* run API calls for everyone with wp-cron, not just privileged users, hopefully this allows for better integration with remote management services
+* don't run API calls for non-privileged users when bypassing wp-cron
+* only show Settings for privileged users
+
 #### 9.0.1 / 2019-12-04
 * fix PHP version check, fixes [#824](https://github.com/afragen/github-updater/issues/824)
 

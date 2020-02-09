@@ -16,8 +16,8 @@ use Fragen\Singleton;
 
 // Add WP-CLI commands.
 $class = new CLI_Integration();
-WP_CLI::add_command( 'plugin install-git', array( $class, 'install_plugin' ) );
-WP_CLI::add_command( 'theme install-git', array( $class, 'install_theme' ) );
+WP_CLI::add_command( 'plugin install-git', [ $class, 'install_plugin' ] );
+WP_CLI::add_command( 'theme install-git', [ $class, 'install_theme' ] );
 
 /**
  * Class CLI_Integration
@@ -34,8 +34,8 @@ class CLI_Integration extends WP_CLI_Command {
 	 * Off to the races.
 	 */
 	public function run() {
-		add_filter( 'site_transient_update_plugins', array( Singleton::get_instance( 'Plugin', $this ), 'update_site_transient' ), 10, 1 );
-		add_filter( 'site_transient_update_themes', array( Singleton::get_instance( 'Theme', $this ), 'update_site_transient' ), 10, 1 );
+		add_filter( 'site_transient_update_plugins', [ Singleton::get_instance( 'Plugin', $this ), 'update_site_transient' ], 10, 1 );
+		add_filter( 'site_transient_update_themes', [ Singleton::get_instance( 'Theme', $this ), 'update_site_transient' ], 10, 1 );
 	}
 
 	/**
@@ -179,7 +179,7 @@ class CLI_Integration extends WP_CLI_Command {
 	/**
 	 * Process WP-CLI config data.
 	 *
-	 * @param string $uri URI to process.
+	 * @param string $uri        URI to process.
 	 * @param array  $assoc_args Args to process.
 	 *
 	 * @return array $cli_config
@@ -187,7 +187,7 @@ class CLI_Integration extends WP_CLI_Command {
 	private function process_args( $uri, $assoc_args ) {
 		$token                 = isset( $assoc_args['token'] ) ? $assoc_args['token'] : false;
 		$bitbucket_private     = isset( $assoc_args['bitbucket-private'] ) ? $assoc_args['bitbucket-private'] : false;
-		$cli_config            = array();
+		$cli_config            = [];
 		$cli_config['uri']     = $uri;
 		$cli_config['private'] = $token ?: $bitbucket_private;
 		$cli_config['branch']  = isset( $assoc_args['branch'] ) ? $assoc_args['branch'] : 'master';
@@ -218,7 +218,7 @@ class CLI_Integration extends WP_CLI_Command {
 	 * Process branch setting for WP-CLI.
 	 *
 	 * @param array  $cli_config Config args.
-	 * @param string $slug Repository slug.
+	 * @param string $slug       Repository slug.
 	 */
 	private function process_branch( $cli_config, $slug ) {
 		$branch_data['github_updater_branch'] = $cli_config['branch'];
@@ -237,18 +237,36 @@ require_once ABSPATH . 'wp-admin/includes/class-wp-upgrader.php';
  * Class GitHub_Upgrader_CLI_Plugin_Installer_Skin
  */
 class CLI_Plugin_Installer_Skin extends \Plugin_Installer_Skin {
+
+	/** Skin feeback. */
 	public function header() {
 	}
 
+	/** Skin footer. */
 	public function footer() {
 	}
 
+	/**
+	 * Skin error.
+	 *
+	 * @param \stdClass $errors Error object.
+	 *
+	 * @return void
+	 */
 	public function error( $errors ) {
 		if ( is_wp_error( $errors ) ) {
 			WP_CLI::error( $errors->get_error_message() . "\n" . $errors->get_error_data() );
 		}
 	}
 
+	/**
+	 * Skin feedback.
+	 *
+	 * @param string $string  Feedback message.
+	 * @param array  ...$args Feedback args.
+	 *
+	 * @return void
+	 */
 	public function feedback( $string, ...$args ) {
 	}
 }
@@ -257,18 +275,36 @@ class CLI_Plugin_Installer_Skin extends \Plugin_Installer_Skin {
  * Class GitHub_Upgrader_CLI_Theme_Installer_Skin
  */
 class CLI_Theme_Installer_Skin extends \Theme_Installer_Skin {
+
+	/** Skin header. */
 	public function header() {
 	}
 
+	/** Skin footer. */
 	public function footer() {
 	}
 
+	/**
+	 * Skin error.
+	 *
+	 * @param \stdClass $errors Error object.
+	 *
+	 * @return void
+	 */
 	public function error( $errors ) {
 		if ( is_wp_error( $errors ) ) {
 			WP_CLI::error( $errors->get_error_message() . "\n" . $errors->get_error_data() );
 		}
 	}
 
+	/**
+	 * Skin feedback.
+	 *
+	 * @param string $string  Feedback message.
+	 * @param array  ...$args Feedback args.
+	 *
+	 * @return void
+	 */
 	public function feedback( $string, ...$args ) {
 	}
 }

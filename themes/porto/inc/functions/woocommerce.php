@@ -254,7 +254,7 @@ function porto_loop_product_thumbnail() {
 		$show_hover_img = get_post_meta( $id, 'product_image_on_hover', true );
 		$show_hover_img = empty( $show_hover_img ) || ( 'yes' === $show_hover_img );
 		if ( $show_hover_img ) {
-			$first_image_id = $gallery[0];
+			$first_image_id   = $gallery[0];
 			$attachment_image = wp_get_attachment_image( $first_image_id, $size, false, array( 'class' => 'hover-image' ) );
 		}
 	}
@@ -287,10 +287,10 @@ function porto_widget_product_thumbnail() {
 		$show_hover_img = get_post_meta( $id, 'product_image_on_hover', true );
 		$show_hover_img = empty( $show_hover_img ) || ( 'yes' === $show_hover_img );
 		if ( $show_hover_img ) {
-			$first_image_id   = $gallery[0];
-			$image_data       = wp_get_attachment_image_src( $first_image_id, $size );
+			$first_image_id = $gallery[0];
+			$image_data     = wp_get_attachment_image_src( $first_image_id, $size );
 			if ( $image_data ) {
-				$attachment_image = '<img src="' . esc_url( $image_data[0] ) . '" alt="' . trim( strip_tags( get_post_meta( $first_image_id, '_wp_attachment_image_alt', true ) ) ) . '" width="' . esc_attr( $image_data[1] ) . '" height="'. esc_attr( $image_data[2] ) . '" class="hover-image" />';
+				$attachment_image = '<img src="' . esc_url( $image_data[0] ) . '" alt="' . trim( strip_tags( get_post_meta( $first_image_id, '_wp_attachment_image_alt', true ) ) ) . '" width="' . esc_attr( $image_data[1] ) . '" height="' . esc_attr( $image_data[2] ) . '" class="hover-image" />';
 			}
 		}
 	}
@@ -298,7 +298,7 @@ function porto_widget_product_thumbnail() {
 	if ( $thumb_image_id ) {
 		$image_data = wp_get_attachment_image_src( $thumb_image_id, $size );
 		if ( $image_data ) {
-			$thumb_image = '<img src="' . esc_url( $image_data[0] ) . '" alt="' . trim( strip_tags( get_post_meta( $thumb_image_id, '_wp_attachment_image_alt', true ) ) ) . '" width="' . esc_attr( $image_data[1] ) . '" height="'. esc_attr( $image_data[2] ) . '" />';
+			$thumb_image = '<img src="' . esc_url( $image_data[0] ) . '" alt="' . trim( strip_tags( get_post_meta( $thumb_image_id, '_wp_attachment_image_alt', true ) ) ) . '" width="' . esc_attr( $image_data[1] ) . '" height="' . esc_attr( $image_data[2] ) . '" />';
 		}
 	} elseif ( wc_placeholder_img_src() ) {
 		$thumb_image = wc_placeholder_img( $size );
@@ -1530,7 +1530,7 @@ function porto_woocommerce_output_horizontal_filter() {
 function porto_woocommerce_sale_product_period() {
 	global $product, $porto_woocommerce_loop;
 	if ( ( ! isset( $porto_woocommerce_loop['widget'] ) || ! $porto_woocommerce_loop['widget'] ) && $product->is_on_sale() ) {
-		$is_single   = ( porto_is_product() && is_single( $product->get_id() ) ) || ( porto_is_ajax() && isset( $_REQUEST['action'] ) && 'porto_product_quickview' == $_REQUEST['action'] );
+		$is_single = ( porto_is_product() && is_single( $product->get_id() ) ) || ( porto_is_ajax() && isset( $_REQUEST['action'] ) && 'porto_product_quickview' == $_REQUEST['action'] );
 
 		$extra_class = '';
 		if ( $is_single && $product->is_type( 'variable' ) ) {

@@ -95,6 +95,13 @@ if ( isset( $font_weight ) && $font_weight ) {
 	$styles[] = 'font-weight:' . ( (int) $font_weight );
 }
 
+if ( isset( $letter_spacing ) && $letter_spacing ) {
+	if ( empty( $styles ) ) {
+		$styles = array();
+	}
+	$styles[] = 'letter-spacing:' . $letter_spacing;
+}
+
 if ( ! empty( $styles ) ) {
 	$new_styles = array();
 	foreach ( $styles as $inline_style ) {

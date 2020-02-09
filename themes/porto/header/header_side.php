@@ -2,7 +2,7 @@
 global $porto_settings, $porto_layout;
 ?>
 <header id="header" class="header-side sticky-menu-header<?php echo ! $porto_settings['logo-overlay'] || ! $porto_settings['logo-overlay']['url'] ? '' : ' logo-overlay-header'; ?>" data-plugin-sticky data-plugin-options="<?php echo esc_attr( '{"autoInit": true, "minWidth": 992, "containerSelector": ".page-wrapper","autoFit":true, "paddingOffsetBottom": 0, "paddingOffsetTop": 0}' ); ?>">
-	<div class="header-main<?php echo ! $porto_settings['show-minicart'] || ! class_exists( 'WooCommerce' ) ? '' : ' show-minicart'; ?>">
+	<div class="header-main<?php echo 'none' == $porto_settings['minicart-type'] || ! class_exists( 'WooCommerce' ) ? '' : ' show-minicart'; ?>">
 
 		<div class="side-top">
 			<div class="container">

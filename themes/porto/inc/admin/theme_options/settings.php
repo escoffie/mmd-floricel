@@ -104,7 +104,9 @@ if ( ! class_exists( 'Redux_Framework_porto_settings' ) ) {
 					}
 				}
 
-				if ( ! isset( $porto_settings['minicart-type'] ) ) {
+				if ( isset( $porto_settings['show-minicart'] ) && ! $porto_settings['show-minicart'] ) {
+					$minicart_type = 'none';
+				} elseif ( ! isset( $porto_settings['minicart-type'] ) ) {
 					$header_type = (int) $porto_settings['header-type'];
 					if ( ( $header_type >= 1 && $header_type <= 9 ) || 18 == $header_type || 19 == $header_type || ( isset( $porto_settings['header-type-select'] ) && 'header_builder' == $porto_settings['header-type-select'] ) ) {
 						$minicart_type = 'minicart-arrow-alt';
@@ -257,7 +259,7 @@ if ( ! class_exists( 'Redux_Framework_porto_settings' ) ) {
 							'shop'      => __( 'Shop Pages', 'porto' ),
 							'product'   => __( 'Product Page', 'porto' ),
 							'quickview' => __( 'Product Quickview', 'porto' ),
-							'blog'      => __( 'Blog Pages', 'porto' )
+							'blog'      => __( 'Blog Pages', 'porto' ),
 						),
 						'default'    => array(),
 						'customizer' => false,
@@ -2820,7 +2822,7 @@ if ( ! class_exists( 'Redux_Framework_porto_settings' ) ) {
 						'default'  => '',
 						'validate' => 'color',
 						'output'   => array(
-							'color' => '.sticky-header #mini-cart .cart-subtotal, .sticky-header #mini-cart .minicart-icon',
+							'color' => '.sticky-header #mini-cart .cart-subtotal, .sticky-header #mini-cart .minicart-icon, .sticky-header #mini-cart.minicart-arrow-alt .cart-head:after',
 						),
 					),
 					array(
@@ -3038,24 +3040,22 @@ if ( ! class_exists( 'Redux_Framework_porto_settings' ) ) {
 							'off'     => __( 'No', 'porto' ),
 						),
 						array(
-							'id'      => 'show-minicart',
-							'type'    => 'switch',
-							'title'   => __( 'Show Mini Cart', 'porto' ),
-							'default' => true,
-							'on'      => __( 'Yes', 'porto' ),
-							'off'     => __( 'No', 'porto' ),
-						),
-						array(
-							'id'       => 'minicart-type',
-							'type'     => 'button_set',
-							'title'    => __( 'Mini Cart Type', 'porto' ),
-							'options'  => array(
+							'id'      => 'minicart-type',
+							'type'    => 'button_set',
+							'title'   => __( 'Mini Cart Type', 'porto' ),
+							'options' => array(
+								'none'               => __( 'None', 'porto' ),
 								'simple'             => __( 'Simple', 'porto' ),
 								'minicart-arrow-alt' => __( 'Arrow Alt', 'porto' ),
 								'minicart-inline'    => __( 'Text', 'porto' ),
 							),
-							'default'  => $minicart_type,
-							'required' => array( 'show-minicart', 'equals', true ),
+							'default' => $minicart_type,
+						),
+						array(
+							'id'       => 'minicart-icon',
+							'type'     => 'text',
+							'title'    => __( 'Mini Cart Icon', 'porto' ),
+							'required' => array( 'minicart-type', 'equals', array( 'simple', 'minicart-arrow-alt', 'minicart-inline' ) ),
 						),
 						array(
 							'id'        => 'header-view',
@@ -3565,51 +3565,51 @@ if ( ! class_exists( 'Redux_Framework_porto_settings' ) ) {
 						'default' => '',
 					),
 					array(
-						'id'       => 'show-sticky-logo',
-						'type'     => 'switch',
-						'title'    => __( 'Show Logo', 'porto' ),
+						'id'      => 'show-sticky-logo',
+						'type'    => 'switch',
+						'title'   => __( 'Show Logo', 'porto' ),
 						//'required' => array( 'enable-sticky-header', 'equals', true ),
-						'default'  => true,
-						'on'       => __( 'Yes', 'porto' ),
-						'off'      => __( 'No', 'porto' ),
+						'default' => true,
+						'on'      => __( 'Yes', 'porto' ),
+						'off'     => __( 'No', 'porto' ),
 					),
 					array(
-						'id'       => 'show-sticky-searchform',
-						'type'     => 'switch',
-						'title'    => __( 'Show Search Form', 'porto' ),
-						'desc'     => __( 'If header type is 1, 4, 9, 13, 14 or header builder', 'porto' ),
+						'id'      => 'show-sticky-searchform',
+						'type'    => 'switch',
+						'title'   => __( 'Show Search Form', 'porto' ),
+						'desc'    => __( 'If header type is 1, 4, 9, 13, 14 or header builder', 'porto' ),
 						//'required' => array( 'enable-sticky-header', 'equals', true ),
-						'default'  => false,
-						'on'       => __( 'Yes', 'porto' ),
-						'off'      => __( 'No', 'porto' ),
+						'default' => false,
+						'on'      => __( 'Yes', 'porto' ),
+						'off'     => __( 'No', 'porto' ),
 					),
 					array(
-						'id'       => 'show-sticky-minicart',
-						'type'     => 'switch',
-						'title'    => __( 'Show Mini Cart', 'porto' ),
-						'desc'     => __( 'If header type is 1, 4, 9, 13, 14, 17 or header builder', 'porto' ),
+						'id'      => 'show-sticky-minicart',
+						'type'    => 'switch',
+						'title'   => __( 'Show Mini Cart', 'porto' ),
+						'desc'    => __( 'If header type is 1, 4, 9, 13, 14, 17 or header builder', 'porto' ),
 						//'required' => array( 'enable-sticky-header', 'equals', true ),
-						'default'  => false,
-						'on'       => __( 'Yes', 'porto' ),
-						'off'      => __( 'No', 'porto' ),
+						'default' => false,
+						'on'      => __( 'Yes', 'porto' ),
+						'off'     => __( 'No', 'porto' ),
 					),
 					array(
-						'id'       => 'show-sticky-menu-custom-content',
-						'type'     => 'switch',
-						'title'    => __( 'Show Menu Custom Content', 'porto' ),
-						'desc'     => __( 'If header type is 1, 4, 13, 14, 17 or header builder', 'porto' ),
+						'id'      => 'show-sticky-menu-custom-content',
+						'type'    => 'switch',
+						'title'   => __( 'Show Menu Custom Content', 'porto' ),
+						'desc'    => __( 'If header type is 1, 4, 13, 14, 17 or header builder', 'porto' ),
 						//'required' => array( 'enable-sticky-header', 'equals', true ),
-						'default'  => true,
-						'on'       => __( 'Yes', 'porto' ),
-						'off'      => __( 'No', 'porto' ),
+						'default' => true,
+						'on'      => __( 'Yes', 'porto' ),
+						'off'     => __( 'No', 'porto' ),
 					),
 					array(
-						'id'       => 'show-sticky-contact-info',
-						'type'     => 'switch',
-						'title'    => __( 'Show Contact Info', 'porto' ),
-						'default'  => false,
-						'on'       => __( 'Yes', 'porto' ),
-						'off'      => __( 'No', 'porto' ),
+						'id'      => 'show-sticky-contact-info',
+						'type'    => 'switch',
+						'title'   => __( 'Show Contact Info', 'porto' ),
+						'default' => false,
+						'on'      => __( 'Yes', 'porto' ),
+						'off'     => __( 'No', 'porto' ),
 					),
 				),
 			);

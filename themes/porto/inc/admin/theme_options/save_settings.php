@@ -307,7 +307,7 @@ if ( ! function_exists( 'porto_generate_bootstrap_css_after_options_save' ) ) :
 endif;
 
 if ( ! function_exists( 'porto_restore_default_options_for_old_versions' ) ) :
-	function porto_restore_default_options_for_old_versions() {
+	function porto_restore_default_options_for_old_versions( $save_options = false ) {
 		global $porto_settings;
 		if ( ! isset( $porto_settings['search-layout'] ) ) {
 			if ( isset( $porto_settings['header-type'] ) && in_array( $porto_settings['header-type'], array( '2', '3', '7', '8', '18', '19' ) ) ) {
@@ -317,13 +317,20 @@ if ( ! function_exists( 'porto_restore_default_options_for_old_versions' ) ) :
 			}
 		}
 
-		if ( ! isset( $porto_settings['minicart-type'] ) && isset( $porto_settings['header-type'] ) ) {
+		if ( isset( $porto_settings['show-minicart'] ) && ! $porto_settings['show-minicart'] ) {
+			$porto_settings['minicart-type'] = 'none';
+		} elseif ( ! isset( $porto_settings['minicart-type'] ) && isset( $porto_settings['header-type'] ) ) {
 			$header_type = (int) $porto_settings['header-type'];
 			if ( ( $header_type >= 1 && $header_type <= 9 ) || 18 == $header_type || 19 == $header_type || ( isset( $porto_settings['header-type-select'] ) && 'header_builder' == $porto_settings['header-type-select'] ) ) {
 				$porto_settings['minicart-type'] = 'minicart-arrow-alt';
 			} else {
 				$porto_settings['minicart-type'] = 'minicart-inline';
 			}
+		}
+
+		if ( $save_options && isset( $porto_settings['minicart-type'] ) ) {
+			global $reduxPortoSettings;
+			$reduxPortoSettings->ReduxFramework->set( 'minicart-type', $porto_settings['minicart-type'] );
 		}
 	}
 endif;

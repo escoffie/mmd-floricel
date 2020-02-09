@@ -25,7 +25,6 @@ if ( ! defined( 'WPINC' ) ) {
  * Class Readme_Parser
  */
 class Readme_Parser extends Parser {
-
 	/**
 	 * Holds absolute filepath to temp readme file.
 	 *
@@ -40,7 +39,7 @@ class Readme_Parser extends Parser {
 	 * Pass file path into class-parser.php.
 	 * Delete temporary file when finished.
 	 *
-	 * @param string $file
+	 * @param string $file File info.
 	 *
 	 * @return void
 	 */
@@ -55,6 +54,7 @@ class Readme_Parser extends Parser {
 		 * @param string $file_path Absolute filepath to temp readme file.
 		 */
 		$this->readme_path = apply_filters( 'github_updater_temp_readme_filepath', $file_path );
+		// phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_read_file_put_contents
 		$this->readme_path = file_put_contents( $this->readme_path, $file ) ? $this->readme_path : false;
 		parent::__construct( $this->readme_path );
 	}
@@ -62,7 +62,7 @@ class Readme_Parser extends Parser {
 	/**
 	 * Parse text into markdown.
 	 *
-	 * @param string $text
+	 * @param string $text Text to process.
 	 *
 	 * @return string
 	 */
@@ -82,7 +82,7 @@ class Readme_Parser extends Parser {
 	 * @return array $data
 	 */
 	public function parse_data() {
-		$data = array();
+		$data = [];
 		foreach ( get_object_vars( $this ) as $key => $value ) {
 			$data[ $key ] = 'contributors' === $key ? $this->create_contributors( $value ) : $value;
 		}
@@ -98,7 +98,7 @@ class Readme_Parser extends Parser {
 	/**
 	 * Sanitize contributors.
 	 *
-	 * @param array $users
+	 * @param array $users Array of users.
 	 *
 	 * @return array
 	 */
@@ -109,13 +109,13 @@ class Readme_Parser extends Parser {
 	/**
 	 * Create contributor data.
 	 *
-	 * @param array $users
+	 * @param array $users Array of users.
 	 *
 	 * @return array $contributors
 	 */
 	private function create_contributors( $users ) {
 		global $wp_version;
-		$contributors = array();
+		$contributors = [];
 		foreach ( (array) $users as $contributor ) {
 			$contributors[ $contributor ]['display_name'] = $contributor;
 			$contributors[ $contributor ]['profile']      = '//profiles.wordpress.org/' . $contributor;
@@ -152,7 +152,7 @@ class Readme_Parser extends Parser {
 	 * Converts wp.org readme section items to h4 style.
 	 *
 	 * @param string $section Readme section.
-	 * @param array  $data Array of parsed readme data.
+	 * @param array  $data    Array of parsed readme data.
 	 *
 	 * @return array $data
 	 */
@@ -173,8 +173,8 @@ class Readme_Parser extends Parser {
 	 *
 	 * @access protected
 	 *
-	 * @param string $desc
-	 * @param int    $length
+	 * @param string $desc   Description.
+	 * @param int    $length Number of characters.
 	 *
 	 * @return string
 	 */

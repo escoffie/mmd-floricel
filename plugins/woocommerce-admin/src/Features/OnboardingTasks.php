@@ -62,6 +62,93 @@ class OnboardingTasks {
 		add_action( 'admin_enqueue_scripts', array( $this, 'add_onboarding_product_notice_admin_script' ) );
 		add_action( 'admin_enqueue_scripts', array( $this, 'add_onboarding_homepage_notice_admin_script' ) );
 		add_action( 'admin_enqueue_scripts', array( $this, 'add_onboarding_tax_notice_admin_script' ) );
+		add_action( 'admin_enqueue_scripts', array( $this, 'add_onboarding_product_import_notice_admin_script' ) );
+
+		// Update payment cache on payment gateways update.
+		add_action( 'update_option_woocommerce_stripe_settings', array( $this, 'check_stripe_completion' ), 10, 2 );
+		add_action( 'add_option_woocommerce_stripe_settings', array( $this, 'check_stripe_completion' ), 10, 2 );
+		add_action( 'update_option_woocommerce_ppec_paypal_settings', array( $this, 'check_paypal_completion' ), 10, 2 );
+		add_action( 'add_option_woocommerce_ppec_paypal_settings', array( $this, 'check_paypal_completion' ), 10, 2 );
+		add_action( 'add_option_wc_square_refresh_tokens', array( $this, 'check_square_completion' ), 10, 2 );
+	}
+
+	/**
+	 * Check if Square payment settings are complete.
+	 *
+	 * @param string $option Option name.
+	 * @param array  $value Current value.
+	 */
+	public static function check_square_completion( $option, $value ) {
+		if ( empty( $value ) ) {
+			return;
+		}
+
+		self::mark_payment_method_configured( 'square' );
+	}
+
+
+	/**
+	 * Check if Paypal payment settings are complete.
+	 *
+	 * @param mixed $old_value Old value.
+	 * @param array $value Current value.
+	 */
+	public static function check_paypal_completion( $old_value, $value ) {
+		if (
+			! isset( $value['enabled'] ) ||
+			'yes' !== $value['enabled'] ||
+			! isset( $value['api_username'] ) ||
+			empty( $value['api_username'] ) ||
+			! isset( $value['api_password'] ) ||
+			empty( $value['api_password'] )
+		) {
+			return;
+		}
+
+		self::mark_payment_method_configured( 'paypal' );
+	}
+
+	/**
+	 * Check if Stripe payment settings are complete.
+	 *
+	 * @param mixed $old_value Old value.
+	 * @param array $value Current value.
+	 */
+	public static function check_stripe_completion( $old_value, $value ) {
+		if (
+			! isset( $value['enabled'] ) ||
+			'yes' !== $value['enabled'] ||
+			! isset( $value['publishable_key'] ) ||
+			empty( $value['publishable_key'] ) ||
+			! isset( $value['secret_key'] ) ||
+			empty( $value['secret_key'] )
+		) {
+			return;
+		}
+
+		self::mark_payment_method_configured( 'stripe' );
+	}
+
+	/**
+	 * Update the payments cache to complete if not already.
+	 *
+	 * @param string $payment_method Payment method slug.
+	 */
+	public static function mark_payment_method_configured( $payment_method ) {
+		$task_list_payments         = get_option( 'woocommerce_task_list_payments', array() );
+		$payment_methods            = isset( $task_list_payments['methods'] ) ? $task_list_payments['methods'] : array();
+		$configured_payment_methods = isset( $task_list_payments['configured'] ) ? $task_list_payments['configured'] : array();
+
+		if ( ! in_array( $payment_method, $configured_payment_methods, true ) ) {
+			$configured_payment_methods[]     = $payment_method;
+			$task_list_payments['configured'] = $configured_payment_methods;
+		}
+
+		if ( 0 === count( array_diff( $payment_methods, $configured_payment_methods ) ) ) {
+			$task_list_payments['completed'] = 1;
+		}
+
+		update_option( 'woocommerce_task_list_payments', $task_list_payments );
 	}
 
 	/**
@@ -75,6 +162,7 @@ class OnboardingTasks {
 	 * Add task items to component settings.
 	 *
 	 * @param array $settings Component settings.
+	 * @return array
 	 */
 	public function component_settings( $settings ) {
 		$products = wp_count_posts( 'product' );
@@ -82,8 +170,7 @@ class OnboardingTasks {
 		// @todo We may want to consider caching some of these and use to check against
 		// task completion along with cache busting for active tasks.
 		$settings['onboarding']['automatedTaxSupportedCountries'] = self::get_automated_tax_supported_countries();
-		$settings['onboarding']['customLogo']                     = get_theme_mod( 'custom_logo', false );
-		$settings['onboarding']['hasHomepage']                    = self::check_task_completion( 'homepage' );
+		$settings['onboarding']['hasHomepage']                    = self::check_task_completion( 'homepage' ) || 'classic' === get_option( 'classic-editor-replace' );
 		$settings['onboarding']['hasPhysicalProducts']            = count(
 			wc_get_products(
 				array(
@@ -93,9 +180,12 @@ class OnboardingTasks {
 			)
 		) > 0;
 		$settings['onboarding']['hasProducts']                    = self::check_task_completion( 'products' );
+		$settings['onboarding']['isAppearanceComplete']           = get_option( 'woocommerce_task_list_appearance_complete' );
 		$settings['onboarding']['isTaxComplete']                  = self::check_task_completion( 'tax' );
 		$settings['onboarding']['shippingZonesCount']             = count( \WC_Shipping_Zones::get_zones() );
+		$settings['onboarding']['stylesheet']                     = get_option( 'stylesheet' );
 		$settings['onboarding']['taxJarActivated']                = class_exists( 'WC_Taxjar' );
+		$settings['onboarding']['themeMods']                      = get_theme_mods();
 
 		return $settings;
 	}
@@ -130,6 +220,8 @@ class OnboardingTasks {
 
 	/**
 	 * Check for active task completion, and clears the transient.
+	 *
+	 * @return bool
 	 */
 	public static function is_active_task_complete() {
 		$active_task = self::get_active_task();
@@ -150,7 +242,7 @@ class OnboardingTasks {
 	 * Check for task completion of a given task.
 	 *
 	 * @param string $task Name of task.
-	 * @return bool;
+	 * @return bool
 	 */
 	public static function check_task_completion( $task ) {
 		switch ( $task ) {
@@ -216,6 +308,19 @@ class OnboardingTasks {
 			! self::is_active_task_complete()
 		) {
 			wp_enqueue_script( 'onboarding-tax-notice', Loader::get_url( 'wp-admin-scripts/onboarding-tax-notice.js' ), array( 'wc-navigation', 'wp-i18n', 'wp-data' ), WC_ADMIN_VERSION_NUMBER, true );
+		}
+	}
+
+	/**
+	 * Adds a notice to return to the task list when the product importeris done running.
+	 *
+	 * @param string $hook Page hook.
+	 */
+	public function add_onboarding_product_import_notice_admin_script( $hook ) {
+		$step = isset( $_GET['step'] ) ? $_GET['step'] : ''; // phpcs:ignore csrf ok, sanitization ok.
+		if ( 'product_page_product_importer' === $hook && 'done' === $step && 'product-import' === self::get_active_task() ) {
+			delete_transient( self::ACTIVE_TASK_TRANSIENT );
+			wp_enqueue_script( 'onboarding-product-import-notice', Loader::get_url( 'wp-admin-scripts/onboarding-product-import-notice.js' ), array( 'wc-navigation', 'wp-i18n', 'wp-data' ), WC_ADMIN_VERSION_NUMBER, true );
 		}
 	}
 

@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: porto\n"
 "POT-Creation-Date: 2019-11-12 22:14+0800\n"
-"PO-Revision-Date: 2019-11-12 22:14+0800\n"
+"PO-Revision-Date: 2019-12-09 10:48+0900\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: en_GB\n"
@@ -1549,8 +1549,6 @@ msgstr "Options de la page"
 
 #: inc/admin/admin.php:48 inc/admin/admin.php:86
 #: inc/admin/admin_pages/changelog.php:12 inc/admin/admin_pages/welcome.php:15
-#, fuzzy
-#| msgid "Theme Options"
 msgid "Theme License"
 msgstr "Options du thème"
 

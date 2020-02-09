@@ -1,6 +1,6 @@
 /* Slider */
 
-.slider-title {
+.slider-title, .section-title {
     font-size: 1.1429em;
     line-height: 1.4;
     letter-spacing: normal;
@@ -11,7 +11,6 @@
     position: relative;
 
     .line {
-        content: "";
         display: block;
         height: 1px;
         position: relative;
@@ -34,7 +33,7 @@
         .ms-video-btn {
             background: transparent;
             border-radius: 0;
-            font-family: 'Font Awesome 5 Free'; font-weight: 900; -webkit-font-smoothing: antialiased;
+            font-family: 'Font Awesome 5 Free'; font-weight: 900;
             font-size: 2.8571em;
             text-align: center;
             line-height: 1;

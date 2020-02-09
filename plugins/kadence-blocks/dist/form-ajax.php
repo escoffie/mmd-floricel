@@ -44,11 +44,6 @@ class KB_Ajax_Form {
 			$this->start_buffer();
 			$valid = wp_verify_nonce( ( isset( $_POST['_kb_form_verify'] ) ? sanitize_text_field( wp_unslash( $_POST['_kb_form_verify'] ) ) : '' ), 'kb_form_nonce' );
 			if ( $valid ) {
-				// Check Honey Pot.
-				$honeypot_check = filter_input( INPUT_POST, '_kb_verify_email', FILTER_SANITIZE_STRING );
-				if ( ! empty( $honeypot_check ) ) {
-					$this->process_bail( __( 'Submission Rejected', 'kadence-blocks' ), __( 'Spam Detected', 'kadence-blocks' ) );
-				}
 				// Lets get form data.
 				$form_id = sanitize_text_field( wp_unslash( $_POST['_kb_form_id'] ) );
 				$post_id = absint( wp_unslash( $_POST['_kb_form_post_id'] ) );
@@ -70,6 +65,7 @@ class KB_Ajax_Form {
 						),
 					);
 				}
+				// Check for Message strings.
 				$messages = array(
 					0 => array(
 						'success' => esc_html__( 'Submission Success, Thanks for getting in touch!', 'kadence-blocks' ),
@@ -78,6 +74,13 @@ class KB_Ajax_Form {
 				);
 				if ( isset( $form_args['messages'] ) ) {
 					$messages = wp_parse_args( $messages, $form_args['messages'] );
+				}
+				// Check Honey Pot.
+				if ( isset( $form_args['honeyPot'] ) && true === $form_args['honeyPot'] ) {
+					$honeypot_check = filter_input( INPUT_POST, '_kb_verify_email', FILTER_SANITIZE_STRING );
+					if ( ! empty( $honeypot_check ) ) {
+						$this->process_bail( __( 'Submission Rejected', 'kadence-blocks' ), __( 'Spam Detected', 'kadence-blocks' ) );
+					}
 				}
 				// Check Recaptcha.
 				if ( isset( $form_args['recaptcha'] ) && true === $form_args['recaptcha'] ) {
@@ -165,18 +168,22 @@ class KB_Ajax_Form {
 				foreach ( $form_args['actions'] as $data ) {
 					switch ( $data ) {
 						case 'email':
-							$to            = isset( $form_args['email'][0]['emailTo'] ) && ! empty( trim( $form_args['email'][0]['emailTo'] ) ) ? sanitize_email( trim( $form_args['email'][0]['emailTo'] ) ) : get_option( 'admin_email' );
+							$to            = isset( $form_args['email'][0]['emailTo'] ) && ! empty( trim( $form_args['email'][0]['emailTo'] ) ) ? trim( $form_args['email'][0]['emailTo'] ) : get_option( 'admin_email' );
 							$subject       = isset( $form_args['email'][0]['subject'] ) && ! empty( trim( $form_args['email'][0]['subject'] ) ) ? $form_args['email'][0]['subject'] : '[' . get_bloginfo( 'name' ) . ' ' . __( 'Submission', 'kadence-blocks' ) . ']';
 							if ( strpos( $subject, '{field_' ) !== false ) {
 								if ( preg_match( '/{field_(.*?)}/', $subject, $match) == 1 ) {
 									$field_id = $match[1];
 									if ( isset( $field_id ) ) {
-										$real_id =  absint( $field_id ) - 1;
+										$real_id = absint( $field_id ) - 1;
 										if ( isset( $fields[ $real_id ] ) && is_array( $fields[ $real_id ] ) && isset( $fields[ $real_id ]['value'] ) ) {
 											$subject = str_replace( '{field_' . $field_id . '}' , $fields[ $real_id ]['value'], $subject );
 										}
 									}
 								}
+							}
+							if ( strpos( $subject, '{page_title}' ) !== false ) {
+								global $post;
+								$subject = str_replace( '{page_title}', get_the_title( $post->$ID ), $subject );
 							}
 							$email_content = '';
 							$reply_email   = false;
@@ -205,7 +212,6 @@ class KB_Ajax_Form {
 							} else {
 								$headers  = 'Content-Type: text/plain; charset=UTF-8' . "\r\n";
 							}
-							$headers .= 'Content-Transfer-Encoding: 8bit' . "\r\n";
 							if ( $reply_email ) {
 								$headers .= 'Reply-To: <' . $reply_email . '>' . "\r\n";
 							}
@@ -235,8 +241,14 @@ class KB_Ajax_Form {
 
 				do_action( 'kadence_blocks_form_submission', $form_args, $fields, $form_id, $post_id );
 
-				$final_data['html'] = '<div class="kadence-blocks-form-message kadence-blocks-form-success">' . $messages[0]['success'] . '</div>';
-				$this->send_json( $final_data );
+				$success = apply_filters( 'kadence_blocks_form_submission_success', true, $form_args, $fields, $form_id, $post_id );
+				$messages = apply_filters( 'kadence_blocks_form_submission_messages', $messages );
+				if ( ! $success ) {
+					$this->process_bail( $messages[0]['error'], __( 'Third Party Failed', 'kadence-blocks' ) );
+				} else {
+					$final_data['html'] = '<div class="kadence-blocks-form-message kadence-blocks-form-success">' . $messages[0]['success'] . '</div>';
+					$this->send_json( $final_data );
+				}
 			} else {
 				$this->process_bail( __( 'Submission rejected', 'kadence-blocks' ), __( 'Token invalid', 'kadence-blocks' ) );
 			}

@@ -181,6 +181,7 @@ class Kadence_Blocks_Settings {
 	/**
 	 * Redirect to the settings page on activation
 	 */
+
 	public function activation_redirect() {
 		if ( get_option( 'kadence_blocks_redirect_on_activation', false ) ) {
 			delete_option( 'kadence_blocks_redirect_on_activation' );
@@ -242,14 +243,21 @@ class Kadence_Blocks_Settings {
 		return $svg;
 	}
 	/**
+	 * Allow settings visibility to be changed.
+	 */
+	public function settings_user_capabilities() {
+		$cap = apply_filters( 'kadence_blocks_admin_settings_capability', 'edit_pages' );
+		return $cap;
+	}
+	/**
 	 * Add option page menu
 	 */
 	public function add_menu() {
 		if ( apply_filters( 'kadence_blocks_admin_menu_options', true ) ) {
-			$page = add_options_page( __( 'Kadence Blocks -  Gutenberg Page Builder Blocks', 'kadence-blocks' ), __( 'Kadence Blocks' ), 'edit_pages', 'kadence_blocks', array( $this, 'config_page' ) );
+			$page = add_options_page( __( 'Kadence Blocks -  Gutenberg Page Builder Blocks', 'kadence-blocks' ), __( 'Kadence Blocks' ), $this->settings_user_capabilities(), 'kadence_blocks', array( $this, 'config_page' ) );
 		} else {
-			add_menu_page( __( 'Kadence Blocks -  Gutenberg Page Builder Blocks', 'kadence-blocks' ), __( 'Kadence Blocks', 'kadence-blocks' ), 'edit_pages', 'kadence-blocks', null, $this->get_icon_svg() );
-			$page = add_submenu_page( 'kadence-blocks', __( 'Kadence Blocks -  Gutenberg Page Builder Blocks', 'kadence-blocks' ), __( 'Settings' ), 'edit_pages', 'kadence-blocks', array( $this, 'config_page' ) );
+			add_menu_page( __( 'Kadence Blocks -  Gutenberg Page Builder Blocks', 'kadence-blocks' ), __( 'Kadence Blocks', 'kadence-blocks' ), $this->settings_user_capabilities(), 'kadence-blocks', null, $this->get_icon_svg() );
+			$page = add_submenu_page( 'kadence-blocks', __( 'Kadence Blocks -  Gutenberg Page Builder Blocks', 'kadence-blocks' ), __( 'Settings' ), $this->settings_user_capabilities(), 'kadence-blocks', array( $this, 'config_page' ) );
 		}
 		add_action( 'admin_print_styles-' . $page, array( $this, 'scripts' ) );
 	}
@@ -374,6 +382,17 @@ class Kadence_Blocks_Settings {
 			array(
 				'type'              => 'string',
 				'description'       => __( 'Config Kadence Blocks Color Palette', 'kadence-blocks' ),
+				'sanitize_callback' => 'sanitize_text_field',
+				'show_in_rest'      => true,
+				'default'           => '',
+			)
+		);
+		register_setting(
+			'kadence_blocks_global',
+			'kadence_blocks_global',
+			array(
+				'type'              => 'string',
+				'description'       => __( 'Config Kadence Blocks Global Settings', 'kadence-blocks' ),
 				'sanitize_callback' => 'sanitize_text_field',
 				'show_in_rest'      => true,
 				'default'           => '',

@@ -117,8 +117,7 @@ class OnboardingTasks extends \WC_REST_Data_Controller {
 
 		if ( file_exists( $file ) && class_exists( 'WC_Product_CSV_Importer' ) ) {
 			// Override locale so we can return mappings from WooCommerce in English language stores.
-			global $locale;
-			$locale         = false; // phpcs:ignore WordPress.WP.GlobalVariablesOverride.OverrideProhibited
+			add_filter( 'locale', '__return_false', 9999 );
 			$importer_class = apply_filters( 'woocommerce_product_csv_importer_class', 'WC_Product_CSV_Importer' );
 			$args           = array(
 				'parse'   => true,
@@ -298,7 +297,7 @@ class OnboardingTasks extends \WC_REST_Data_Controller {
 
 		return $cover . '
 		<!-- wp:heading {"align":"center"} -->
-		<h2 class="has-text-align-center">' . __( 'New products', 'woocommerce-admin' ) . '</h2>
+		<h2 style="text-align:center">' . __( 'New Products', 'woocommerce-admin' ) . '</h2>
 		<!-- /wp:heading -->
 
 		<!-- wp:woocommerce/product-new /--> ' .
@@ -337,7 +336,7 @@ class OnboardingTasks extends \WC_REST_Data_Controller {
 	 * @return array An array of images that have been attached to the post.
 	 */
 	private static function sideload_homepage_images( $post_id, $number_of_images ) {
-		$profile            = get_option( 'wc_onboarding_profile', array() );
+		$profile            = get_option( Onboarding::PROFILE_DATA_OPTION, array() );
 		$images_to_sideload = array();
 		$available_images   = self::get_available_homepage_images();
 
@@ -384,13 +383,18 @@ class OnboardingTasks extends \WC_REST_Data_Controller {
 	/**
 	 * Creates base store starter pages like my account and checkout.
 	 * Note that WC_Install::create_pages already checks if pages exist before creating them again.
+	 *
+	 * @return bool
 	 */
 	public static function create_store_pages() {
 		\WC_Install::create_pages();
+		return true;
 	}
 
 	/**
 	 * Create a homepage from a template.
+	 *
+	 * @return WP_Error|array
 	 */
 	public static function create_homepage() {
 		$post_id = wp_insert_post(

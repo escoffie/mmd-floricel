@@ -26,15 +26,17 @@ if ( ! $porto_settings['category-hover'] ) {
 
 
 if ( ( function_exists( 'wc_get_loop_prop' ) && ! wc_get_loop_prop( 'is_paginated' ) ) || isset( $porto_woocommerce_loop['view'] ) || ! isset( $_COOKIE['gridcookie'] ) || 'list' != $_COOKIE['gridcookie'] ) {
-	if ( isset( $woocommerce_loop['addlinks_pos'] ) && 'quantity' == $woocommerce_loop['addlinks_pos'] ) {
-		$classes[] = 'product-wq_onimage';
-	} elseif ( isset( $woocommerce_loop['addlinks_pos'] ) ) {
-		if ( 'outimage_aq_onimage2' == $woocommerce_loop['addlinks_pos'] ) {
-			$classes[] = 'product-outimage_aq_onimage with-padding';
-		} elseif ( 'onhover' == $woocommerce_loop['addlinks_pos'] ) {
-			$classes[] = 'product-default show-links-hover';
-		} else {
-			$classes[] = 'product-' . esc_attr( $woocommerce_loop['addlinks_pos'] );
+	if ( ! isset( $porto_woocommerce_loop['view'] ) || 'list' != $porto_woocommerce_loop['view'] ) {
+		if ( isset( $woocommerce_loop['addlinks_pos'] ) && 'quantity' == $woocommerce_loop['addlinks_pos'] ) {
+			$classes[] = 'product-wq_onimage';
+		} elseif ( isset( $woocommerce_loop['addlinks_pos'] ) ) {
+			if ( 'outimage_aq_onimage2' == $woocommerce_loop['addlinks_pos'] ) {
+				$classes[] = 'product-outimage_aq_onimage with-padding';
+			} elseif ( 'onhover' == $woocommerce_loop['addlinks_pos'] ) {
+				$classes[] = 'product-default show-links-hover';
+			} else {
+				$classes[] = 'product-' . esc_attr( $woocommerce_loop['addlinks_pos'] );
+			}
 		}
 	}
 }
@@ -91,7 +93,7 @@ if ( isset( $porto_settings['catalog-enable'] ) && $porto_settings['catalog-enab
 				do_action( 'woocommerce_before_shop_loop_item_title' );
 			?>
 		</a>
-	<?php if ( ( ! isset( $porto_woocommerce_loop['widget'] ) || ! $porto_woocommerce_loop['widget'] ) && ( ! isset( $porto_woocommerce_loop['use_simple_layout'] ) || ! $porto_woocommerce_loop['use_simple_layout'] ) && isset( $woocommerce_loop['addlinks_pos'] ) && ! empty( $woocommerce_loop['addlinks_pos'] ) && ( ! in_array( $woocommerce_loop['addlinks_pos'], array( 'default', 'onhover', 'outimage' ) ) || ( class_exists( 'YITH_WCWL' ) && $porto_settings['product-wishlist'] && 'onimage' == $woocommerce_loop['addlinks_pos'] ) ) ) : ?>
+	<?php if ( ( ! isset( $porto_woocommerce_loop['widget'] ) || ! $porto_woocommerce_loop['widget'] ) && ( ! isset( $porto_woocommerce_loop['use_simple_layout'] ) || ! $porto_woocommerce_loop['use_simple_layout'] ) && isset( $woocommerce_loop['addlinks_pos'] ) && ! empty( $woocommerce_loop['addlinks_pos'] ) && ( ! in_array( $woocommerce_loop['addlinks_pos'], array( 'default', 'onhover', 'outimage' ) ) || ( class_exists( 'YITH_WCWL' ) && $porto_settings['product-wishlist'] && 'onimage' == $woocommerce_loop['addlinks_pos'] ) ) && ( ! isset( $porto_woocommerce_loop['view'] ) || 'list' != $porto_woocommerce_loop['view'] ) ) : ?>
 		<div class="links-on-image">
 			<?php woocommerce_template_loop_add_to_cart(); ?>
 		</div>
@@ -101,23 +103,14 @@ if ( isset( $porto_settings['catalog-enable'] ) && $porto_settings['catalog-enab
 	<div class="product-content">
 		<?php do_action( 'porto_woocommerce_before_shop_loop_item_title' ); ?>
 
-		<?php if ( version_compare( $porto_woo_version, '2.4', '<' ) ) : ?>
-
-			<a class="product-loop-title" <?php echo porto_filter_output( $more_target ); ?> href="<?php echo esc_url( $more_link ); ?>">
-				<h3><?php the_title(); ?></h3>
-			</a>
-
-		<?php else : ?>
-
-			<?php
-				/**
+		<?php
+			/**
 			 * Hook: woocommerce_shop_loop_item_title.
 			 *
 			 * @hooked woocommerce_template_loop_product_title - 10
 			 */
 			do_action( 'woocommerce_shop_loop_item_title' );
-			?>
-		<?php endif; ?>
+		?>
 
 		<?php
 			/**

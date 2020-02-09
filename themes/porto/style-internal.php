@@ -1255,7 +1255,7 @@ if ( 'woocommerce' === $post_layout && ( ! class_exists( 'Woocommerce' ) || ! is
 	article.post-woocommerce .post-date .month { font-size: 14px; text-transform: uppercase; }
 	article.post-woocommerce .post-meta { display: inline-block; margin-bottom: 6px; }
 	article.post-woocommerce > .read-more { font-size: 13px; text-transform: uppercase; letter-spacing: 0.05em; float: <?php echo porto_filter_output( $right ); ?>; }
-	article.post-woocommerce > .read-more:after { content: '\f04b'; font-family: 'Font Awesome 5 Free'; font-weight: 900; -moz-osx-font-smoothing: grayscale; -webkit-font-smoothing: antialiased; margin-<?php echo porto_filter_output( $left ); ?>: 3px; position: relative; top: -1px; }
+	article.post-woocommerce > .read-more:after { content: '\f04b'; font-family: 'Font Awesome 5 Free'; font-weight: 900; margin-<?php echo porto_filter_output( $left ); ?>: 3px; position: relative; top: -1px; }
 	article.post-woocommerce .post-content { padding-bottom: 20px; border-bottom: 1px solid rgba(0, 0, 0, 0.06); margin-bottom: 15px; }
 	article.post-woocommerce .post-meta { font-size: 13px; text-transform: uppercase; font-weight: 600; letter-spacing: 0; }
 	article.post-woocommerce .post-meta a { color: #7b858a; }
@@ -1431,7 +1431,7 @@ if ( $porto_shop_filter_layout ) :
 		.porto-product-filters .widget_rating_filter ul li>a,
 		.porto-product-filters .widget_rating_filter ol li>a { padding: 7px 0; }
 		.porto-product-filters .widget_product_categories ul li .toggle { top: 3px; }
-		.widget_product_categories ul li .toggle:before { content: '\f105' !important; font-weight: 900; font-family: 'Font Awesome 5 Free' !important; -moz-osx-font-smoothing: grayscale; -webkit-font-smoothing: antialiased }
+		.widget_product_categories ul li .toggle:before { content: '\f105' !important; font-weight: 900; font-family: 'Font Awesome 5 Free' !important; }
 
 		.gridlist-toggle { margin-<?php echo porto_filter_output( $left ); ?>: 6px; }
 		.woocommerce-ordering label { display: none; }
@@ -1522,6 +1522,12 @@ if ( function_exists( 'vc_is_inline' ) && vc_is_inline() ) :
 	.vc_vc_column, .vc_vc_column_inner, .row > .vc_col-sm-12 { padding-left: <?php echo intval( $b['grid-gutter-width'] ) / 2; ?>px; padding-right: <?php echo intval( $b['grid-gutter-width'] ) / 2; ?>px; }
 	.vc_porto_grid_container { margin-top: 10px; margin-bottom: 10px; padding-top: 30px; padding-bottom: 30px; }
 	.vc_porto_grid_item { padding-top: 20px; }
+
+	.porto-ibanner { overflow: visible; min-height: 40px }
+	.compose-mode .vc_element .vc_element-container[class^="porto-"]:before,
+	.compose-mode .vc_element .vc_element-container[class^="porto-"]:after { content: ''; display: block; min-height: .1px; }
+	.compose-mode .vc_container-block[class*=" vc_porto_"] { margin-top: 30px; margin-bottom: 30px; min-height: 40px; }
+	.compose-mode .vc_container-block[class*=" vc_porto_"]:hover { outline: 1px dashed rgba(0, 136, 204, .4) }
 	<?php
 endif;
 

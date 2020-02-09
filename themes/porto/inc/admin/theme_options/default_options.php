@@ -371,7 +371,7 @@
 	"header-type":"10",
 	"show-header-top":true,
 	"change-header-logo":true,
-	"show-minicart":true,
+	"minicart-type":"simple",
 	"header-view":"default",
 	"wpml-switcher":false,
 	"wpml-switcher-pos":"",

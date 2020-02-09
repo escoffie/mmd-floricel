@@ -38,7 +38,7 @@ class API {
 	 *
 	 * @var array ( $this->type->slug => $code )
 	 */
-	protected static $error_code = array();
+	protected static $error_code = [];
 
 	/**
 	 * Holds site options.
@@ -67,7 +67,7 @@ class API {
 	 * @access protected
 	 * @var array
 	 */
-	protected $response = array();
+	protected $response = [];
 
 	/**
 	 * Variable to hold AWS redirect URL.
@@ -98,7 +98,7 @@ class API {
 		$args['sslverify'] = true;
 		if ( false === stripos( $args['user-agent'], 'GitHub Updater' ) ) {
 			$args['user-agent']   .= '; GitHub Updater - https://github.com/afragen/github-updater';
-			$args['wp-rest-cache'] = array( 'tag' => 'github-updater' );
+			$args['wp-rest-cache'] = [ 'tag' => 'github-updater' ];
 		}
 
 		return $args;
@@ -116,14 +116,14 @@ class API {
 				$git->add_settings( $auth_required );
 			}
 		);
-		add_filter( 'github_updater_add_repo_setting_field', array( $this, 'add_setting_field' ), 10, 2 );
+		add_filter( 'github_updater_add_repo_setting_field', [ $this, 'add_setting_field' ], 10, 2 );
 	}
 
 	/**
 	 * Add data to the setting_field in Settings.
 	 *
-	 * @param array $fields
-	 * @param array $repo
+	 * @param array $fields Array of settings fields.
+	 * @param array $repo   Array of repo data.
 	 *
 	 * @return array
 	 */
@@ -138,14 +138,14 @@ class API {
 	/**
 	 * Get repo's API.
 	 *
-	 * @param string         $git (github|bitbucket|gitlab|gitea)
-	 * @param bool|\stdClass $repo
+	 * @param string         $git  (github|bitbucket|gitlab|gitea)
+	 * @param bool|\stdClass $repo Repository object.
 	 *
 	 * @return \Fragen\GitHub_Updater\API\Bitbucket_API|
-	 *  \Fragen\GitHub_Updater\API\Bitbucket_Server_API|
-	 *  \Fragen\GitHub_Updater\API\Gitea_API|
-	 *  \Fragen\GitHub_Updater\API\GitHub_API|
-	 *  \Fragen\GitHub_Updater\API\GitLab_API $repo_api
+	 *                                                   \Fragen\GitHub_Updater\API\Bitbucket_Server_API|
+	 *                                                   \Fragen\GitHub_Updater\API\Gitea_API|
+	 *                                                   \Fragen\GitHub_Updater\API\GitHub_API|
+	 *                                                   \Fragen\GitHub_Updater\API\GitLab_API $repo_api
 	 */
 	public function get_repo_api( $git, $repo = false ) {
 		$repo_api = null;
@@ -197,13 +197,13 @@ class API {
 	 * @return boolean|\stdClass
 	 */
 	protected function api( $url ) {
-		add_filter( 'http_request_args', array( $this, 'http_request_args' ), 10, 2 );
+		add_filter( 'http_request_args', [ $this, 'http_request_args' ], 10, 2 );
 
 		$type          = $this->return_repo_type();
 		$response      = wp_remote_get( $this->get_api_url( $url ) );
 		$code          = (int) wp_remote_retrieve_response_code( $response );
-		$allowed_codes = array( 200, 404 );
-		remove_filter( 'http_request_args', array( $this, 'http_request_args' ) );
+		$allowed_codes = [ 200, 404 ];
+		remove_filter( 'http_request_args', [ $this, 'http_request_args' ] );
 
 		if ( is_wp_error( $response ) ) {
 			Singleton::get_instance( 'Messages', $this )->create_error_message( $response );
@@ -213,14 +213,14 @@ class API {
 		if ( ! in_array( $code, $allowed_codes, true ) ) {
 			static::$error_code = array_merge(
 				static::$error_code,
-				array(
-					$this->type->slug => array(
+				[
+					$this->type->slug => [
 						'repo' => $this->type->slug,
 						'code' => $code,
 						'name' => $this->type->name,
 						'git'  => $this->type->git,
-					),
-				)
+					],
+				]
 			);
 			if ( 'github' === $type['git'] ) {
 				GitHub_API::ratelimit_reset( $response, $this->type->slug );
@@ -239,7 +239,7 @@ class API {
 	/**
 	 * Convert response body to JSON.
 	 *
-	 * @param mixed $response (JSON|string)
+	 * @param  mixed $response (JSON|string)
 	 * @return mixed $response JSON encoded.
 	 */
 	private function convert_body_string_to_json( $response ) {
@@ -261,7 +261,7 @@ class API {
 	 * @return array
 	 */
 	protected function return_repo_type() {
-		$arr         = array();
+		$arr         = [];
 		$arr['type'] = $this->type->type;
 
 		switch ( $this->type->git ) {
@@ -307,17 +307,19 @@ class API {
 	 */
 	protected function get_api_url( $endpoint, $download_link = false ) {
 		$type     = $this->return_repo_type();
-		$segments = array(
+		$segments = [
 			'owner'  => $this->type->owner,
 			'repo'   => $this->type->slug,
 			'branch' => empty( $this->type->branch ) ? 'master' : $this->type->branch,
-		);
+		];
 
 		foreach ( $segments as $segment => $value ) {
 			$endpoint = str_replace( ':' . $segment, sanitize_text_field( $value ), $endpoint );
 		}
 
 		$repo_api = $this->get_repo_api( $type['git'], $this->type );
+		$this->load_authentication_hooks();
+
 		switch ( $type['git'] ) {
 			case 'github':
 				if ( ! $this->type->enterprise && $download_link ) {
@@ -347,7 +349,6 @@ class API {
 				$endpoint = $repo_api->add_endpoints( $this, $endpoint );
 				break;
 			case 'bitbucket':
-				$this->load_authentication_hooks();
 				if ( $this->type->enterprise_api ) {
 					if ( $download_link ) {
 						$type['base_download'] = $type['base_uri'];
@@ -391,10 +392,10 @@ class API {
 		if ( ! $response ) {
 			$url      = "https://api.wordpress.org/{$this->type->type}s/info/1.1/";
 			$url      = add_query_arg(
-				array(
+				[
 					'action'                        => "{$this->type->type}_information",
 					rawurlencode( 'request[slug]' ) => $this->type->slug,
-				),
+				],
 				$url
 			);
 			$response = wp_remote_get( $url );
@@ -415,71 +416,10 @@ class API {
 	}
 
 	/**
-	 * Add appropriate access token to endpoint.
-	 *
-	 * @access protected
-	 *
-	 * @param GitHub_API|GitLab_API $git      Class containing the GitAPI used.
-	 * @param string                $endpoint The endpoint being accessed.
-	 *
-	 * @return string $endpoint
-	 */
-	protected function add_access_token_endpoint( $git, $endpoint ) {
-		// This will return if checking during shiny updates.
-		if ( null === static::$options ) {
-			return $endpoint;
-		}
-		$key              = null;
-		$token            = null;
-		$token_enterprise = null;
-
-		switch ( $git->type->git ) {
-			case 'github':
-				$key              = 'access_token';
-				$token            = 'github_access_token';
-				$token_enterprise = 'github_enterprise_token';
-				break;
-			case 'gitlab':
-				$key              = 'private_token';
-				$token            = 'gitlab_access_token';
-				$token_enterprise = 'gitlab_enterprise_token';
-				break;
-			case 'gitea':
-				$key              = 'access_token';
-				$token            = 'gitea_access_token';
-				$token_enterprise = 'gitea_access_token';
-				break;
-			case 'bitbucket':
-				return $endpoint;
-		}
-
-		// Add hosted access token.
-		if ( ! empty( static::$options[ $token ] ) ) {
-			$endpoint = add_query_arg( $key, static::$options[ $token ], $endpoint );
-		}
-
-		// Add Enterprise access token.
-		if ( ! empty( $git->type->enterprise ) &&
-			! empty( static::$options[ $token_enterprise ] )
-		) {
-			$endpoint = remove_query_arg( $key, $endpoint );
-			$endpoint = add_query_arg( $key, static::$options[ $token_enterprise ], $endpoint );
-		}
-
-		// Add repo access token.
-		if ( ! empty( static::$options[ $git->type->slug ] ) ) {
-			$endpoint = remove_query_arg( $key, $endpoint );
-			$endpoint = add_query_arg( $key, static::$options[ $git->type->slug ], $endpoint );
-		}
-
-		return $endpoint;
-	}
-
-	/**
 	 * Test to exit early if no update available, saves API calls.
 	 *
-	 * @param array|bool $response
-	 * @param bool       $branch
+	 * @param array|bool $response API response.
+	 * @param bool       $branch   Branch name.
 	 *
 	 * @return bool
 	 */
@@ -531,7 +471,7 @@ class API {
 	/**
 	 * Sort tags and set object data.
 	 *
-	 * @param array $parsed_tags
+	 * @param array $parsed_tags Array of tags.
 	 *
 	 * @return bool
 	 */
@@ -559,7 +499,7 @@ class API {
 	 * Get local file info if no update available. Save API calls.
 	 *
 	 * @param \stdClass $repo Repo data.
-	 * @param string    $file
+	 * @param string    $file Filename.
 	 *
 	 * @return null|string
 	 */
@@ -609,7 +549,7 @@ class API {
 	 * Create some sort of rating from 0 to 100 for use in star ratings.
 	 * I'm really just making this up, more based upon popularity.
 	 *
-	 * @param array $repo_meta
+	 * @param array $repo_meta Array of repo meta data.
 	 *
 	 * @return integer
 	 */
@@ -650,7 +590,7 @@ class API {
 			$readme['sections']['other_notes'] .= $readme['remaining_content'];
 		}
 		unset( $readme['sections']['screenshots'], $readme['sections']['installation'] );
-		$readme['sections']       = ! empty( $readme['sections'] ) ? $readme['sections'] : array();
+		$readme['sections']       = ! empty( $readme['sections'] ) ? $readme['sections'] : [];
 		$this->type->sections     = array_merge( (array) $this->type->sections, (array) $readme['sections'] );
 		$this->type->tested       = isset( $readme['tested'] ) ? $readme['tested'] : null;
 		$this->type->requires     = isset( $readme['requires'] ) ? $readme['requires'] : null;
@@ -691,11 +631,10 @@ class API {
 
 		// phpcs:ignore WordPress.Security.NonceVerification
 		if ( ! $response || isset( $_REQUEST['override'] ) ) {
-			add_action( 'requests-requests.before_redirect', array( $this, 'set_redirect' ), 10, 1 );
-			add_filter( 'http_request_args', array( $this, 'set_aws_release_asset_header' ) );
-			$url = $this->add_access_token_endpoint( $this, $asset );
-			wp_remote_get( $url );
-			remove_filter( 'http_request_args', array( $this, 'set_aws_release_asset_header' ) );
+			add_action( 'requests-requests.before_redirect', [ $this, 'set_redirect' ], 10, 1 );
+			add_filter( 'http_request_args', [ $this, 'set_aws_release_asset_header' ] );
+			wp_remote_get( $asset );
+			remove_filter( 'http_request_args', [ $this, 'set_aws_release_asset_header' ] );
 		}
 
 		if ( ! empty( $this->redirect ) ) {
@@ -712,8 +651,8 @@ class API {
 	 *
 	 * @since 6.1.0
 	 *
-	 * @param array  $args
-	 * @param string $url
+	 * @param array  $args Array of data.
+	 * @param string $url  URL.
 	 *
 	 * @return mixed $args
 	 */
@@ -728,11 +667,10 @@ class API {
 	 *
 	 * @uses `requests-requests.before_redirect` Action hook.
 	 *
-	 * @param string $location
+	 * @param  string $location URL.
 	 * @return void
 	 */
 	public function set_redirect( $location ) {
 		$this->redirect = $location;
 	}
-
 }

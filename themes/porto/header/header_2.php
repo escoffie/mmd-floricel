@@ -52,7 +52,7 @@ global $porto_settings, $porto_layout;
 	<?php endif; ?>
 
 	<div class="header-main">
-		<div class="container">
+		<div class="container header-row">
 			<div class="header-left">
 				<?php
 				// show logo
@@ -74,7 +74,7 @@ global $porto_settings, $porto_layout;
 				</div>
 			</div>
 			<div class="header-right">
-				<div>
+				<div class="header-minicart">
 					<?php
 					// show contact info and mini cart
 					$contact_info = $porto_settings['header-contact-info'];

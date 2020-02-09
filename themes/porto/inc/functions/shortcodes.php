@@ -1330,6 +1330,16 @@ function porto_load_shortcodes() {
 		vc_add_param(
 			'vc_custom_heading',
 			array(
+				'type'        => 'textfield',
+				'heading'     => __( 'Letter Spacing', 'porto' ),
+				'param_name'  => 'letter_spacing',
+				'std'         => '',
+				'group'       => $section_group,
+			)
+		);
+		vc_add_param(
+			'vc_custom_heading',
+			array(
 				'type'       => 'checkbox',
 				'heading'    => __( 'Show Border', 'porto' ),
 				'param_name' => 'show_border',

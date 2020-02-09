@@ -459,7 +459,7 @@ h2.resp-accordion {
                 line-height: 100%;
                 position: relative;
                 &:before {
-                    font-family: 'Font Awesome 5 Free'; font-weight: 900; -webkit-font-smoothing: antialiased;
+                    font-family: 'Font Awesome 5 Free'; font-weight: 900;
                     position: absolute;
                     content: if-ltr($fa-var-chevron-right, $fa-var-chevron-left);
                     #{$right}: 15px;

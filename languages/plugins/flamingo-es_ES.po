@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Plugins - Flamingo - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2019-05-23 14:28:32+0000\n"
+"PO-Revision-Date: 2020-01-15 18:59:52+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -10,6 +10,15 @@ msgstr ""
 "X-Generator: GlotPress/2.4.0-alpha\n"
 "Language: es\n"
 "Project-Id-Version: Plugins - Flamingo - Stable (latest release)\n"
+
+#: includes/csv.php:44
+msgid "https://contactform7.com/heads-up-about-spreadsheet-vulnerabilities"
+msgstr "https://contactform7.com/heads-up-about-spreadsheet-vulnerabilities"
+
+#. translators: %s: URL
+#: includes/csv.php:36
+msgid "(Security Alert: Suspicious content is detected. See %s for details.)"
+msgstr "(Alerta de seguridad: Se ha detectado contenido sospechoso. Ver %s para más detalles.)"
 
 #. translators: %s: WordPress user name
 #: includes/class-inbound-message.php:342
@@ -152,9 +161,8 @@ msgstr ""
 "Estás a punto de eliminar el contacto '%s'\n"
 " 'Cancelar' para detener, 'Aceptar para eliminar."
 
-#: includes/class-inbound-message.php:37
 #: admin/includes/class-inbound-messages-list-table.php:374
-#: admin/includes/meta-boxes.php:119
+#: admin/includes/meta-boxes.php:119 includes/class-inbound-message.php:37
 msgid "Spam"
 msgstr "Spam"
 
@@ -178,14 +186,14 @@ msgid "Not Spam"
 msgstr "No es spam"
 
 #: admin/includes/class-inbound-messages-list-table.php:204
-#: admin/includes/class-outbound-messages-list-table.php:157
 #: admin/includes/meta-boxes.php:172 admin/includes/meta-boxes.php:338
+#: admin/includes/class-outbound-messages-list-table.php:157
 msgid "Move to Trash"
 msgstr "Mover a la papelera"
 
 #: admin/includes/class-inbound-messages-list-table.php:202
-#: admin/includes/class-outbound-messages-list-table.php:155
 #: admin/includes/meta-boxes.php:170 admin/includes/meta-boxes.php:336
+#: admin/includes/class-outbound-messages-list-table.php:155
 msgid "Delete Permanently"
 msgstr "Eliminar permanentemente"
 
@@ -222,21 +230,21 @@ msgid "Channel"
 msgstr "Canal"
 
 #: admin/includes/class-inbound-messages-list-table.php:455
-#: admin/includes/class-outbound-messages-list-table.php:250
 #: admin/includes/class-contacts-list-table.php:339
+#: admin/includes/class-outbound-messages-list-table.php:250
 msgid "Y/m/d"
 msgstr "Y/m/d"
 
 #: admin/includes/class-inbound-messages-list-table.php:453
-#: admin/includes/class-outbound-messages-list-table.php:248
 #: admin/includes/class-contacts-list-table.php:337
+#: admin/includes/class-outbound-messages-list-table.php:248
 msgid "%s ago"
 msgstr "Hace %s"
 
-#: includes/class-outbound-message.php:86
 #: admin/includes/class-inbound-messages-list-table.php:446
-#: admin/includes/class-outbound-messages-list-table.php:241
 #: admin/includes/class-contacts-list-table.php:329
+#: admin/includes/class-outbound-messages-list-table.php:241
+#: includes/class-outbound-message.php:86
 msgid "Y/m/d g:i:s A"
 msgstr "Y/m/d g:i:s A"
 
@@ -259,13 +267,13 @@ msgid "No Tags"
 msgstr "Sin etiquetas"
 
 #: admin/includes/class-inbound-messages-list-table.php:306
-#: admin/includes/class-outbound-messages-list-table.php:220
 #: admin/includes/class-contacts-list-table.php:164
+#: admin/includes/class-outbound-messages-list-table.php:220
 msgid "Edit &#8220;%s&#8221;"
 msgstr "Editar &#8220;%s&#8221;"
 
-#: admin/includes/class-outbound-messages-list-table.php:214
 #: admin/includes/class-contacts-list-table.php:196
+#: admin/includes/class-outbound-messages-list-table.php:214
 msgid "Edit"
 msgstr "Editar"
 
@@ -275,8 +283,8 @@ msgid "Export"
 msgstr "Exportar"
 
 #: admin/includes/class-inbound-messages-list-table.php:256
-#: admin/includes/class-outbound-messages-list-table.php:170
 #: admin/includes/class-contacts-list-table.php:127
+#: admin/includes/class-outbound-messages-list-table.php:170
 msgid "Filter"
 msgstr "Filtro"
 
@@ -313,17 +321,15 @@ msgstr "Mensaje entrante"
 msgid "Compose a Message"
 msgstr "Componer un mensaje"
 
-#: admin/edit-inbound-form.php:41
+#: admin/edit-outbound-form.php:50 admin/edit-inbound-form.php:41
 #: admin/includes/class-inbound-messages-list-table.php:16
 #: admin/includes/class-outbound-messages-list-table.php:15
-#: admin/edit-outbound-form.php:50
 msgid "From"
 msgstr "De"
 
-#: admin/edit-inbound-form.php:36
+#: admin/edit-outbound-form.php:55 admin/edit-inbound-form.php:36
 #: admin/includes/class-inbound-messages-list-table.php:15
 #: admin/includes/class-outbound-messages-list-table.php:14
-#: admin/edit-outbound-form.php:55
 msgid "Subject"
 msgstr "Asunto"
 
@@ -359,8 +365,8 @@ msgstr "Mensajes"
 msgid "Fields"
 msgstr "Campos"
 
-#: admin/includes/class-inbound-messages-list-table.php:18
-#: admin/includes/class-outbound-messages-list-table.php:16 admin/admin.php:651
+#: admin/admin.php:651 admin/includes/class-inbound-messages-list-table.php:18
+#: admin/includes/class-outbound-messages-list-table.php:16
 msgid "Date"
 msgstr "Fecha"
 
@@ -400,31 +406,31 @@ msgstr "Resultados de búsqueda de &#8220;%s&#8221;"
 msgid "Contacts"
 msgstr "Contactos"
 
-#: admin/includes/class-contacts-list-table.php:13 admin/admin.php:289
+#: admin/admin.php:289 admin/includes/class-contacts-list-table.php:13
 msgid "Name"
 msgstr "Nombre"
 
-#: admin/includes/class-contacts-list-table.php:14 admin/admin.php:286
+#: admin/admin.php:286 admin/includes/class-contacts-list-table.php:14
 msgid "Tags"
 msgstr "Etiquetas"
 
-#: admin/includes/meta-boxes.php:311 admin/admin.php:283
+#: admin/admin.php:283 admin/includes/meta-boxes.php:311
 msgid "Save"
 msgstr "Guardar"
 
-#: admin/includes/meta-boxes.php:222 admin/admin.php:207
+#: admin/admin.php:207 admin/includes/meta-boxes.php:222
 msgid "Last name"
 msgstr "Apellido"
 
-#: admin/includes/meta-boxes.php:217 admin/admin.php:206
+#: admin/admin.php:206 admin/includes/meta-boxes.php:217
 msgid "First name"
 msgstr "Nombre"
 
-#: admin/includes/meta-boxes.php:212 admin/admin.php:205
+#: admin/admin.php:205 admin/includes/meta-boxes.php:212
 msgid "Full name"
 msgstr "Nombre completo"
 
-#: admin/includes/class-contacts-list-table.php:12 admin/admin.php:204
+#: admin/admin.php:204 admin/includes/class-contacts-list-table.php:12
 msgid "Email"
 msgstr "Correo electrónico"
 
@@ -477,8 +483,8 @@ msgstr "Contacto actualizado."
 msgid "Inbound Messages"
 msgstr "Mensajes entrantes"
 
-#: includes/class-inbound-message.php:29 admin/includes/privacy.php:13
-#: admin/admin.php:29
+#: admin/admin.php:29 admin/includes/privacy.php:13
+#: includes/class-inbound-message.php:29
 msgid "Flamingo Inbound Messages"
 msgstr "Mensajes entrantes de Flamingo"
 
@@ -491,7 +497,7 @@ msgstr "Libreta de direcciones"
 msgid "Flamingo"
 msgstr "Flamingo"
 
-#: admin/includes/privacy.php:9 admin/admin.php:14 admin/admin.php:21
-#: admin/admin.php:323
+#: admin/admin.php:14 admin/admin.php:21 admin/admin.php:323
+#: admin/includes/privacy.php:9
 msgid "Flamingo Address Book"
 msgstr "Libreta de direcciones de Flamingo"

@@ -33,7 +33,7 @@ if ( current_user_can( 'manage_options' ) ) {
 				'slug'      => 'porto-functionality',
 				'source'    => PORTO_PLUGINS . '/porto-functionality.zip',
 				'required'  => true,
-				'version'   => '1.5.1',
+				'version'   => '1.5.2',
 				'url'       => 'porto-functionality/porto-functionality.php',
 				'image_url' => PORTO_PLUGINS_URI . '/images/porto_functionality.png',
 			),

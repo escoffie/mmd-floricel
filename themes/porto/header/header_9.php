@@ -7,9 +7,6 @@ global $porto_settings, $porto_layout;
 			<div class="container">
 				<div class="header-left">
 					<?php
-					// show social links
-					echo porto_header_socials();
-
 					// show currency and view switcher
 					$currency_switcher = porto_currency_switcher();
 					$view_switcher     = porto_view_switcher();
@@ -45,6 +42,15 @@ global $porto_settings, $porto_layout;
 					}
 
 					echo porto_filter_output( $top_nav );
+
+					// show social links
+					$social_links = porto_header_socials();
+					if ( $social_links ) {
+						if ( $top_nav ) {
+							echo '<span class="gap">|</span>';
+						}
+						echo porto_filter_output( $social_links );
+					}
 					?>
 				</div>
 			</div>
@@ -52,8 +58,9 @@ global $porto_settings, $porto_layout;
 	<?php endif; ?>
 
 	<div class="header-main">
-		<div class="container">
+		<div class="container header-row">
 			<div class="header-left">
+				<a class="mobile-toggle"><i class="fas fa-bars"></i></a>
 				<?php
 				// show logo
 				echo porto_logo();
@@ -66,10 +73,9 @@ global $porto_settings, $porto_layout;
 
 				// show mobile toggle
 				?>
-				<a class="mobile-toggle"><i class="fas fa-bars"></i></a>
 			</div>
 			<div class="header-right">
-				<div>
+				<div class="header-minicart">
 					<?php
 					// show contact info and mini cart
 					$contact_info = $porto_settings['header-contact-info'];

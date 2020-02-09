@@ -1,8 +1,6 @@
 /* Visual Composer Single Image */
 div.wpb_single_image {
     .vc_single_image-wrapper {
-        display: inline-block;
-        max-width: 100%;
         &.vc_box_border,
         &.vc_box_outline,
         &.vc_box_shadow_border {
@@ -57,10 +55,9 @@ div.wpb_single_image {
                 z-index: 2;
             }
             &:after {
-                @include transition(all 0.2s);
+                @include transition(all .2s);
                 font-family: "Font Awesome 5 Free";
                 font-weight: 900;
-                -webkit-font-smoothing: antialiased;
                 color: #fff;
                 content: $fa-var-search-plus;
                 font-size: 30px;
@@ -101,7 +98,6 @@ div.wpb_single_image {
             &:before {
                 font-family: "Font Awesome 5 Free";
                 font-weight: 900;
-                -webkit-font-smoothing: antialiased;
                 content: $fa-var-search;
             }
         }

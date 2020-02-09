@@ -3,8 +3,8 @@ Contributors: britner
 Tags: gutenberg, blocks, page builder, google fonts, dual buttons, svg icons, editor width,
 Donate link: https://www.kadencewp.com/about-us/
 Requires at least: 5.2
-Tested up to: 5.3.0
-Stable tag: 1.7.7
+Tested up to: 5.3.2
+Stable tag: 1.7.17
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -86,6 +86,71 @@ Install the plugin into the `/wp-content/plugins/` folder, and activate it.
 6. Editor Width settings inside Gutenberg
 
 == Changelog ==
+
+= 1.7.17 =
+* Clean up editor column padding for Gutenberg 7.3
+* Move attribute blockAlignment to align for better gutenberg support.
+* Add: Open in new tab for galleries with media file link.
+* Add: Mobile Collapse Option for Fullwidth Buttons.
+
+= 1.7.16 =
+* Fix: Bug in Firefox with Icon Flip.
+* Fix: Possible issue with Gallery not rendering.
+* Tweak: Styling in Row layout for inside column alignment.
+* Fix: More admin CSS for Gutenberg 7.2.
+* Add: InfoBox text Padding and Margin.
+* Add: Background Video URL input for when you want to use from another source.
+* Add: Margin Controls for desk, tablet and mobile for form submit. 
+
+= 1.7.15 =
+* Fix: Update issue.
+
+= 1.7.14 =
+* Update: CSS for Gutenberg 7.2.
+* Update: Form, fix issue with sendgrid when using WP Mail SMTP
+
+= 1.7.13 =
+* Fix: Small Bug in accordion tag not sticking.
+* Fix: Small Bug in form block gradient button background.
+* Update: Tweak css for old versions of safari.
+* Update: Add margin control for infobox Container.
+
+= 1.7.12 =
+* Fix: Small Bug in icon rendering.
+
+= 1.7.11 =
+* Update: Add sponsored attribute to buttons.
+* Update: Add hover color for Icon block.
+* Update: Divider Block, add stripes option.
+* Update: Fix form block button border radius 0 issue.
+
+= 1.7.10 =
+* Update: Margin range for advanced heading.
+* Add: rem to font size.
+* Add: Row layout padding unit options.
+* Add: rem to row layout margins.
+* Add: Filter for settings capabilities.
+* Update: Form to allow sending to multiple email accounts.
+* Update: Icons add filter for custom icons.
+* Update: Infobox, Add max width.
+* Add: Option to copy and Paste styles from info box to info box.
+* Fix: Bug where accordion animation could be off.
+
+= 1.7.9 =
+* Update: Recaptcha so multiple can be on the same page.
+* Update: Tabs block for better accessibility.
+* Add: Visibility and default options for columns.
+* Add: Basic layout section for row block Visibility.
+* Add: Form block submission results filter.
+* Update: Better AMP support for scripts.
+
+= 1.7.8 =
+* Fix: Tablet Padding not keeping 0.
+* Add: Make form honey pot optional.
+* Fix: Issue with settings modal save button color.
+* Fix: visibility settings not always saving correctly if more then one block set at a time.
+* Update: Recaptcha so multiple can be on the same page.
+* Update: Add all sizes for gallery image settings.
 
 = 1.7.7 =
 * Fix: Mobile Background video not filling height.

@@ -5,20 +5,20 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Define variables
  */
-define( 'PORTO_LIB', get_parent_theme_file_path() . '/inc' );       // library directory
+define( 'PORTO_LIB', get_parent_theme_file_path() . '/inc' );     // library directory
 define( 'PORTO_ADMIN', PORTO_LIB . '/admin' );                    // admin directory
-define( 'PORTO_PLUGINS', PORTO_LIB . '/plugins' );                  // plugins directory
-define( 'PORTO_CONTENT_TYPES', PORTO_LIB . '/content_types' );            // content_types directory
-define( 'PORTO_MENU', PORTO_LIB . '/menu' );                     // menu directory
-define( 'PORTO_FUNCTIONS', PORTO_LIB . '/functions' );                // functions directory
-define( 'PORTO_OPTIONS_DIR', PORTO_ADMIN . '/theme_options' );          // options directory
-define( 'PORTO_DIR', get_parent_theme_file_path() );                // template directory
-define( 'PORTO_URI', get_parent_theme_file_uri() );            // template directory uri
-define( 'PORTO_CSS', PORTO_URI . '/css' );                      // css uri
-define( 'PORTO_JS', PORTO_URI . '/js' );                       // javascript uri
-define( 'PORTO_PLUGINS_URI', PORTO_URI . '/inc/plugins' );              // plugins uri
-define( 'PORTO_OPTIONS_URI', PORTO_URI . '/inc/admin/theme_options' );  // theme options uri
-define( 'PORTO_LIB_URI', PORTO_URI . '/inc/lib' );                  // library uri
+define( 'PORTO_PLUGINS', PORTO_LIB . '/plugins' );                // plugins directory
+define( 'PORTO_CONTENT_TYPES', PORTO_LIB . '/content_types' );    // content_types directory
+define( 'PORTO_MENU', PORTO_LIB . '/menu' );                      // menu directory
+define( 'PORTO_FUNCTIONS', PORTO_LIB . '/functions' );            // functions directory
+define( 'PORTO_OPTIONS_DIR', PORTO_ADMIN . '/theme_options' );    // options directory
+define( 'PORTO_DIR', get_parent_theme_file_path() );              // template directory
+define( 'PORTO_URI', get_parent_theme_file_uri() );               // template directory uri
+define( 'PORTO_CSS', PORTO_URI . '/css' );                        // css uri
+define( 'PORTO_JS', PORTO_URI . '/js' );                          // javascript uri
+define( 'PORTO_PLUGINS_URI', PORTO_URI . '/inc/plugins' );             // plugins uri
+define( 'PORTO_OPTIONS_URI', PORTO_URI . '/inc/admin/theme_options' ); // theme options uri
+define( 'PORTO_LIB_URI', PORTO_URI . '/inc/lib' );                     // library uri
 $theme_version = '';
 $theme         = wp_get_theme();
 if ( is_child_theme() ) {
@@ -232,24 +232,27 @@ function porto_google_webfont_loader() {
 
 	global $porto_settings;
 
-	$gfont        = array();
-	$gfont_weight = array( 200, 300, 400, 700, 800 );
-	$fonts        = porto_settings_google_fonts();
-	foreach ( $fonts as $option ) {
+	$gfont = array();
+	$fonts = porto_settings_google_fonts();
+	foreach ( $fonts as $option => $weights ) {
 		if ( isset( $porto_settings[ $option . '-font' ]['google'] ) && 'false' !== $porto_settings[ $option . '-font' ]['google'] ) {
-			$font        = isset( $porto_settings[ $option . '-font' ]['font-family'] ) ? urlencode( $porto_settings[ $option . '-font' ]['font-family'] ) : '';
-			$font_weight = isset( $porto_settings[ $option . '-font' ]['font-weight'] ) ? $porto_settings[ $option . '-font' ]['font-weight'] : '';
-			if ( $font && ! in_array( $font, $gfont ) ) {
-				$gfont[] = $font;
-			}
-			if ( $font_weight && ! in_array( $font_weight, $gfont_weight ) ) {
-				$gfont_weight[] = $font_weight;
+			$font = isset( $porto_settings[ $option . '-font' ]['font-family'] ) ? urlencode( $porto_settings[ $option . '-font' ]['font-family'] ) : '';
+			if ( $font ) {
+				$font_weight = isset( $porto_settings[ $option . '-font' ]['font-weight'] ) ? $porto_settings[ $option . '-font' ]['font-weight'] : '';
+				if ( $font_weight && ! in_array( $font_weight, $weights ) ) {
+					$weights[] = $font_weight;
+				}
+				if ( isset( $gfont[ $font ] ) ) {
+					foreach ( $gfont[ $font ] as $w ) {
+						if ( ! in_array( $w, $weights ) ) {
+							$weights[] = $w;
+						}
+					}
+				}
+				$gfont[ $font ] = $weights;
 			}
 		}
 	}
-
-	// font weight
-	$gfont_weight = implode( ',', $gfont_weight );
 
 	// charset
 	$charsets = array();
@@ -266,8 +269,9 @@ function porto_google_webfont_loader() {
 	}
 
 	$font_family_arr = array();
-	foreach ( $gfont as $font ) {
-		$font_family_arr[] = "'" . str_replace( ' ', '+', $font ) . ':' . $gfont_weight . ( $subsets ? ':' . $subsets : '' ) . "'";
+	foreach ( $gfont as $font => $weights ) {
+		sort( $weights );
+		$font_family_arr[] = "'" . esc_js( str_replace( ' ', '+', $font ) . ( empty( $weights ) ? '' : ':' . implode( ',', $weights ) ) . ( $subsets ? ':' . $subsets : '' ) ) . "'";
 		$subsets           = '';
 	}
 	if ( ! empty( $font_family_arr ) ) {
@@ -476,26 +480,32 @@ function porto_css() {
 if ( ! function_exists( 'porto_include_google_font' ) ) :
 	function porto_include_google_font() {
 		global $porto_settings;
-		$gfont        = array();
-		$gfont_weight = array( 200, 300, 400, 700, 800 );
-		$fonts        = porto_settings_google_fonts();
-		foreach ( $fonts as $option ) {
+		$gfont = array();
+		$fonts = porto_settings_google_fonts();
+		foreach ( $fonts as $option => $weights ) {
 			if ( isset( $porto_settings[ $option . '-font' ]['google'] ) && 'false' !== $porto_settings[ $option . '-font' ]['google'] ) {
-				$font        = isset( $porto_settings[ $option . '-font' ]['font-family'] ) ? urlencode( $porto_settings[ $option . '-font' ]['font-family'] ) : '';
-				$font_weight = isset( $porto_settings[ $option . '-font' ]['font-weight'] ) ? $porto_settings[ $option . '-font' ]['font-weight'] : '';
-				if ( $font && ! in_array( $font, $gfont ) ) {
-					$gfont[] = $font;
-				}
-				if ( $font_weight && ! in_array( $font_weight, $gfont_weight ) ) {
-					$gfont_weight[] = $font_weight;
+				$font = isset( $porto_settings[ $option . '-font' ]['font-family'] ) ? urlencode( $porto_settings[ $option . '-font' ]['font-family'] ) : '';
+				if ( $font ) {
+					$font_weight = isset( $porto_settings[ $option . '-font' ]['font-weight'] ) ? $porto_settings[ $option . '-font' ]['font-weight'] : '';
+					if ( $font_weight && ! in_array( $font_weight, $weights ) ) {
+						$weights[] = $font_weight;
+					}
+					if ( isset( $gfont[ $font ] ) ) {
+						foreach ( $gfont[ $font ] as $w ) {
+							if ( ! in_array( $w, $weights ) ) {
+								$weights[] = $w;
+							}
+						}
+					}
+					$gfont[ $font ] = $weights;
 				}
 			}
 		}
-		$gfont_weight    = implode( ',', $gfont_weight );
 		$font_family     = '';
 		$font_family_arr = array();
-		foreach ( $gfont as $font ) {
-			$font_family_arr[] = str_replace( ' ', '+', $font ) . ':' . $gfont_weight;
+		foreach ( $gfont as $font => $weights ) {
+			sort( $weights );
+			$font_family_arr[] = str_replace( ' ', '+', $font ) . ( empty( $weights ) ? '' : ':' . implode( ',', $weights ) );
 		}
 		if ( ! empty( $font_family_arr ) ) {
 			$font_family = implode( '%7C', $font_family_arr );

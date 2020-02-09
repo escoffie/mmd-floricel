@@ -19,10 +19,7 @@
     line-height: 1;
     position: relative;
     width: 100%;
-    iframe {
+    iframe, .wp-video {
         width: 100% !important;
-    }
-    .wp-video {
-        max-width: 100%;
     }
 }

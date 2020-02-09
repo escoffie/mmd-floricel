@@ -242,7 +242,6 @@
         padding: 0 2em;
         overflow: hidden;
         margin: side-values(0 4px 5px 0);
-        -webkit-font-smoothing: antialiased;
         &:before {
             display: inline-block;
             content: "\e8ba";
@@ -563,7 +562,7 @@ div.products {
             padding: 4px 7px;
             @include user-select(none);
             &:before {
-                font-family: 'Font Awesome 5 Free'; font-weight: 900; -webkit-font-smoothing: antialiased;
+                font-family: 'Font Awesome 5 Free'; font-weight: 900;
                 position: relative;
                 top: 0;
             }
@@ -1010,7 +1009,7 @@ h2.resp-accordion {
     .chosen, .active {
         .filter-color:before {
             content: '\f00c';
-            font-family: 'Font Awesome 5 Free'; font-weight: 900; -webkit-font-smoothing: antialiased;
+            font-family: 'Font Awesome 5 Free'; font-weight: 900;
             text-indent: 0;
             position: absolute;
             left: 0;

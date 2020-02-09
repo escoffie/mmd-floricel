@@ -2150,7 +2150,7 @@ function porto_header_socials() {
 function porto_minicart() {
 	global $woocommerce, $porto_settings;
 
-	if ( ! $porto_settings['show-minicart'] ) {
+	if ( 'none' == $porto_settings['minicart-type'] ) {
 		return '';
 	}
 
@@ -2166,13 +2166,19 @@ function porto_minicart() {
 
 	ob_start();
 	if ( class_exists( 'Woocommerce' ) || ( defined( 'PORTO_DEMO' ) && PORTO_DEMO ) ) :
+		$icon_class = 'minicart-icon';
+		if ( empty( $porto_settings['minicart-icon'] ) ) {
+			$icon_class .= ' porto-icon-bag-2';
+		} else {
+			$icon_class .= ' ' . trim( $porto_settings['minicart-icon'] );
+		}
 		?>
 		<div id="mini-cart" class="mini-cart <?php echo esc_attr( $minicart_type ); ?>">
 			<div class="cart-head">
 			<?php
 			if ( 'minicart-inline' == $minicart_type ) {
 				/* translators: %s: Cart quantity */
-				$format = '<span class="cart-icon"><i class="minicart-icon"></i><span class="cart-items">%s</span></span><span class="cart-subtotal">' . esc_html__( 'Cart %s', 'porto' ) . '</span>';
+				$format = '<span class="cart-icon"><i class="' . esc_attr( $icon_class ) . '"></i><span class="cart-items">%s</span></span><span class="cart-subtotal">' . esc_html__( 'Cart %s', 'porto' ) . '</span>';
 				if ( defined( 'WP_CACHE' ) && WP_CACHE ) {
 					$_cart_qty   = '<i class="fas fa-spinner fa-pulse"></i>';
 					$_cart_total = $_cart_qty;
@@ -2182,7 +2188,7 @@ function porto_minicart() {
 				}
 				printf( $format, $_cart_qty, $_cart_total );
 			} else {
-				$format = '<span class="cart-icon"><i class="minicart-icon"></i><span class="cart-items">%s</span></span><span class="cart-items-text">%s</span>';
+				$format = '<span class="cart-icon"><i class="' . esc_attr( $icon_class ) . '"></i><span class="cart-items">%s</span></span><span class="cart-items-text">%s</span>';
 				if ( ! class_exists( 'Woocommerce' ) && defined( 'PORTO_DEMO' ) && PORTO_DEMO ) {
 					$_cart_qty  = 1;
 					$_cart_qty1 = 1;

@@ -18,16 +18,20 @@
         margin: 0;
         min-height: inherit;
         object-fit: cover;
-        transition: transform .5s, opacity .5s
+        transition: transform .5s, opacity .5s;
+        &.porto-lazyload:not(.lazy-load-loaded) {
+            visibility: hidden;
+        }
+    }
+    .video-overlay {
+        display: none;
+    }
+    &.section-video {
+        padding: 0;
+        max-width: 100%;
+        min-width: auto;
     }
 
-    &.img-absolute > img {
-        position: absolute;
-        top: 0;
-        left: 0;
-        height: 100%;
-        min-height: auto;
-    }
     &.has-parallax-bg {
         > img {
             opacity: 0;
@@ -58,8 +62,9 @@
     &.no-padding {
         padding: 0;
     }
-    > .container {
+    .porto-ibanner-container {
         position: relative;
+        height: 100%;
     }
     &:before, &:after {
         pointer-events: none

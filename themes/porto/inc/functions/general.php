@@ -574,7 +574,27 @@ endif;
 
 if ( ! function_exists( 'porto_settings_google_fonts' ) ) :
 	function porto_settings_google_fonts() {
-		return array( 'body', 'alt', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'paragraph', 'footer', 'footer-heading', 'shortcode-testimonial', 'menu', 'menu-side', 'menu-popup', 'add-to-cart', 'custom1', 'custom2', 'custom3' );
+		return array(
+			'body'                  => array( 400, 500, 600, 700 ),
+			'alt'                   => array( 400, 700 ),
+			'h1'                    => array( 200, 300, 400, 600, 700, 800 ),
+			'h2'                    => array( 200, 300, 400, 500, 600, 700, 800 ),
+			'h3'                    => array( 200, 300, 400, 500, 600, 700, 800 ),
+			'h4'                    => array( 200, 300, 400, 500, 600, 700, 800 ),
+			'h5'                    => array( 200, 300, 400, 500, 600, 700, 800 ),
+			'h6'                    => array( 200, 300, 400, 500, 600, 700, 800 ),
+			'paragraph'             => array( 400, 600, 700 ),
+			'footer'                => array( 400, 600, 700 ),
+			'footer-heading'        => array( 200, 300, 400, 500, 600, 700, 800 ),
+			'shortcode-testimonial' => array( 400, 700 ),
+			'menu'                  => array(),
+			'menu-side'             => array(),
+			'menu-popup'            => array(),
+			'add-to-cart'           => array( 400, 600, 700 ),
+			'custom1'               => array( 400, 600, 700 ),
+			'custom2'               => array( 400, 600, 700 ),
+			'custom3'               => array( 400, 600, 700 ),
+		);
 	}
 endif;
 

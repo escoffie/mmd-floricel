@@ -17,7 +17,6 @@
             outline: medium none;
             margin-top: 0;
             margin-bottom: 0;
-            line-height: 24px;
             font-family: inherit;
             font-size: inherit;
 
@@ -239,11 +238,13 @@
         margin: 0;
         z-index: 111;
         min-width: 100%;
+        line-height: 20px;
 
         ul.sub-menu {
             position: relative;
         }
         li.menu-item {
+            line-height: inherit;
             padding: 0;
 
             > a {
@@ -278,41 +279,40 @@
                     padding: 0;
                 }
             }
+        }
 
-            li.menu-item {
-                > a.has-preview {
-                    display: inline-block;
+        li.menu-item {
+            > a.has-preview {
+                display: inline-block;
+            }
+        }
+
+        li.sub {
+            padding: 15px 15px 10px;
+
+            > a {
+                font-size: 1em;
+                font-weight: 600;
+                padding-bottom: 5px;
+            }
+
+            ul.sub-menu {
+                padding-bottom: 5px;
+                ul.sub-menu {
+                    padding-bottom: 0;
                 }
             }
 
-            li.sub {
-                padding: 15px 15px 10px;
-
+            li.menu-item {
                 > a {
-                    font-size: 1em;
-                    font-weight: 600;
-                    padding-bottom: 5px;
+                    margin-#{$left}: -8px;
+                    padding: 7px 8px;
+                    font-size: .9em;
+                    font-weight: normal;
                 }
 
-                ul.sub-menu {
-                    padding-bottom: 5px;
-                    ul.sub-menu {
-                        padding-bottom: 0;
-                    }
-                }
-
-                li.menu-item {
-                    > a {
-                        margin-#{$left}: -8px;
-                        padding: 7px 8px;
-                        font-size: .9em;
-                        line-height: 20px;
-                        font-weight: normal;
-                    }
-
-                    > ul.sub-menu {
-                        padding-#{$left}: 10px;
-                    }
+                > ul.sub-menu {
+                    padding-#{$left}: 10px;
                 }
             }
         }
@@ -344,7 +344,6 @@
                 font-weight: 400;
                 padding: 8px 18px;
                 font-size: .9em;
-                line-height: 18px;
                 border-bottom: 1px solid rgba(255, 255, 255, .2);
                 white-space: nowrap;
             }

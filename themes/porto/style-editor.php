@@ -197,7 +197,7 @@ body .editor-styles-wrapper p {
 .editor-styles-wrapper .wp-block-latest-posts li { padding: 6px 0 6px 15px; margin-bottom: 0; }
 .editor-styles-wrapper .wp-block-categories > ul li:before,
 .editor-styles-wrapper .wp-block-archives-list li:before,
-.editor-styles-wrapper .wp-block-latest-posts li:before { content: '\f054'; font-family: 'Font Awesome 5 Free'; font-weight: 900; -webkit-font-smoothing: antialiased; margin-<?php echo porto_filter_output( $left_escaped ); ?>: -11px; margin-<?php echo porto_filter_output( $right_escaped ); ?>: 6px; font-size: .45rem; opacity: .7; vertical-align: middle; }
+.editor-styles-wrapper .wp-block-latest-posts li:before { content: '\f054'; font-family: 'Font Awesome 5 Free'; font-weight: 900; margin-<?php echo porto_filter_output( $left_escaped ); ?>: -11px; margin-<?php echo porto_filter_output( $right_escaped ); ?>: 6px; font-size: .45rem; opacity: .7; vertical-align: middle; }
 .editor-styles-wrapper .wp-block-categories,
 .editor-styles-wrapper .wp-block-categories ul,
 .editor-styles-wrapper ul.wp-block-archives-list,

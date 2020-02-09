@@ -57,10 +57,10 @@ $screen-small: "(max-width: 575px)";
 // Box Shadows
 // =============================================================================
 $wrapper-shadow: 0 0 4px rgba(0, 0, 0, 0.15);
-$menu-wide-box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
-$menu-narrow-box-shadow: 0 5px 8px rgba(0, 0, 0, 0.15);
-$sidebarmenu-wide-box-shadow: 0 0 25px rgba(0, 0, 0, 0.15);
-$sidebarmenu-narrow-box-shadow: 0 0 3px rgba(0, 0, 0, 0.15);
+$menu-wide-box-shadow: 0 10px 25px rgba(0, 0, 0, .15);
+$menu-narrow-box-shadow: 0 5px 8px rgba(0, 0, 0, .15);
+$sidebarmenu-wide-box-shadow: 0 0 25px rgba(0, 0, 0, .15);
+$sidebarmenu-narrow-box-shadow: 0 0 12px rgba(0, 0, 0, .1);
 
 $form-box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.04);
 $table-box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.04);
