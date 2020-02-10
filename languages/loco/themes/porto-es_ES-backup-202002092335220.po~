@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Porto\n"
 "POT-Creation-Date: 2019-11-12 22:13+0800\n"
-"PO-Revision-Date: 2020-02-09 22:15+0000\n"
+"PO-Revision-Date: 2020-02-09 23:33+0000\n"
 "Last-Translator: escoffie <bernardoescoffie@gmail.com>\n"
 "Language-Team: Español\n"
 "Language: es_ES\n"
@@ -44,7 +44,7 @@ msgstr ""
 #: inc/lib/porto-studio/blocks.tpl.php:44 taxonomy-faq_cat.php:70
 #: taxonomy-portfolio_cat.php:99
 msgid "Show All"
-msgstr ""
+msgstr "Mostrar todo"
 
 #: archive-member.php:42 taxonomy-member_cat.php:35
 #, php-format
@@ -2693,7 +2693,7 @@ msgstr ""
 #: inc/admin/theme_options/settings.php:4825
 #: inc/admin/theme_options/settings.php:5078 woocommerce/loop/pagination.php:27
 msgid "Show"
-msgstr ""
+msgstr "Mostrar"
 
 #: inc/admin/theme_options/settings.php:135
 #: inc/admin/theme_options/settings.php:3067
@@ -4972,7 +4972,7 @@ msgstr ""
 #: inc/admin/theme_options/settings.php:4966
 #: inc/admin/theme_options/settings.php:6882
 msgid "Categories"
-msgstr ""
+msgstr "Categorías"
 
 #: inc/admin/theme_options/settings.php:4270
 #: inc/admin/theme_options/settings.php:6883
@@ -6885,14 +6885,14 @@ msgstr ""
 #: inc/functions/layout.php:1440 inc/functions/layout.php:1721
 #: inc/functions/layout.php:1829
 msgid "Log out"
-msgstr ""
+msgstr "Cerrar sesión"
 
 #: inc/functions/layout.php:825 inc/functions/layout.php:896
 #: inc/functions/layout.php:1141 inc/functions/layout.php:1145
 #: inc/functions/layout.php:1459 inc/functions/layout.php:1740
 #: inc/functions/layout.php:1848
 msgid "Log In"
-msgstr ""
+msgstr "Iniciar Sesión"
 
 #: inc/functions/layout.php:1946 inc/functions/layout.php:2011 searchform.php:6
 #: woocommerce/yith-woocommerce-ajax-search.php:45
@@ -7560,7 +7560,7 @@ msgstr ""
 
 #: inc/functions/shortcodes.php:2682
 msgid "Track Color"
-msgstr ""
+msgstr "Elegir color"
 
 #: inc/functions/shortcodes.php:2689
 msgid ""
@@ -8013,6 +8013,8 @@ msgid ""
 "Sorry, no products matched your selection. Please choose a different "
 "combination."
 msgstr ""
+"Disculpa, no se encontraron productos con tu selección. Elige una "
+"combinación diferente."
 
 #: inc/functions/woocommerce.php:461
 msgid "Select product options before adding this product to your cart."
@@ -8022,6 +8024,7 @@ msgstr ""
 msgid ""
 "Sorry, this product is unavailable. Please choose a different combination."
 msgstr ""
+"Disculpa, este producto no está disponible. Elige una combinación diferente."
 
 #: inc/functions/woocommerce.php:767
 msgid "Availability"
@@ -8163,7 +8166,7 @@ msgstr ""
 
 #: inc/functions/woocommerce.php:1681
 msgid "Login successful, redirecting..."
-msgstr ""
+msgstr "Inicio de sesión exitoso. Redirigiendo..."
 
 #: inc/functions/woocommerce.php:1691
 msgid "Wrong username or password."
@@ -8357,7 +8360,7 @@ msgstr ""
 #: inc/plugins/importer/wordpress-importer.php:279
 #: inc/plugins/importer/wordpress-importer.php:289
 msgid "Sorry, there has been an error."
-msgstr ""
+msgstr "Disculpa, ha ocurrido un error."
 
 #: inc/plugins/importer/porto-wordpress-importer.php:321
 #: inc/plugins/importer/wordpress-importer.php:205
@@ -8428,7 +8431,7 @@ msgstr ""
 #: inc/plugins/importer/porto-wordpress-importer.php:510
 #: inc/plugins/importer/wordpress-importer.php:399
 msgid "or create new user with login name:"
-msgstr ""
+msgstr "o crea un nuevo usuario con un nombre de inicio:"
 
 #: inc/plugins/importer/porto-wordpress-importer.php:513
 #: inc/plugins/importer/wordpress-importer.php:402
@@ -9123,7 +9126,7 @@ msgstr ""
 
 #: woocommerce/cart/cart-shipping.php:31
 msgid "ESTIMATE SHIPPING AND TAX"
-msgstr ""
+msgstr "Envío e impuestos estimados"
 
 #: woocommerce/cart/cart-shipping.php:56 woocommerce/cart/cart-shipping.php:111
 #, php-format
@@ -9159,7 +9162,7 @@ msgstr ""
 
 #: woocommerce/cart/cart-totals-v1.php:17
 msgid "Cart totals"
-msgstr ""
+msgstr "Total del carrito"
 
 #: woocommerce/cart/cart-totals-v1.php:20
 #: woocommerce/cart/cart-totals-v2.php:24 woocommerce/cart/cart-v1.php:22
@@ -9185,7 +9188,7 @@ msgstr "(estimado para %s)"
 #: woocommerce/checkout/review-order.php:98
 #: woocommerce/myaccount/my-orders.php:21
 msgid "Total"
-msgstr ""
+msgstr "Total"
 
 #: woocommerce/cart/cart-totals-v1.php:84
 #: woocommerce/cart/cart-totals-v2.php:82
@@ -9200,34 +9203,37 @@ msgid ""
 "Note: Shipping and taxes are estimated%s and will be updated during checkout "
 "based on your billing and shipping information."
 msgstr ""
+"Nota: Los montos del envío y de los impuestos son estimados%s y se "
+"actualizan durante el proceso de checkout con base en tu información de pago "
+"y envío."
 
 #: woocommerce/cart/cart-totals-v2.php:19
 msgid "CART TOTALS"
-msgstr ""
+msgstr "TOTAL DEL CARRITO"
 
 #: woocommerce/cart/cart-totals-v2.php:72
 msgid "Grand Total"
-msgstr ""
+msgstr "Gran Total"
 
 #: woocommerce/cart/cart-totals-v2.php:89
 #: woocommerce/cart/proceed-to-checkout-button.php:27
 msgid "Proceed to checkout"
-msgstr ""
+msgstr "Proceder al Checkout"
 
 #: woocommerce/cart/cart-v1.php:19 woocommerce/cart/cart-v2.php:27
 #: woocommerce/wishlist-view.php:59
 msgid "Product Name"
-msgstr ""
+msgstr "Nombre del Producto"
 
 #: woocommerce/cart/cart-v1.php:20 woocommerce/cart/cart-v2.php:28
 #: woocommerce/wishlist-view.php:65
 msgid "Unit Price"
-msgstr ""
+msgstr "Precio Unitario"
 
 #: woocommerce/cart/cart-v1.php:21 woocommerce/cart/cart-v2.php:29
 #: woocommerce/checkout/form-pay.php:22
 msgid "Qty"
-msgstr ""
+msgstr "Cantidad"
 
 #: woocommerce/cart/cart-v1.php:41 woocommerce/cart/cart-v2.php:50
 #: woocommerce/cart/mini-cart.php:74
@@ -9248,23 +9254,23 @@ msgstr ""
 
 #: woocommerce/cart/cart-v1.php:115 woocommerce/checkout/form-coupon.php:50
 msgid "Apply Coupon"
-msgstr ""
+msgstr "Aplicar cupón"
 
 #: woocommerce/cart/cart-v1.php:120 woocommerce/cart/cart-v2.php:152
 msgid "Update Cart"
-msgstr ""
+msgstr "Actualizar carrito"
 
 #: woocommerce/cart/cart-v2.php:12
 msgid "Shopping Cart"
-msgstr ""
+msgstr "Carrito de Compra"
 
 #: woocommerce/cart/cart-v2.php:13
 msgid "Proceed to Checkout"
-msgstr ""
+msgstr "Proceder al Checkout"
 
 #: woocommerce/cart/cart-v2.php:126 woocommerce/checkout/form-coupon.php:27
 msgid "DISCOUNT CODE"
-msgstr ""
+msgstr "CÓDIGO DE DESCUENTO"
 
 #: woocommerce/cart/cart-v2.php:131
 msgid "Enter your coupon code if you have one:"
@@ -9272,11 +9278,11 @@ msgstr ""
 
 #: woocommerce/cart/cart-v2.php:133
 msgid "Apply coupon"
-msgstr ""
+msgstr "Aplicar cupón"
 
 #: woocommerce/cart/cart-v2.php:151
 msgid "Continue Shopping"
-msgstr ""
+msgstr "Seguir comprando"
 
 #: woocommerce/cart/cross-sells.php:16
 msgid "You may be interested in&hellip;"
@@ -9326,15 +9332,15 @@ msgstr ""
 #: woocommerce/cart/shipping-calculator.php:83
 #: woocommerce/checkout/payment.php:48
 msgid "Update totals"
-msgstr ""
+msgstr "Actualizar totales"
 
 #: woocommerce/checkout/form-billing.php:26
 msgid "Billing &amp; Shipping"
-msgstr ""
+msgstr "Facturación y envío"
 
 #: woocommerce/checkout/form-billing.php:30
 msgid "Billing details"
-msgstr ""
+msgstr "Detalles de facturación"
 
 #: woocommerce/checkout/form-billing.php:58
 msgid "Create an account?"
@@ -9346,11 +9352,11 @@ msgstr "Tu pedido"
 
 #: woocommerce/checkout/form-checkout-v2.php:45
 msgid "Order Review"
-msgstr ""
+msgstr "Revisar la orden"
 
 #: woocommerce/checkout/form-checkout.php:18
 msgid "You must be logged in to checkout."
-msgstr ""
+msgstr "Tienes que iniciar sesión para proceder al checkout."
 
 #: woocommerce/checkout/form-coupon.php:32
 msgid "Have a coupon?"
@@ -9362,7 +9368,7 @@ msgstr ""
 
 #: woocommerce/checkout/form-coupon.php:43
 msgid "If you have a coupon code, please apply it below."
-msgstr ""
+msgstr "Si tienes un código de cupón, aplícalo aquí abajo."
 
 #: woocommerce/checkout/form-login.php:32
 msgid "Returning customer?"
@@ -9373,17 +9379,19 @@ msgstr ""
 #: woocommerce/myaccount/form-lost-password.php:78
 #: woocommerce/myaccount/form-reset-password.php:36
 msgid "Click here to login"
-msgstr ""
+msgstr "Haz clic aquí para iniciar sesión"
 
 #: woocommerce/checkout/form-login.php:40
 msgid ""
 "If you have shopped with us before, please enter your details below. If you "
 "are a new customer, please proceed to the Billing &amp; Shipping section."
 msgstr ""
+"Si has comprado con nosotros antes, por favor, proporciona tus detalles "
+"abajo. Si eres un nuevo cliente, procede a la sección de Facturación y Envío."
 
 #: woocommerce/checkout/form-pay.php:23
 msgid "Totals"
-msgstr ""
+msgstr "Totales"
 
 #: woocommerce/checkout/form-pay.php:89 woocommerce/checkout/form-pay.php:99
 msgid ""
@@ -9421,7 +9429,7 @@ msgstr ""
 
 #: woocommerce/checkout/payment.php:58
 msgid "Grand Total:"
-msgstr ""
+msgstr "Gran Total:"
 
 #: woocommerce/content-product_cat.php:132
 #: woocommerce/content-product_cat.php:155
@@ -9450,11 +9458,11 @@ msgstr ""
 #: woocommerce/global/quantity-input.php:31
 msgctxt "Product quantity input tooltip"
 msgid "Qty"
-msgstr ""
+msgstr "Cantidad"
 
 #: woocommerce/loop/add-to-cart.php:116 woocommerce/loop/add-to-cart.php:123
 msgid "Quick View"
-msgstr ""
+msgstr "Vista rápida"
 
 #: woocommerce/loop/no-products-found.php:12
 msgid "No products were found matching your selection."
@@ -9462,7 +9470,7 @@ msgstr ""
 
 #: woocommerce/loop/orderby.php:15
 msgid "Sort By"
-msgstr ""
+msgstr "Ordenar por"
 
 #: woocommerce/loop/orderby.php:16
 msgid "Shop order"
@@ -9563,7 +9571,7 @@ msgstr ""
 #: woocommerce/myaccount/my-address.php:26
 #: woocommerce/myaccount/my-address.php:36
 msgid "Billing address"
-msgstr ""
+msgstr "Dirección de facturación"
 
 #: woocommerce/myaccount/form-edit-address.php:10
 #: woocommerce/myaccount/my-address.php:27
@@ -9615,7 +9623,7 @@ msgstr ""
 
 #: woocommerce/myaccount/form-register-2.php:39
 msgid "LOGIN INFORMATION"
-msgstr ""
+msgstr "INFORMACIÓN DE INICIO DE SESIÓN"
 
 #: woocommerce/myaccount/form-register-2.php:49
 #: woocommerce/myaccount/form-register.php:45
@@ -9662,6 +9670,9 @@ msgid ""
 "shipping and billing addresses and %1$sedit your password and account "
 "details%2$s."
 msgstr ""
+"Desde el panel de tu cuenta puedes ver tus órdenes recientes,administrar tus "
+"direcciones de envío y facturación y %1$seditar tus detalles de contrasela y "
+"cuenta%2$s."
 
 #: woocommerce/myaccount/my-address.php:22
 msgid "My Addresses"
@@ -9700,7 +9711,7 @@ msgstr ""
 
 #: woocommerce/myaccount/my-orders.php:44
 msgid "Recent Orders"
-msgstr ""
+msgstr "Órdenes recientes"
 
 #: woocommerce/myaccount/my-orders.php:72 woocommerce/myaccount/orders.php:39
 msgctxt "hash before order number"
@@ -9747,7 +9758,7 @@ msgstr ""
 
 #: woocommerce/myaccount/view-order.php:58 woocommerce/order/tracking.php:34
 msgid "Order Updates"
-msgstr ""
+msgstr "Actualizaciones de la orden"
 
 #: woocommerce/myaccount/view-order.php:65 woocommerce/order/tracking.php:40
 msgid "l jS \\o\\f F Y, h:ia"
@@ -9759,6 +9770,9 @@ msgid ""
 "the \"Track\" button. This was given to you on your receipt and in the "
 "confirmation email you should have received."
 msgstr ""
+"Para dar seguimiento a tu orden, proporciona el número de orden (ID) en la "
+"caja de abajo y haz clic en el botón \"Rastrear\". Este número te lo hicimos "
+"llegar en tu recibo y en el correo de confirmación que debiste recibir."
 
 #: woocommerce/order/form-tracking.php:19
 msgid "Order ID"
@@ -9770,7 +9784,7 @@ msgstr ""
 
 #: woocommerce/order/form-tracking.php:20
 msgid "Billing email"
-msgstr ""
+msgstr "Email de facturación"
 
 #: woocommerce/order/form-tracking.php:20
 msgid "Email you used during checkout."
@@ -9778,7 +9792,7 @@ msgstr ""
 
 #: woocommerce/order/form-tracking.php:23
 msgid "Track"
-msgstr ""
+msgstr "Rastrear"
 
 #: woocommerce/order/tracking.php:11
 #, php-format
@@ -9873,6 +9887,8 @@ msgstr "Tu revisión"
 msgid ""
 "Only logged in customers who have purchased this product may leave a review."
 msgstr ""
+"Únicamente usuarios con sesión iniciada que hayan comprado este producto "
+"pueden dejar reviews."
 
 #: woocommerce/single-product/add-to-cart/variable.php:26
 msgid "This product is currently out of stock and unavailable."
@@ -9928,7 +9944,7 @@ msgstr[1] ""
 
 #: woocommerce/single-product/related.php:46
 msgid "Related Products"
-msgstr ""
+msgstr "Productos Relacionados"
 
 #: woocommerce/single-product/review-meta.php:17
 msgid "Your review is awaiting approval"
@@ -9982,7 +9998,7 @@ msgstr ""
 
 #: woocommerce/wishlist-view.php:227
 msgid "Ask for an estimate"
-msgstr ""
+msgstr "Pedir un estimado"
 
 #: woocommerce/yit-pointers.php:74
 msgid "Plugins Activated"
