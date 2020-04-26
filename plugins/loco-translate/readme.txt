@@ -3,8 +3,8 @@ Contributors: timwhitlock
 Tags: translation, translators, localization, localisation, l10n, i18n, Gettext, PO, MO, productivity, multilingual, internationalization
 Requires at least: 4.1
 Requires PHP: 5.2.4
-Tested up to: 5.2.4
-Stable tag: 2.3.1
+Tested up to: 5.4
+Stable tag: 2.3.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -96,6 +96,14 @@ We don't collect your data or snoop on you. See the [plugin privacy notice](http
 
 
 == Changelog ==
+
+= 2.3.3 =
+* Fixed fatal error when class not found
+
+= 2.3.2 =
+* Removed login/email from default Last-Translator credit
+* Bumped WP compatibility to 5.4
+* Fixed PHP 7.4 deprecations
 
 = 2.3.1 =
 * Default POT getter now looks in "lang" directory
@@ -314,7 +322,7 @@ We don't collect your data or snoop on you. See the [plugin privacy notice](http
 
 == Upgrade Notice ==
 
-= 2.3.1 =
+= 2.3.3 =
 * Various bug fixes and improvements
 
 

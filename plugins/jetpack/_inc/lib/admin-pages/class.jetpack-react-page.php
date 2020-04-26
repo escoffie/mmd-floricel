@@ -1,4 +1,5 @@
 <?php
+use Automattic\Jetpack\Constants;
 use Automattic\Jetpack\Status;
 use Automattic\Jetpack\Partner;
 
@@ -170,7 +171,8 @@ class Jetpack_React_Page extends Jetpack_Admin_Page {
 		}
 
 		// Add objects to be passed to the initial state of the app.
-		wp_localize_script( 'react-plugin', 'Initial_State', $this->get_initial_state() );
+		// Use wp_add_inline_script instead of wp_localize_script, see https://core.trac.wordpress.org/ticket/25280.
+		wp_add_inline_script( 'react-plugin', 'var Initial_State=JSON.parse(decodeURIComponent("' . rawurlencode( wp_json_encode( $this->get_initial_state() ) ) . '"));', 'before' );
 	}
 
 	function get_initial_state() {
@@ -222,15 +224,17 @@ class Jetpack_React_Page extends Jetpack_Admin_Page {
 
 		$current_user_data = jetpack_current_user_data();
 
+		$status = new Status();
+
 		return array(
 			'WP_API_root'                 => esc_url_raw( rest_url() ),
 			'WP_API_nonce'                => wp_create_nonce( 'wp_rest' ),
 			'pluginBaseUrl'               => plugins_url( '', JETPACK__PLUGIN_FILE ),
 			'connectionStatus'            => array(
 				'isActive'           => Jetpack::is_active(),
-				'isStaging'          => Jetpack::is_staging_site(),
+				'isStaging'          => $status->is_staging_site(),
 				'devMode'            => array(
-					'isActive' => ( new Status() )->is_development_mode(),
+					'isActive' => $status->is_development_mode(),
 					'constant' => defined( 'JETPACK_DEV_DEBUG' ) && JETPACK_DEV_DEBUG,
 					'url'      => site_url() && false === strpos( site_url(), '.' ),
 					'filter'   => apply_filters( 'jetpack_development_mode', false ),

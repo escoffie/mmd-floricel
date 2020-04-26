@@ -127,25 +127,37 @@ if ( ! class_exists( 'WC_Facebook_Product_Feed' ) ) :
 		}
 
 		public function write_product_feed_file( $wp_ids ) {
+
 			try {
+
 				$feed_file =
 				fopen(
 					dirname( __FILE__ ) . DIRECTORY_SEPARATOR .
 					( self::FACEBOOK_CATALOG_FEED_FILENAME ),
 					'w'
 				);
+
 				fwrite( $feed_file, $this->get_product_feed_header_row() );
 
 				$product_group_attribute_variants = array();
+
 				foreach ( $wp_ids as $wp_id ) {
+
 					$woo_product = new WC_Facebook_Product( $wp_id );
+
 					if ( $woo_product->is_hidden() ) {
 						continue;
 					}
-					if ( get_option( 'woocommerce_hide_out_of_stock_items' ) === 'yes' &&
-					! $woo_product->is_in_stock() ) {
+
+					if ( get_option( 'woocommerce_hide_out_of_stock_items' ) === 'yes' && ! $woo_product->is_in_stock() ) {
 						continue;
 					}
+
+					// skip if not enabled for sync
+					if ( $woo_product->woo_product instanceof \WC_Product && ! \SkyVerge\WooCommerce\Facebook\Products::product_should_be_synced( $woo_product->woo_product ) ) {
+						continue;
+					}
+
 					$product_data_as_feed_row = $this->prepare_product_for_feed(
 						$woo_product,
 						$product_group_attribute_variants
@@ -255,7 +267,7 @@ if ( ! class_exists( 'WC_Facebook_Product_Feed' ) ) :
 			// log simple product
 			if ( ! isset( $product_data['default_product'] ) ) {
 				$this->no_default_product_count++;
-				$product_data['default_product'];
+				$product_data['default_product'] = '';
 			}
 
 			return $product_data['retailer_id'] . ',' .
@@ -364,21 +376,39 @@ if ( ! class_exists( 'WC_Facebook_Product_Feed' ) ) :
 			);
 		}
 
+
+		/**
+		 * Gets the status of the configured feed upload.
+		 *
+		 * The status indicator is one of 'in progress', 'complete', or 'error'.
+		 *
+		 * @param array $settings
+		 * @return string
+		 */
 		public function is_upload_complete( &$settings ) {
 			$result = $this->fbgraph->get_upload_status( $settings['fb_upload_id'] );
 			if ( is_wp_error( $result ) || ! isset( $result['body'] ) ) {
 				 $this->log_feed_progress( json_encode( $result ) );
 				 return 'error';
 			}
-			$decode_result = WC_Facebookcommerce_Utils::decode_json( $result['body'], true );
-			$end_time      = $decode_result['end_time'];
-			if ( isset( $end_time ) ) {
-				$settings['upload_end_time'] = $end_time;
-				return 'complete';
-			} else {
-				return 'in progress';
+
+			$response_body = json_decode( wp_remote_retrieve_body( $result ) );
+			$upload_status = 'error';
+
+			if ( isset( $response_body->end_time ) ) {
+
+				$settings['upload_end_time'] = $response_body->end_time;
+
+				$upload_status = 'complete';
+
+			} else if ( 200 === (int) wp_remote_retrieve_response_code( $result ) ) {
+
+				$upload_status = 'in progress';
 			}
+
+			return $upload_status;
 		}
+
 
 		// Log progress in local log file and FB.
 		public function log_feed_progress( $msg, $object = array() ) {

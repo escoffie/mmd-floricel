@@ -226,7 +226,10 @@ class MailChimp_WooCommerce
 		// Add menu item
 		$this->loader->add_action('admin_menu', $plugin_admin, 'add_plugin_admin_menu');
 
-		// Add Settings link to the plugin
+        // Add WooCommerce Navigation Bar
+        $this->loader->add_action('admin_menu', $plugin_admin, 'add_woocommerce_navigation_bar');
+
+        // Add Settings link to the plugin
 		$plugin_basename = plugin_basename( plugin_dir_path( __DIR__ ) . $this->plugin_name . '.php');
 		$this->loader->add_filter('plugin_action_links_' . $plugin_basename, $plugin_admin, 'add_action_links');
 
@@ -259,11 +262,8 @@ class MailChimp_WooCommerce
         // add Shop Manager capability to save options
         $this->loader->add_action('option_page_capability_mailchimp-woocommerce', $plugin_admin, 'mailchimp_woocommerce_option_page_capability');
 
-        // remove initial sync "leave a review" banner on notice dismiss
-        $this->loader->add_action( 'wp_ajax_mailchimp_woocommerce_remove_review_banner', $plugin_admin, 'mailchimp_woocommerce_remove_review_banner' );
-
-         // set communications box status
-         $this->loader->add_action( 'wp_ajax_mailchimp_woocommerce_communication_status', $plugin_admin, 'mailchimp_woocommerce_communication_status' );
+        // set communications box status
+        $this->loader->add_action( 'wp_ajax_mailchimp_woocommerce_communication_status', $plugin_admin, 'mailchimp_woocommerce_communication_status' );
     }
 
 	/**
@@ -277,6 +277,7 @@ class MailChimp_WooCommerce
 
 		$plugin_public = new MailChimp_WooCommerce_Public( $this->get_plugin_name(), $this->get_version() );
 		$this->loader->add_action('wp_enqueue_scripts', $plugin_public, 'enqueue_scripts');
+        $this->loader->add_action('wp_footer', $plugin_public, 'add_inline_footer_script');
 	}
 
 	/**

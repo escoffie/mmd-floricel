@@ -43,5 +43,5 @@
 }
 /* Alignment of the Menu items. Divi, Twenty 17*/
 #et-top-navigation .nav li.menu-item, .navigation-top .main-navigation li {
-    display: inline-flex;
+    display: inline-block;
 }

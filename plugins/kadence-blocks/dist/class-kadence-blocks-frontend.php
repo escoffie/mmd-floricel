@@ -879,6 +879,9 @@ class Kadence_Blocks_Frontend {
 		//wp_enqueue_style( 'kadence-blocks-style-css', KADENCE_BLOCKS_URL . 'dist/blocks.style.build.css', array(), KADENCE_BLOCKS_VERSION );
 
 		// Next all the extras that are shared.
+		wp_register_style( 'kadence-simplelightbox-css', KADENCE_BLOCKS_URL . 'dist/assets/css/simplelightbox.css', array(), KADENCE_BLOCKS_VERSION );
+		wp_register_script( 'kadence-simplelightbox', KADENCE_BLOCKS_URL . 'dist/assets/js/simplelightbox.min.js', array(), KADENCE_BLOCKS_VERSION, true );
+		wp_register_script( 'kadence-blocks-videolight-js', KADENCE_BLOCKS_URL . 'dist/assets/js/kb-init-video-popup.min.js', array( 'kadence-simplelightbox' ), KADENCE_BLOCKS_VERSION, true );
 		wp_register_style( 'kadence-blocks-magnific-css', KADENCE_BLOCKS_URL . 'dist/magnific.css', array(), KADENCE_BLOCKS_VERSION );
 		wp_register_script( 'magnific-popup', KADENCE_BLOCKS_URL . 'dist/magnific.js', array(), KADENCE_BLOCKS_VERSION, true );
 		wp_register_script( 'kadence-blocks-magnific-js', KADENCE_BLOCKS_URL . 'dist/kt-init-video-popup.js', array( 'jquery', 'magnific-popup' ), KADENCE_BLOCKS_VERSION, true );
@@ -2370,6 +2373,9 @@ class Kadence_Blocks_Frontend {
 				$css .= 'justify-content: ' . $content . ';';
 			}
 			$css .= '}';
+			$css .= '#kt-info-box' . $unique_id . ' .kt-blocks-info-box-link-wrap .kt-blocks-info-box-media {';
+			$css .= 'display: inline-block;';
+			$css .= '}';
 			$css .= '}';
 		}
 		if ( isset( $attr['mediaAlignMobile'] ) && ! empty( $attr['mediaAlignMobile'] ) ) {
@@ -2401,6 +2407,9 @@ class Kadence_Blocks_Frontend {
 				$css .= '-ms-flex-direction: ' . $direction . ';';
 				$css .= 'flex-direction: ' . $direction . ';';
 			}
+			$css .= '}';
+			$css .= '#kt-info-box' . $unique_id . ' .kt-blocks-info-box-link-wrap .kt-blocks-info-box-media {';
+			$css .= 'display: inline-block;';
 			$css .= '}';
 			$css .= '}';
 		}
@@ -4023,8 +4032,11 @@ class Kadence_Blocks_Frontend {
 			foreach ( $attr['btns'] as $btnkey => $btnvalue ) {
 				if ( is_array( $btnvalue ) ) {
 					if ( isset( $btnvalue['target'] ) && ! empty( $btnvalue['target'] ) && 'video' == $btnvalue['target'] ) {
-						wp_enqueue_style( 'kadence-blocks-magnific-css' );
-						wp_enqueue_script( 'kadence-blocks-magnific-js' );
+						wp_enqueue_style( 'kadence-simplelightbox-css' );
+						wp_enqueue_script( 'kadence-blocks-videolight-js' );
+
+						// wp_enqueue_style( 'kadence-blocks-magnific-css' );
+						// wp_enqueue_script( 'kadence-blocks-magnific-js' );
 					}
 				}
 			}
@@ -4801,7 +4813,7 @@ class Kadence_Blocks_Frontend {
 	 */
 	public function column_layout_css( $attr, $unique_id ) {
 		$css = '';
-		if ( isset( $attr['topPadding'] ) || isset( $attr['bottomPadding'] ) || isset( $attr['leftPadding'] ) || isset( $attr['rightPadding'] ) || isset( $attr['topMargin'] ) || isset( $attr['bottomMargin'] ) || isset( $attr['rightMargin'] ) || isset( $attr['leftMargin'] ) || isset( $attr['border'] ) || isset( $attr['borderWidth'] ) ) {
+		if ( isset( $attr['topPadding'] ) || isset( $attr['bottomPadding'] ) || isset( $attr['leftPadding'] ) || isset( $attr['rightPadding'] ) || isset( $attr['topMargin'] ) || isset( $attr['bottomMargin'] ) || isset( $attr['rightMargin'] ) || isset( $attr['leftMargin'] ) || isset( $attr['border'] ) || isset( $attr['borderWidth'] ) || ( isset( $attr['displayShadow'] ) && true == $attr['displayShadow'] ) ) {
 			$css .= '.kt-row-layout-inner > .kt-row-column-wrap > .kadence-column' . $unique_id . ' > .kt-inside-inner-col {';
 			if ( isset( $attr['topPadding'] ) ) {
 				$css .= 'padding-top:' . $attr['topPadding'] . 'px;';

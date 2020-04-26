@@ -335,7 +335,7 @@ class Loco_fs_FileFinder implements Iterator, Countable, Loco_fs_FileListInterfa
         if( is_resource($this->dir) ){
             while( $f = readdir($this->dir) ){
                 // dot-files always excluded
-                if( '.' === $f{0} ){
+                if( '.' === substr($f,0,1) ){
                     continue;
                 }
                 $path = $this->cwd.'/'.$f;
@@ -470,8 +470,8 @@ class Loco_fs_FileFinder implements Iterator, Countable, Loco_fs_FileListInterfa
      */
     public function rewind(){
         if( $this->cached ){
-            reset( $this->cache );
-            $this->i = key($this->cache);
+            $this->cache->rewind();
+            $this->i = $this->cache->key();
         }
         else {
             $this->d = 0;

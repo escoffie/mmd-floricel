@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Porto\n"
 "POT-Creation-Date: 2019-11-12 22:13+0800\n"
-"PO-Revision-Date: 2020-02-09 23:35+0000\n"
-"Last-Translator: escoffie <bernardoescoffie@gmail.com>\n"
+"PO-Revision-Date: 2020-04-15 13:34+0000\n"
+"Last-Translator: \n"
 "Language-Team: Español\n"
 "Language: es_ES\n"
 "MIME-Version: 1.0\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Poedit-SearchPath-0: .\n"
 "Report-Msgid-Bugs-To: \n"
-"X-Loco-Version: 2.3.1; wp-5.3.2"
+"X-Loco-Version: 2.3.3; wp-5.3.2"
 
 #: 404.php:12 inc/functions/layout/breadcrumbs.php:267
 msgid "404"
@@ -6950,7 +6950,7 @@ msgstr ""
 
 #: inc/functions/layout/breadcrumbs.php:192
 msgid "Go to Home Page"
-msgstr ""
+msgstr "Ir a la página de inicio"
 
 #: inc/functions/layout/breadcrumbs.php:264
 #: inc/functions/layout/breadcrumbs.php:271
@@ -8198,7 +8198,7 @@ msgstr "Ya añadiste este producto al carrito"
 
 #: inc/functions/woocommerce.php:2008
 msgid "Go to cart page"
-msgstr ""
+msgstr "Ir al carrito"
 
 #: inc/lib/porto-studio/blocks.tpl.php:17
 msgid "Quickly get a project started with any of our examples:"

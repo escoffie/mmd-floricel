@@ -5,11 +5,6 @@ $store_id = mailchimp_get_store_id();
 $product_count = mailchimp_get_product_count();
 $order_count = mailchimp_get_order_count();
 $promo_rules_count = mailchimp_count_posts('shop_coupon');
-$subscribers_args = array(
-    'meta_key' => 'mailchimp_woocommerce_is_subscribed',
-    'meta_value' => true
-);
-$subscribers_count = get_users($subscribers_args);
 
 $mailchimp_total_products = $mailchimp_total_orders = $mailchimp_total_promo_rules = 0;
 $mailchimp_total_subscribers = $mailchimp_total_unsubscribed = $mailchimp_total_transactional = 0;
@@ -80,7 +75,7 @@ if (($mailchimp_api = mailchimp_get_api()) && ($store = $mailchimp_api->getStore
         <div class="box sync-stats-card promo_rules" >
             <div class="sync-stats-card-content">
                 <span class="card_label"><strong><?php esc_html_e('Coupons', 'mailchimp-for-woocommerce');?></strong></span>
-                <span class="card_count" id="mailchimp_promo_rules_count"><?php echo $mailchimp_total_promo_rules; ?></span>
+                <span class="card_count" id="mailchimp_promo_rules_count"><?php echo number_format($mailchimp_total_promo_rules); ?></span>
                 <div class="progress-bar-wrapper">
                     <span class="card_count_label mailchimp_promo_rules_count_partial"></span>
                     <div class="progress-bar"></div>
@@ -90,7 +85,7 @@ if (($mailchimp_api = mailchimp_get_api()) && ($store = $mailchimp_api->getStore
         <div class="box sync-stats-card products" >
             <div class="sync-stats-card-content">
                 <span class="card_label"><strong><?php esc_html_e('Products', 'mailchimp-for-woocommerce');?></strong></span>
-                <span class="card_count" id="mailchimp_product_count"><?php echo $mailchimp_total_products; ?></span>
+                <span class="card_count" id="mailchimp_product_count"><?php echo number_format($mailchimp_total_products ); ?></span>
                 <div class="progress-bar-wrapper">
                     <span class="card_count_label mailchimp_product_count_partial"></span>
                     <div class="progress-bar"></div>
@@ -100,7 +95,7 @@ if (($mailchimp_api = mailchimp_get_api()) && ($store = $mailchimp_api->getStore
         <div class="box sync-stats-card orders" >
             <div class="sync-stats-card-content">
                 <span class="card_label"><strong><?php esc_html_e('Orders', 'mailchimp-for-woocommerce');?></strong></span>
-                <span class="card_count" id="mailchimp_order_count"><?php echo $mailchimp_total_orders; ?></span>
+                <span class="card_count" id="mailchimp_order_count"><?php echo number_format($mailchimp_total_orders); ?></span>
                 <div class="progress-bar-wrapper">
                     <div class="progress-bar"></div>
                     <span class="card_count_label mailchimp_order_count_partial"></span>
@@ -113,21 +108,21 @@ if (($mailchimp_api = mailchimp_get_api()) && ($store = $mailchimp_api->getStore
         <div class="box sync-stats-card subscribers" >
             <div class="sync-stats-card-content">
                 <span class="card_label"><strong><?php esc_html_e('Subscribers', 'mailchimp-for-woocommerce');?></strong></span>
-                <span class="card_count" id="mailchimp_subscriber_count"><?php echo $mailchimp_total_subscribers; ?></span>
+                <span class="card_count" id="mailchimp_subscriber_count"><?php echo number_format($mailchimp_total_subscribers); ?></span>
                 <img class="sync-loader" src="<?php echo plugin_dir_url( __FILE__ ) . "images/3dotpurple.gif"; ?>"/>
             </div>
         </div>
         <div class="box sync-stats-card transactional" >
             <div class="sync-stats-card-content">
                 <span class="card_label"><strong><?php esc_html_e('Transactional', 'mailchimp-for-woocommerce');?></strong></span>
-                <span class="card_count" id="mailchimp_transactional_count"><?php echo $mailchimp_total_transactional; ?></span>
+                <span class="card_count" id="mailchimp_transactional_count"><?php echo number_format($mailchimp_total_transactional); ?></span>
                 <img class="sync-loader" src="<?php echo plugin_dir_url( __FILE__ ) . "images/3dotpurple.gif"; ?>"/>
             </div>
         </div>
         <div class="box sync-stats-card unsubscribed" >
             <div class="sync-stats-card-content">
                 <span class="card_label"><strong><?php esc_html_e('Unsubscribed', 'mailchimp-for-woocommerce');?></strong></span>
-                <span class="card_count" id="mailchimp_unsubscribed_count"><?php echo $mailchimp_total_unsubscribed; ?></span>
+                <span class="card_count" id="mailchimp_unsubscribed_count"><?php echo number_format($mailchimp_total_unsubscribed); ?></span>
                 <img class="sync-loader" src="<?php echo plugin_dir_url( __FILE__ ) . "images/3dotpurple.gif"; ?>"/>
             </div>
         </div>
@@ -220,8 +215,8 @@ $comm_enabled = $opt != null ? $opt : '0';
 <h2 style="padding-top: 1em;"><?php esc_html_e('More Information', 'mailchimp-for-woocommerce'); ?></h2>
 <ul>
     <li><?= sprintf(/* translators: %s - Plugin review URL. */wp_kses( __( 'Is this plugin helping your e-commerce business? <a href=%s target=_blank>Please leave us a ★★★★★ review!</a>.', 'mailchimp-for-woocommerce' ), array(  'a' => array( 'href' => array(), 'target'=> '_blank' ) ) ), esc_url( 'https://wordpress.org/support/plugin/mailchimp-for-woocommerce/reviews/' ) );?></li>
-    <li><?= sprintf(/* translators: %s - WP-CLI URL. */wp_kses( __( 'Have a larger store or having issues syncing? Consider using <a href=%s target=_blank>WP-CLI</a>.', 'mailchimp-for-woocommerce' ), array(  'a' => array( 'href' => array(), 'target'=> '_blank' ) ) ), esc_url( 'https://github.com/mailchimp/mc-woocommerce/issues/158' ) );?></li>
+    <li><?= sprintf(/* translators: %s - WP-CLI URL. */wp_kses( __( 'Have a larger store or having issues syncing? Consider using <a href=%s target=_blank>WP-CLI</a>.', 'mailchimp-for-woocommerce' ), array(  'a' => array( 'href' => array(), 'target'=> '_blank' ) ) ), esc_url( 'https://github.com/mailchimp/mc-woocommerce/wiki/Advanced-Queue-Setup-In-CLI-mode' ) );?></li>
     <li><?= esc_html__('Order and customer information will not sync if they contain an Amazon or generic email address.', 'mailchimp-for-woocommerce');?></li>
-    <li><?= sprintf(/* translators: %s - Mailchimp Support URL. */wp_kses( __( 'Need help to connect your store? Visit the Mailchimp <a href=%s target=_blank>Knowledge Base</a>.', 'mailchimp-for-woocommerce' ), array(  'a' => array( 'href' => array(), 'target'=> '_blank' ) ) ), esc_url( 'https://mailchimp.com/help/connect-or-disconnect-mailchimp-for-woocommerce/' ) );?></li>
+    <li><?= sprintf(/* translators: %s - Mailchimp Support URL. */wp_kses( __( 'Need help? Visit Mailchimp <a href=%s target=_blank>support</a>.', 'mailchimp-for-woocommerce' ), array(  'a' => array( 'href' => array(), 'target'=> '_blank' ) ) ), esc_url( 'https://us1.admin.mailchimp.com/support?support_key=woo_forum' ) );?></li>
     <li><?= sprintf(/* translators: %s - Mailchimp Privacy Policy URL. */wp_kses( __( 'By using this plugin, Mailchimp will process customer information in accordance with their <a href=%s target=_blank>Privacy Policy</a>.', 'mailchimp-for-woocommerce' ), array(  'a' => array( 'href' => array(), 'target'=> '_blank' ) ) ), esc_url( 'https://mailchimp.com/legal/privacy/' ) );?></li>
 </ul>

@@ -28,10 +28,21 @@ class Loco_gettext_Data extends LocoPoIterator implements JsonSerializable {
      * @return Loco_gettext_Data
      */
     public static function load( Loco_fs_File $file ){
-        if( 'mo' === self::ext($file) ){
-            return self::fromBinary( $file->getContents() );
+        $type = strtoupper( self::ext($file) );
+        // catch parse errors so we can inform user of which file is bad
+        try {
+            if( 'MO' === $type ){
+                return self::fromBinary( $file->getContents() );
+            }
+            else {
+                return self::fromSource( $file->getContents() );
+            }
         }
-        return self::fromSource( $file->getContents() );
+        catch( Loco_error_ParseException $e ){
+            $path = $file->getRelativePath( loco_constant('WP_CONTENT_DIR') );
+            Loco_error_AdminNotices::debug( sprintf('Failed to parse %s as a %s file',$path,$type) );
+            throw new Loco_error_ParseException( sprintf('Invalid %s file: %s',$type,basename($path)) );
+        }
     }
 
 
@@ -259,18 +270,19 @@ class Loco_gettext_Data extends LocoPoIterator implements JsonSerializable {
             'X-Generator' => 'Loco https://localise.biz/',
             'X-Loco-Version' => sprintf('%s; wp-%s', loco_plugin_version(), $GLOBALS['wp_version'] ),
         );
-        // set actual last translator from WordPress login when possible
+        // set user's preferred Last-Translator credit if configured
         if( function_exists('get_current_user_id') && get_current_user_id() ){
-            $user = wp_get_current_user();
-            $name = $user->get('display_name') or $name = 'nobody';
-            $email = $user->get('user_email') or $email = 'nobody@localhost';
-            // set user's preferred last translator credit if configured
             $prefs = Loco_data_Preferences::get();
-            $credit = $prefs->credit;
-            if( ! $credit ){
-                $credit = sprintf('%s <%s>', $name, $email );
+            $credit = (string) $prefs->credit;
+            if( '' === $credit ){
+                $credit = $prefs->default_credit();
             }
-            $required['Last-Translator'] = apply_filters( 'loco_current_translator', $credit, $name, $email );
+            // filter credit with current user name and email
+            $user = wp_get_current_user();
+            $credit = apply_filters( 'loco_current_translator', $credit, $user->get('display_name'), $user->get('email') );
+            if( '' !== $credit ){
+                $required['Last-Translator'] = $credit;
+            }
         }
         // only set absent or empty headers from default list
         foreach( $defaults as $key => $value ){

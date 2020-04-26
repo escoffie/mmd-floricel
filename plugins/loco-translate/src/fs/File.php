@@ -40,15 +40,16 @@ class Loco_fs_File {
      * @return string fixed path, or "" if not absolute
      */
     public static function abs( $path ){
-        if( $path = (string) $path ){
-            $chr1 = $path{0};
+        $path = (string) $path;
+        if( '' !== $path ){
+            $chr1 = substr($path,0,1);
             // return unmodified path if starts "/"
             if( '/' === $chr1 ){
                 return $path;
             }
             // Windows drive path if "X:" or network path if "\\"
-            if( isset($path{1}) ){
-                $chr2 = $path{1};
+            $chr2 = (string) substr($path,1,1);
+            if( '' !== $chr2 ){
                 if( ':' === $chr2 ||  ( '\\' === $chr1 && '\\' === $chr2 ) ){
                     return strtoupper($chr1).$chr2.strtr( substr($path,2), '\\', '/' );
                 }
@@ -425,7 +426,7 @@ class Loco_fs_File {
             // if we are below given base path, return ./relative
             if( substr($path,0,$length) === $base ){
                 ++$length;
-                if( isset($path{$length}) ){
+                if( strlen($path) > $length ){
                     return substr( $path, $length );
                 }
                 // else paths were identical

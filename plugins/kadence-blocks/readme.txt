@@ -3,8 +3,8 @@ Contributors: britner
 Tags: gutenberg, blocks, page builder, google fonts, dual buttons, svg icons, editor width,
 Donate link: https://www.kadencewp.com/about-us/
 Requires at least: 5.2
-Tested up to: 5.3.2
-Stable tag: 1.7.17
+Tested up to: 5.4.0
+Stable tag: 1.7.21
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -86,6 +86,34 @@ Install the plugin into the `/wp-content/plugins/` folder, and activate it.
 6. Editor Width settings inside Gutenberg
 
 == Changelog ==
+
+= 1.7.21 =
+* Fix: CSS Box Shadow issue on buttons.
+* Add: more link controls for infobox learn more.
+* Fix: Accordion not showing intial open options.
+* Fix: Accordion validator issue.
+
+= 1.7.20 =
+* Update: Declare 5.4 support.
+* Fix: CSS issue with some row vertical alignment settings.
+* Fix: Issue with info box icon border on mobile when switched to above.
+* Update: Button Video Popup, none jQuery lightbox, better handling of different youtube urls including nocookie.
+
+= 1.7.19 =
+* Add: skip-lazy class to carousel images to fix lazy load issue.
+* Fix: CSS for gutenberg updates.
+* Fix: CSS for lightbox in some situations.
+* Fix: Issue with infobox image width and height not getting set.
+* Add: option to set info box image size as a default.
+* Add: option to force hover effect to always so for gallery on mobile.
+* Add: Filter to remove Editor Width. ( More and more themes are doing better at handling this so it is going to be depreciated )
+
+= 1.7.18 =
+* Update Css to prevent issue with some settings conflict.
+* Update: Gallery Slider js within accordion not rendering correclty.
+* Add: Download option to advanced button block. Thanks @chris071182
+* Fix: Column Vertical Spacing when order reversed for mobile. Thanks @andreas-wpk
+* Fix: Issue with info box maxWidth not showing in admin after reload.
 
 = 1.7.17 =
 * Clean up editor column padding for Gutenberg 7.3
