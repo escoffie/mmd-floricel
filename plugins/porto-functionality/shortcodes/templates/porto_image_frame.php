@@ -71,18 +71,23 @@ if ( $image_url ) {
 	$output .= '>';
 
 	//parse link
-	$link     = ( '||' === $link ) ? '' : $link;
-	$link     = vc_build_link( $link );
-	$use_link = false;
-	if ( strlen( $link['url'] ) > 0 ) {
-		$use_link = true;
-		$a_href   = $link['url'];
-		$a_title  = $link['title'];
-		$a_target = strlen( $link['target'] ) > 0 ? $link['target'] : '_self';
+	if ( function_exists( 'vc_build_link' ) ) {
+		$link     = ( '||' === $link ) ? '' : $link;
+		$link     = vc_build_link( $link );
+		$use_link = false;
+		if ( strlen( $link['url'] ) > 0 ) {
+			$use_link = true;
+			$a_href   = $link['url'];
+			$a_title  = $link['title'];
+			$a_target = strlen( $link['target'] ) > 0 ? $link['target'] : '_self';
+		}
+	} else {
+		$link     = '';
+		$use_link = false;
 	}
 
 	$attributes = array();
-	if ( $use_link ) {
+	if ( $use_link && $link ) {
 		$attributes[] = 'href="' . esc_url( trim( $a_href ) ) . '"';
 		$attributes[] = 'title="' . esc_attr( trim( $a_title ) ) . '"';
 		$attributes[] = 'target="' . esc_attr( trim( $a_target ) ) . '"';

@@ -45,7 +45,9 @@ wp_enqueue_script( 'porto_word_rotator' );
 
 $string_inline_style = $word_rotate_inline = $prefsuf_style = $css_design_style = '';
 
-$css_design_style = apply_filters( VC_SHORTCODE_CUSTOM_CSS_FILTER_TAG, vc_shortcode_custom_css_class( $css_fancy_design, ' ' ), 'porto_fancytext', $atts );
+if ( defined( 'VC_SHORTCODE_CUSTOM_CSS_FILTER_TAG' ) ) {
+	$css_design_style = apply_filters( VC_SHORTCODE_CUSTOM_CSS_FILTER_TAG, vc_shortcode_custom_css_class( $css_fancy_design, ' ' ), 'porto_fancytext', $atts );
+}
 
 if ( ( ! isset( $atts['strings_use_theme_fonts'] ) || 'yes' !== $atts['strings_use_theme_fonts'] ) && $strings_google_font ) {
 	$google_fonts_data   = porto_sc_parse_google_font( $strings_google_font );

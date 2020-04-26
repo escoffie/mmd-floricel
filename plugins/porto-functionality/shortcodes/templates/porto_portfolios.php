@@ -253,6 +253,7 @@ if ( $posts->have_posts() ) {
 	<?php endif; ?>
 
 	<?php
+	$is_creative_layout = false;
 	if ( 'timeline' == $portfolio_layout ) :
 		global $prev_post_year, $prev_post_month, $first_timeline_loop, $post_count;
 
@@ -277,6 +278,7 @@ if ( $posts->have_posts() ) {
 			$classes[] = 'portfolio-row-' . esc_attr( $portfolio_columns );
 			$classes[] = esc_attr( $portfolio_view );
 		}
+
 		if ( 'creative' == $portfolio_layout || 'masonry-creative' == $portfolio_layout ) {
 			global $porto_post_count, $porto_grid_layout;
 
@@ -290,28 +292,13 @@ if ( $posts->have_posts() ) {
 			$portfolio_layout        = 'masonry';
 			$porto_portfolio_columns = -1;
 			$porto_post_count        = 0;
+			$is_creative_layout      = true;
 
 			$grid_height_number = trim( preg_replace( '/[^0-9]/', '', $grid_height ) );
 			$unit               = trim( str_replace( $grid_height_number, '', $grid_height ) );
 			porto_creative_grid_style( $porto_grid_layout, $grid_height_number, $wrapper_id, false, true, $unit, 'article.portfolio' );
 
-			$ms     = 1;
-			$ms_col = '';
-			foreach ( $porto_grid_layout as $layout ) {
-				$width_arr = explode( '-', $layout['width'] );
-				if ( count( $width_arr ) > 1 ) {
-					$width = (int) $width_arr[0] / (int) $width_arr[1];
-				} else {
-					$width = (int) $width_arr[0];
-				}
-				if ( $width < $ms ) {
-					$ms     = $width;
-					$ms_col = $layout['width'];
-				}
-			}
-			if ( $ms_col ) {
-				$container_attrs .= 'data-plugin-masonry data-plugin-options="' . esc_attr( json_encode( array( 'itemSelector' => '.portfolio', 'masonry' => array( 'columnWidth' => '.portfolio.grid-col-' . $ms_col ) ) ) ) . '"';
-			}
+			$container_attrs .= 'data-plugin-masonry data-plugin-options="' . esc_attr( json_encode( array( 'itemSelector' => '.portfolio', 'masonry' => array( 'columnWidth' => '.grid-col-sizer' ) ) ) ) . '"';
 		}
 		?>
 		<div class="<?php echo implode( ' ', $classes ); ?>"<?php echo porto_filter_output( $container_attrs ); ?>>
@@ -336,6 +323,9 @@ if ( $posts->have_posts() ) {
 		$posts->the_post();
 		++$portfolio_num;
 		porto_get_template_part( 'content', 'archive-portfolio-' . $portfolio_layout, $image_size );
+	}
+	if ( $is_creative_layout ) {
+		echo '<div class="grid-col-sizer"></div>';
 	}
 	if ( $excerpt_length ) {
 		$porto_settings['portfolio-excerpt-length'] = $global_excerpt_length;

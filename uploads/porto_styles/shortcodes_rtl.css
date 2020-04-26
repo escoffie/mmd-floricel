@@ -1124,6 +1124,9 @@ h2.resp-accordion {
   line-height: 1.6;
 }
 /* Preview Image Lazy Loader */
+.porto-preview-image {
+  margin-bottom: 20px;
+}
 .porto-preview-image .lazy {
   display: block;
   background-position: top center;
@@ -1320,7 +1323,6 @@ a.porto-btn-custom {
   right: 50%;
   background: #ccc;
   opacity: 0;
-  -webkit-transform: translateX(50%) translateY(-50%);
   transform: translateX(50%) translateY(-50%);
 }
 .porto-btn-center-vt-bg:hover .porto-btn-hover {
@@ -1338,7 +1340,6 @@ a.porto-btn-custom {
   right: 50%;
   background: #ccc;
   opacity: 0;
-  -webkit-transform: translateX(50%) translateY(-50%) rotate(-45deg);
   transform: translateX(50%) translateY(-50%) rotate(-45deg);
 }
 .porto-btn-center-dg-bg:hover .porto-btn-hover {
@@ -1366,7 +1367,7 @@ html .vc_col-has-fill .porto-btn.porto-adjust-bottom-margin {
 .porto-concept {
   width: 100%;
   overflow: hidden;
-  background: url(http://floricel.local/wp-content/themes/porto/images/concept.png) no-repeat center 0;
+  background: url(http://flor.local/wp-content/themes/porto/images/concept.png) no-repeat center 0;
 }
 .porto-concept strong {
   display: block;
@@ -1388,7 +1389,7 @@ html .vc_col-has-fill .porto-btn.porto-adjust-bottom-margin {
   padding-bottom: 50px;
   position: relative;
   z-index: 1;
-  background: url(http://floricel.local/wp-content/themes/porto/images/concept-item.png) no-repeat 0 0;
+  background: url(http://flor.local/wp-content/themes/porto/images/concept-item.png) no-repeat 0 0;
 }
 .porto-concept .process-image img {
   border-radius: 150px;
@@ -1406,7 +1407,7 @@ html .vc_col-has-fill .porto-btn.porto-adjust-bottom-margin {
   padding-bottom: 45px;
   position: relative;
   z-index: 1;
-  background: url(http://floricel.local/wp-content/themes/porto/images/concept-item.png) no-repeat 100% 0;
+  background: url(http://flor.local/wp-content/themes/porto/images/concept-item.png) no-repeat 100% 0;
 }
 .porto-concept .project-image img {
   width: 338px;
@@ -1418,7 +1419,7 @@ html .vc_col-has-fill .porto-btn.porto-adjust-bottom-margin {
   position: absolute;
   right: 0;
   top: 65px;
-  background: url(http://floricel.local/wp-content/themes/porto/images/concept-icons.png) no-repeat 0 0;
+  background: url(http://flor.local/wp-content/themes/porto/images/concept-icons.png) no-repeat 0 0;
 }
 .porto-concept .cloud {
   width: 116px;
@@ -1427,7 +1428,7 @@ html .vc_col-has-fill .porto-btn.porto-adjust-bottom-margin {
   position: absolute;
   right: 53%;
   top: 35px;
-  background: url(http://floricel.local/wp-content/themes/porto/images/concept-icons.png) no-repeat 100% 0;
+  background: url(http://flor.local/wp-content/themes/porto/images/concept-icons.png) no-repeat 100% 0;
 }
 /* Responsive */
 @media (max-width: 991px) {
@@ -1516,7 +1517,7 @@ html .vc_col-has-fill .porto-btn.porto-adjust-bottom-margin {
   max-width: 1110px;
 }
 .csstransforms3d .porto-diamonds {
-  padding: 50px 52px 0 0;
+  padding: 50px 57px 12px 0;
 }
 .no-csstransforms3d .porto-diamonds {
   max-width: 1035px;
@@ -1524,7 +1525,7 @@ html .vc_col-has-fill .porto-btn.porto-adjust-bottom-margin {
 .porto-diamonds > li {
   display: inline-block;
   font-size: 18px;
-  margin-left: 130px;
+  margin-left: 135px;
 }
 .no-csstransforms3d .porto-diamonds > li {
   margin: 0 0 20px 20px;
@@ -1532,11 +1533,11 @@ html .vc_col-has-fill .porto-btn.porto-adjust-bottom-margin {
 .porto-diamonds .diamond {
   background: #f4f4f4;
   display: block;
-  height: 245px;
+  height: 255px;
   overflow: hidden;
   position: relative;
   text-decoration: none;
-  width: 245px;
+  width: 255px;
 }
 .porto-diamonds .diamond:after {
   transition: all 0.2s;
@@ -1561,16 +1562,17 @@ html .vc_col-has-fill .porto-btn.porto-adjust-bottom-margin {
 }
 .csstransforms3d .porto-diamonds .diamond {
   overflow: hidden;
-  transform: rotate(-45deg);
+  transform: rotate(45deg);
 }
 .porto-diamonds .content {
   display: table-cell;
-  height: 245px;
+  height: 255px;
   padding: 0 10px;
   transform: rotate(45deg);
+  transform: rotate(-45deg);
   text-align: center;
   vertical-align: middle;
-  width: 245px;
+  width: 255px;
   position: relative;
 }
 .porto-diamonds .content:after {
@@ -1595,21 +1597,72 @@ html .vc_col-has-fill .porto-btn.porto-adjust-bottom-margin {
   right: 24%;
   top: 49%;
 }
-@media (max-width: 722px) {
+@media (min-width: 1160px) {
+  .porto-diamonds > li:nth-child(3) {
+    margin-left: 0;
+  }
+  .porto-diamonds > li:nth-child(4) {
+    left: 132px;
+    top: 9px;
+    position: absolute;
+  }
+  .porto-diamonds > li:nth-child(5) {
+    margin-right: 527px;
+    margin-top: -70px;
+  }
+  .porto-diamonds > li:nth-child(6) {
+    position: absolute;
+    margin: -6px -28px 0 0;
+  }
+  .porto-diamonds > li:nth-child(7) {
+    position: absolute;
+    margin: 97px -133px 0 0;
+  }
+  .porto-diamonds .diamond-sm, .porto-diamonds .diamond-sm .content {
+    height: 128px;
+    width: 128px;
+  }
+  .porto-diamonds .diamond-sm .content img {
+    max-width: 195px;
+  }
+}
+@media (max-width: 1159px) {
   .csstransforms3d .porto-diamonds, .porto-diamonds {
-    max-width: 245px;
-    padding-right: 0;
+    width: 748px;
+    margin: 40px auto;
+    padding: 75px 75px 75px 0;
   }
   .porto-diamonds > li {
-    margin-left: 0;
-    margin-bottom: 130px;
+    margin: 0;
+    position: static;
+    float: right;
+  }
+  .porto-diamonds > li:nth-child(2n+1) {
     clear: both;
+  }
+  .porto-diamonds > li:nth-child(2n+2) {
+    margin: 200px 55px -50px auto;
   }
   .porto-diamonds > li:last-child {
     margin-bottom: 50px;
-    margin-left: 0;
-    margin-top: 0;
-    padding-right: 0;
+  }
+  .porto-diamonds:after {
+    content: '';
+    display: block;
+    clear: both;
+  }
+}
+@media (max-width: 748px) {
+  .csstransforms3d .porto-diamonds, .porto-diamonds {
+    margin: 40px -222px 0 0;
+    padding: 25px 50% 0 0;
+    width: 445px;
+  }
+  .lightbox .porto-diamonds > li {
+    float: none;
+    clear: both;
+    margin: 45px 95px 115px 0;
+    display: block;
   }
 }
 section.exp-timeline {
@@ -2588,7 +2641,7 @@ section.exp-timeline .timeline-box .experience-info .company > span {
   font-size: 16px;
   line-height: 1.2em;
 }
-.default-icon .porto-sicon-header > p:last-child {
+.porto-sicon-header > p:last-child {
   margin-bottom: 0;
 }
 .porto-sicon-description {
@@ -2619,6 +2672,7 @@ a.porto-sicon-box-link {
 .porto-sicon-box.flex-wrap .porto-sicon-header {
   -ms-flex: 1;
   flex: 1;
+  min-width: 50%;
 }
 .default-icon .porto-sicon-default .porto-icon, .default-icon .porto-sicon-default .porto-sicon-img {
   margin-left: 15px;
@@ -2639,23 +2693,17 @@ a.porto-sicon-box-link {
 .top-icon .porto-sicon-header + .porto-sicon-description {
   margin-top: 0;
 }
-.porto-sicon-box.left-icon {
-  display: inline-block;
-}
-.left-icon .porto-sicon-left {
-  display: table-cell;
-  vertical-align: top;
+.porto-sicon-box.left-icon, .porto-sicon-box.right-icon {
+  display: -ms-flexbox;
+  display: flex;
 }
 .left-icon .porto-sicon-left .porto-icon, .left-icon .porto-sicon-left .porto-sicon-img {
   margin-left: 20px;
 }
-.left-icon .porto-sicon-body {
-  display: table-cell;
-  vertical-align: middle;
-}
-.left-icon .porto-sicon-description, .left-icon .porto-sicon-header {
-  float: right;
-  width: 100%;
+.left-icon .porto-sicon-body, .right-icon .porto-sicon-body {
+  -ms-flex: 1;
+  flex: 1;
+  max-width: 100%;
 }
 .porto-sicon-box.top-icon {
   text-align: center;
@@ -2663,30 +2711,17 @@ a.porto-sicon-box-link {
 .porto-sicon-box .porto-just-icon-wrapper {
   line-height: 1em;
 }
-.porto-sicon-box.right-icon {
-  display: inline-block;
-  width: 100%;
-}
-.right-icon .porto-sicon-right {
-  display: table-cell;
-  vertical-align: top;
-  width: 100%;
-}
 .right-icon .porto-sicon-right .porto-icon, .right-icon .porto-sicon-right .porto-sicon-img {
   margin-right: 15px;
 }
-.right-icon .porto-sicon-body {
-  display: table-cell;
-  vertical-align: middle;
-  width: 100%;
-}
-.right-icon .porto-sicon-body, .right-icon .porto-sicon-body *, .right-icon .porto-sicon-header h3.porto-sicon-title, .right-icon .porto-sicon-description {
+.right-icon .porto-sicon-body, .right-icon .porto-sicon-body *, .right-icon .porto-sicon-header .porto-sicon-title, .right-icon .porto-sicon-description {
   text-align: left;
 }
-.right-icon .porto-sicon-description, .right-icon .porto-sicon-header {
-  float: left;
-  width: 100%;
-}
+/*.right-icon .porto-sicon-description,
+ .right-icon .porto-sicon-header {
+ float: $right;
+ width: 100%
+ }*/
 .heading-right-icon .porto-sicon-heading-right {
   display: table-cell;
   vertical-align: middle;
@@ -2706,33 +2741,33 @@ a.porto-sicon-box-link {
 .heading-right-icon .porto-sicon-header h3.porto-sicon-title, .heading-right-icon .porto-sicon-description, .heading-right-icon .porto-sicon-description * {
   text-align: left;
 }
-.wpb_wrapper .top-icon .porto-just-icon-wrapper {
+html .top-icon .porto-just-icon-wrapper {
   margin-bottom: 15px;
 }
-.wpb_wrapper .top-icon .porto-sicon-header h3.porto-sicon-title {
+html .top-icon .porto-sicon-header h3.porto-sicon-title {
   margin-top: 0;
 }
-.wpb_wrapper .top-icon .porto-sicon-header h2.porto-sicon-title {
+html .top-icon .porto-sicon-header h2.porto-sicon-title {
   margin-top: 0;
 }
-.wpb_wrapper .porto-sicon-header h3.porto-sicon-title {
+html .porto-sicon-header h3.porto-sicon-title {
   font-size: 1.4em;
   font-weight: 400;
   text-transform: none;
 }
-.wpb_wrapper h3.porto-sicon-title small {
+html h3.porto-sicon-title small {
   font-size: 75%;
   display: block;
   margin: 2px 0 4px;
 }
-.wpb_wrapper .porto-sicon-read {
+html .porto-sicon-read {
   margin-top: 10px;
 }
 .info-box-small .porto-sicon-box, .info-box-small-wrap .porto-sicon-box {
   margin-bottom: 15px;
 }
 .info-box-small .porto-sicon-header + .porto-sicon-description, .info-box-small-wrap .porto-sicon-header + .porto-sicon-description {
-  margin-top: 5px;
+  margin-top: 7px;
 }
 .porto-sicon-box {
   margin-bottom: 20px;
@@ -3058,7 +3093,7 @@ a.porto-sicon-box-link {
   text-transform: uppercase;
   position: relative;
   letter-spacing: 0.12px;
-  transition: all 0.25s ease 0s;
+  transition: 0.25s;
 }
 .porto-links-block .links-title i {
   margin-left: 5px;
@@ -3103,13 +3138,17 @@ a.porto-sicon-box-link {
 /* Porto Map Section */
 .porto-map-section {
   padding-top: 164px;
-  margin-top: 15px;
-  background: url(http://floricel.local/wp-content/themes/porto/images/map.png) center 0 no-repeat;
+  margin: 15px -20px 0;
+  background: url(http://flor.local/wp-content/themes/porto/images/map.png) center 0 no-repeat;
 }
 .porto-map-section .map-content {
   padding: 90px 0 40px;
   min-height: 400px;
   margin-top: 0;
+}
+#main.main-boxed .porto-map-section .map-content {
+  padding-left: 20px;
+  padding-right: 20px;
 }
 .porto-map-section .map-content article.post .post-date .day, .porto-map-section .map-content .post-item .post-date .day {
   background-color: #fff;
@@ -3799,7 +3838,7 @@ div.stats-desc > div.counter_suffix {
   outline: none;
 }
 .slick-loading .slick-list {
-  background: #fff url("http://floricel.local/wp-content/themes/porto/images/AjaxLoader.gif") center center no-repeat;
+  background: #fff url("http://flor.local/wp-content/themes/porto/images/AjaxLoader.gif") center center no-repeat;
 }
 .slick-list.dragging {
   cursor: pointer;
@@ -4577,7 +4616,7 @@ body .slick-slide img {
   z-index: 3;
 }
 .section-video .video-overlay {
-  background: transparent url(http://floricel.local/wp-content/themes/porto/images/video-overlay.png) repeat 0 0;
+  background: transparent url(http://flor.local/wp-content/themes/porto/images/video-overlay.png) repeat 0 0;
   position: absolute;
   top: 0;
   left: 0;
@@ -4587,7 +4626,7 @@ body .slick-slide img {
   height: 100%;
 }
 .section-video.video-overlay-dark .video-overlay {
-  background-image: url(http://floricel.local/wp-content/themes/porto/images/video-overlay-dark.png);
+  background-image: url(http://flor.local/wp-content/themes/porto/images/video-overlay-dark.png);
 }
 html.boxed .section-video > div:first-child {
   z-index: 0 !important;
@@ -4672,7 +4711,7 @@ html.boxed .section-video > div:first-child video {
   position: relative;
 }
 .vc_separator .vc_sep_holder.vc_sep_holder_l .vc_sep_line.pattern:after, .vc_separator .vc_sep_holder.vc_sep_holder_r .vc_sep_line.pattern:after {
-  background: transparent url(http://floricel.local/wp-content/themes/porto/images/patterns/worn_dots.png) repeat 0 0;
+  background: transparent url(http://flor.local/wp-content/themes/porto/images/patterns/worn_dots.png) repeat 0 0;
   content: "";
   display: block;
   height: 15px;
@@ -4682,7 +4721,7 @@ html.boxed .section-video > div:first-child video {
   width: 100%;
 }
 .vc_separator .vc_sep_holder.vc_sep_holder_l .vc_sep_line.pattern.pattern-2:after, .vc_separator .vc_sep_holder.vc_sep_holder_r .vc_sep_line.pattern.pattern-2:after {
-  background-image: url(http://floricel.local/wp-content/themes/porto/images/patterns/az_subtle.png);
+  background-image: url(http://flor.local/wp-content/themes/porto/images/patterns/az_subtle.png);
 }
 /* Visual Composer Single Image */
 div.wpb_single_image .vc_single_image-wrapper.vc_box_border, div.wpb_single_image .vc_single_image-wrapper.vc_box_outline, div.wpb_single_image .vc_single_image-wrapper.vc_box_shadow_border {
@@ -4819,7 +4858,7 @@ div.wpb_single_image.vc_box_border img, div.wpb_single_image.vc_box_outline img,
   width: 80px;
   height: 100%;
 }
-.porto-onepage-category:not(.show-products) .category-list {
+.porto-onepage-category:not(.show-products) > .category-list {
   height: 100%;
 }
 .porto-onepage-category.show-products {
@@ -4833,7 +4872,7 @@ div.wpb_single_image.vc_box_border img, div.wpb_single_image.vc_box_outline img,
   width: calc(100% - 80px);
   padding: 70px 5vw;
 }
-.porto-onepage-category .category-list {
+.porto-onepage-category > .category-list {
   background: #000;
   width: 80px;
   position: relative;
@@ -5072,7 +5111,7 @@ div.wpb_single_image.vc_box_border img, div.wpb_single_image.vc_box_outline img,
   .porto-onepage-category .product-cats .category-title, .porto-onepage-category .product-cats a:after {
     display: none;
   }
-  .porto-onepage-category .category-list {
+  .porto-onepage-category > .category-list {
     width: auto;
     height: auto;
     padding-top: 0;

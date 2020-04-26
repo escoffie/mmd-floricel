@@ -13,15 +13,15 @@ function porto_shortcode_section_scroll( $atts, $content = null ) {
 }
 
 function porto_load_section_scroll_shortcode() {
-	$custom_class       = porto_vc_custom_class();
+	$custom_class = porto_vc_custom_class();
 
 	vc_map(
 		array(
-			'name'            => 'Porto ' . __( 'Section Scroll', 'porto-functionality' ),
-			'base'            => 'porto_section_scroll',
-			'category'        => __( 'Porto', 'porto-functionality' ),
-			'icon'            => 'porto4_vc_section_scroll',
-			'params'          => array(
+			'name'     => 'Porto ' . __( 'Section Scroll', 'porto-functionality' ),
+			'base'     => 'porto_section_scroll',
+			'category' => __( 'Porto', 'porto-functionality' ),
+			'icon'     => 'porto4_vc_section_scroll',
+			'params'   => array(
 				array(
 					'type'       => 'checkbox',
 					'heading'    => __( 'Show Dots Navigation', 'porto-functionality' ),
@@ -35,7 +35,7 @@ function porto_load_section_scroll_shortcode() {
 					'param_name' => 'is_light',
 					'value'      => array( __( 'Yes', 'js_composer' ) => 'yes' ),
 					'std'        => '',
-					'dependency'  => array(
+					'dependency' => array(
 						'element'   => 'show_dots_nav',
 						'not_empty' => true,
 					),

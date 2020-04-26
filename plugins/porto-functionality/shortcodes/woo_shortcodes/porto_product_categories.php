@@ -1,6 +1,15 @@
 <?php
 
 // Porto Product Categories
+if ( function_exists( 'register_block_type' ) ) {
+	register_block_type(
+		'porto/porto-product-categories',
+		array(
+			'editor_script'   => 'porto_blocks',
+			'render_callback' => 'porto_shortcode_product_categories',
+		)
+	);
+}
 add_shortcode( 'porto_product_categories', 'porto_shortcode_product_categories' );
 add_action( 'vc_after_init', 'porto_load_product_categories_shortcode' );
 
@@ -17,7 +26,6 @@ function porto_load_product_categories_shortcode() {
 	$animation_duration = porto_vc_animation_duration();
 	$animation_delay    = porto_vc_animation_delay();
 	$custom_class       = porto_vc_custom_class();
-	$order_by_values    = porto_vc_woo_order_by();
 	$order_way_values   = porto_vc_woo_order_way();
 
 	// woocommerce product categories
@@ -156,7 +164,15 @@ function porto_load_product_categories_shortcode() {
 						'type'        => 'dropdown',
 						'heading'     => __( 'Order by', 'js_composer' ),
 						'param_name'  => 'orderby',
-						'value'       => $order_by_values,
+						'value'       => array(
+							__( 'Title', 'porto-functionality' )         => 'name',
+							__( 'ID', 'porto-functionality' )            => 'term_id',
+							__( 'Product Count', 'porto-functionality' ) => 'count',
+							__( 'None', 'porto-functionality' )          => 'none',
+							__( 'Parent', 'porto-functionality' )        => 'parent',
+							__( 'Description', 'porto-functionality' )   => 'description',
+							__( 'Term Group', 'porto-functionality' )    => 'term_group',
+						),
 						/* translators: %s: Wordpress codex page */
 						'description' => sprintf( __( 'Select how to sort retrieved products. More at %s.', 'js_composer' ), '<a href="http://codex.wordpress.org/Class_Reference/WP_Query#Order_.26_Orderby_Parameters" target="_blank">WordPress codex page</a>' ),
 					),
@@ -244,6 +260,10 @@ function porto_load_product_categories_shortcode() {
 						'param_name'  => 'stage_padding',
 						'value'       => '',
 						'description' => 'unit: px',
+						'dependency'  => array(
+							'element' => 'view',
+							'value'   => 'products-slider',
+						),
 						'group'       => __( 'Slider Options', 'porto-functionality' ),
 					),
 					$animation_type,

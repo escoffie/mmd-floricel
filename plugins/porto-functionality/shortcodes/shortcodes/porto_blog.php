@@ -38,6 +38,8 @@ function porto_load_blog_shortcode() {
 		'element' => 'post_layout',
 		'value'   => array( 'slider' ),
 	);
+	unset( $slider_options[7] );
+	unset( $slider_options[8] );
 
 	vc_map(
 		array(

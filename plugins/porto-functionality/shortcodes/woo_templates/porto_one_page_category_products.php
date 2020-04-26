@@ -13,8 +13,8 @@ extract(
 			'columns'          => 4,
 			'columns_mobile'   => '',
 			'column_width'     => '',
-			'product_orderby'  => 'date',
-			'product_order'    => 'desc',
+			'product_orderby'  => '',
+			'product_order'    => '',
 			'addlinks_pos'     => '',
 			'image_size'       => '',
 			'navigation'       => 1,
@@ -24,6 +24,8 @@ extract(
 			'show_nav_hover'   => false,
 			'pagination'       => 0,
 			'dots_pos'         => '',
+			'autoplay'         => 'yes',
+			'autoplay_timeout' => 5000,
 			'el_class'         => '',
 		),
 		$atts
@@ -93,48 +95,6 @@ switch ( $columns ) {
 }
 $subcategory_class = 'sub-category products pcols-lg-' . $columns . ' pcols-md-' . $cols_md . ' pcols-xs-' . $cols_xs . ' pcols-ls-' . $cols_ls;
 
-if ( $show_products ) {
-	global $porto_woocommerce_loop;
-	$porto_woocommerce_loop['view']    = $view;
-	$porto_woocommerce_loop['columns'] = $columns;
-	if ( $columns_mobile ) {
-		$porto_woocommerce_loop['columns_mobile'] = $columns_mobile;
-	}
-	$porto_woocommerce_loop['column_width'] = $column_width;
-	$porto_woocommerce_loop['pagination']   = $pagination;
-	$porto_woocommerce_loop['navigation']   = $navigation;
-	$porto_woocommerce_loop['addlinks_pos'] = $addlinks_pos;
-	if ( $image_size ) {
-		$porto_woocommerce_loop['image_size'] = $image_size;
-	}
-
-	$wrapper_class = '';
-	if ( $navigation ) {
-		if ( $nav_pos ) {
-			$wrapper_class .= ' ' . $nav_pos;
-		}
-		if ( ( empty( $nav_pos ) || 'nav-center-images-only' == $nav_pos ) && $nav_pos2 ) {
-			$wrapper_class .= ' ' . $nav_pos2;
-		}
-		if ( $nav_type ) {
-			$wrapper_class .= ' ' . $nav_type;
-		} else {
-			$wrapper_class .= ' show-nav-middle';
-		}
-		if ( $show_nav_hover ) {
-			$wrapper_class .= ' show-nav-hover';
-		}
-	}
-
-	if ( $pagination && $dots_pos ) {
-		$wrapper_class .= ' ' . $dots_pos;
-	}
-
-	if ( $wrapper_class ) {
-		$porto_woocommerce_loop['el_class'] = $wrapper_class;
-	}
-}
-
 $output          = '';
 $output         .= '<div class="' . esc_attr( $wrapper_classes ) . '">';
 $terms           = get_terms(
@@ -175,6 +135,9 @@ if ( $show_products && ! empty( $terms ) ) {
 			$output .= '<input type="hidden" name="columns" value="' . esc_attr( $columns ) . '" >';
 			$output .= '<input type="hidden" name="view" value="' . esc_attr( $view ) . '" >';
 			$output .= '<input type="hidden" name="navigation" value="' . esc_attr( $navigation ) . '" >';
+			if ( $addlinks_pos ) {
+				$output .= '<input type="hidden" name="addlinks_pos" value="' . esc_attr( $addlinks_pos ) . '" >';
+			}
 			if ( $nav_pos ) {
 				$output .= '<input type="hidden" name="nav_pos" value="' . esc_attr( $nav_pos ) . '" >';
 			}
@@ -190,6 +153,17 @@ if ( $show_products && ! empty( $terms ) ) {
 			$output .= '<input type="hidden" name="pagination" value="' . esc_attr( $pagination ) . '" >';
 			if ( $dots_pos ) {
 				$output .= '<input type="hidden" name="dots_pos" value="' . esc_attr( $dots_pos ) . '" >';
+			}
+			if ( $image_size ) {
+				$output .= '<input type="hidden" name="image_size" value="' . esc_attr( $image_size ) . '" >';
+			}
+			if ( 'products-slider' == $view ) {
+				if ( ! $autoplay ) {
+					$output .= '<input type="hidden" name="autoplay" value="" >';
+				}
+				if ( 5000 !== intval( $autoplay_timeout ) ) {
+					$output .= '<input type="hidden" name="autoplay_timeout" value="' . esc_attr( $autoplay_timeout ) . '" >';
+				}
 			}
 		$output .= '</form>';
 
@@ -218,11 +192,54 @@ if ( $show_products && ! empty( $terms ) ) {
 			$output .= '<ul class="dropdown-menu ' . $subcategory_class . '">' . $child_categories . '</ul>';
 		}
 				$output .= '</div>';
-				$output .= '<div class="category-link"><a href="' . esc_url( get_term_link( $term_cat->term_id, 'product_cat' ) ) . '" class="btn btn-outline btn-outline-primary">' . esc_html__( 'See more', 'porto-functionality' ) . '</a></div>';
+				$output .= '<div class="category-link"><a href="' . esc_url( get_term_link( $term_cat->term_id, 'product_cat' ) ) . '" class="btn btn-modern btn-dark">' . esc_html__( 'View All', 'porto-functionality' ) . '</a></div>';
 			$output     .= '</div>';
 
 		if ( $infinite_scroll && $is_first ) {
-			$output .= do_shortcode( '[product_category per_page="' . $count . '" columns="' . $columns . '" orderby="' . $product_orderby . '" order="' . $product_order . '" category="' . $term_cat->slug . '"]' );
+			$attrs_escaped = 'per_page="' . intval( $count ) . '" columns="' . intval( $columns ) . '" orderby="' . esc_attr( $product_orderby ) . '" order="' . esc_attr( $product_order ) . '" category="' . esc_attr( $term_cat->slug ) . '"';
+			if ( $view ) {
+				$attrs_escaped .= ' view="' . esc_attr( $view ) . '"';
+			}
+			if ( $addlinks_pos ) {
+				$attrs_escaped .= ' addlinks_pos="' . esc_attr( $addlinks_pos ) . '"';
+			}
+			if ( $columns_mobile ) {
+				$attrs_escaped .= ' columns_mobile="' . esc_attr( $columns_mobile ) . '"';
+			}
+			if ( $column_width ) {
+				$attrs_escaped .= ' column_width="' . esc_attr( $column_width ) . '"';
+			}
+			if ( $image_size ) {
+				$attrs_escaped .= ' image_size="' . esc_attr( $image_size ) . '"';
+			}
+			if ( $navigation ) {
+				$attrs_escaped .= ' navigation="' . esc_attr( $navigation ) . '"';
+			}
+			if ( $nav_pos ) {
+				$attrs_escaped .= ' nav_pos="' . esc_attr( $nav_pos ) . '"';
+			}
+			if ( $nav_type ) {
+				$attrs_escaped .= ' nav_type="' . esc_attr( $nav_type ) . '"';
+			}
+			if ( $nav_pos2 ) {
+				$attrs_escaped .= ' nav_pos2="' . esc_attr( $nav_pos2 ) . '"';
+			}
+			if ( $show_nav_hover ) {
+				$attrs_escaped .= ' show_nav_hover="' . esc_attr( $show_nav_hover ) . '"';
+			}
+			if ( $pagination ) {
+				$attrs_escaped .= ' pagination="' . esc_attr( $pagination ) . '"';
+			}
+			if ( $dots_pos ) {
+				$attrs_escaped .= ' dots_pos="' . esc_attr( $dots_pos ) . '"';
+			}
+			if ( $autoplay ) {
+				$attrs_escaped .= ' autoplay="' . esc_attr( $autoplay ) . '"';
+			}
+			if ( 5000 !== intval( $autoplay_timeout ) ) {
+				$attrs_escaped .= ' autoplay_timeout="' . intval( $autoplay_timeout ) . '"';
+			}
+			$output .= do_shortcode( '[porto_product_category ' . $attrs_escaped . ']' );
 
 			if ( $term_cat->description ) {
 				$output .= '<div class="category-description">';
@@ -238,9 +255,5 @@ if ( $show_products && ! empty( $terms ) ) {
 }
 
 $output .= '</div>';
-
-if ( $show_products && $image_size ) {
-	unset( $porto_woocommerce_loop['image_size'] );
-}
 
 echo porto_filter_output( $output );

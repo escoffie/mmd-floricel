@@ -12,7 +12,7 @@ extract(
 			'icon_img'                     => '',
 			'img_width'                    => '48',
 			'icon_size'                    => '32',
-			'icon_color'                   => '#333',
+			'icon_color'                   => '',
 			'icon_style'                   => 'none',
 			'icon_color_bg'                => '#ffffff',
 			'icon_color_border'            => '#333333',
@@ -26,6 +26,7 @@ extract(
 			'link'                         => '',
 			'hover_effect'                 => 'style_1',
 			'pos'                          => 'default',
+			'h_align'                      => 'center',
 			'read_more'                    => 'none',
 			'read_text'                    => 'Read More',
 			'heading_tag'                  => 'h3',
@@ -83,11 +84,13 @@ switch ( $icon_type ) {
 		break;
 }
 
-$html             = $target = $title_style = $desc_style = $inf_design_style = '';
-$inf_design_style = apply_filters( VC_SHORTCODE_CUSTOM_CSS_FILTER_TAG, vc_shortcode_custom_css_class( $css_info_box, ' ' ), 'porto_info_box', $atts );
+$html = $target = $title_style = $desc_style = $inf_design_style = '';
+if ( defined( 'VC_SHORTCODE_CUSTOM_CSS_FILTER_TAG' ) ) {
+	$inf_design_style = apply_filters( VC_SHORTCODE_CUSTOM_CSS_FILTER_TAG, vc_shortcode_custom_css_class( $css_info_box, ' ' ), 'porto_info_box', $atts );
+}
 
-$box_icon         = do_shortcode( '[porto_icon icon_type="' . $icon_type . '" icon="' . $icon . '" icon_img="' . $icon_img . '" img_width="' . $img_width . '" icon_size="' . $icon_size . '" icon_color="' . $icon_color . '" icon_style="' . $icon_style . '" icon_color_bg="' . $icon_color_bg . '" icon_color_border="' . $icon_color_border . '"  icon_border_style="' . $icon_border_style . '" icon_border_size="' . $icon_border_size . '" icon_border_radius="' . $icon_border_radius . '" icon_border_spacing="' . $icon_border_spacing . '" animation_type="' . $animation_type . '"]' );
-$classes          = 'porto-sicon-box';
+$box_icon = do_shortcode( '[porto_icon icon_type="' . $icon_type . '" icon="' . trim( $icon ) . '" icon_img="' . $icon_img . '" img_width="' . $img_width . '" icon_size="' . $icon_size . '" icon_color="' . $icon_color . '" icon_style="' . $icon_style . '" icon_color_bg="' . $icon_color_bg . '" icon_color_border="' . $icon_color_border . '"  icon_border_style="' . $icon_border_style . '" icon_border_size="' . $icon_border_size . '" icon_border_radius="' . $icon_border_radius . '" icon_border_spacing="' . $icon_border_spacing . '" animation_type="' . $animation_type . '"]' );
+$classes  = 'porto-sicon-box';
 if ( $inf_design_style ) {
 	$classes .= ' ' . $inf_design_style;
 }
@@ -108,20 +111,25 @@ if ( $pos ) {
 	if ( 'default' == $pos && $content ) {
 		$classes .= ' flex-wrap';
 	}
+	if ( 'top' == $pos && $h_align && 'center' != $h_align ) {
+		$classes .= ' text-' . $h_align;
+	}
 }
 
 if ( $link ) {
 	if ( is_array( $link ) && isset( $link['url'] ) ) {
 		$url        = $link['url'];
-		$target     = isset( $link['is_external'] ) && 'on' == $link['is_external'] ? 'target="_blank"' : '';
+		$target     = isset( $link['is_external'] ) && 'on' == $link['is_external'] ? ' target="_blank"' : '';
 		$link_title = '';
-		$rel        = isset( $link['nofollow'] ) && 'on' == $link['nofollow'] ? 'rel="nofollow"' : '';
-	} else {
+		$rel        = isset( $link['nofollow'] ) && 'on' == $link['nofollow'] ? ' rel="nofollow"' : '';
+	} elseif ( defined( 'VC_SHORTCODE_CUSTOM_CSS_FILTER_TAG' ) ) {
 		$href       = vc_build_link( $link );
 		$url        = ( isset( $href['url'] ) && $href['url'] ) ? $href['url'] : '';
-		$target     = ( isset( $href['target'] ) && $href['target'] ) ? "target='" . esc_attr( trim( $href['target'] ) ) . "'" : '';
-		$link_title = ( isset( $href['title'] ) && $href['title'] ) ? "title='" . esc_attr( $href['title'] ) . "'" : '';
-		$rel        = ( isset( $href['rel'] ) && $href['rel'] ) ? "rel='" . esc_attr( $href['rel'] ) . "'" : '';
+		$target     = ( isset( $href['target'] ) && $href['target'] ) ? " target='" . esc_attr( trim( $href['target'] ) ) . "'" : '';
+		$link_title = ( isset( $href['title'] ) && $href['title'] ) ? " title='" . esc_attr( $href['title'] ) . "'" : '';
+		$rel        = ( isset( $href['rel'] ) && $href['rel'] ) ? " rel='" . esc_attr( $href['rel'] ) . "'" : '';
+	} else {
+		$url = '';
 	}
 }
 
@@ -230,6 +238,16 @@ if ( $desc_font_color ) {
 	$desc_style .= 'color:' . esc_attr( $desc_font_color ) . ';';
 }
 
+if ( ! isset( $title_attrs_escaped ) ) {
+	$title_attrs_escaped = ' class="porto-sicon-title"';
+}
+if ( ! isset( $subtitle_attrs_escaped ) ) {
+	$subtitle_attrs_escaped = '';
+}
+if ( ! isset( $desc_attrs_escaped ) ) {
+	$desc_attrs_escaped = '';
+}
+
 $html .= '<div class="' . esc_attr( $classes ) . '">';
 
 if ( 'heading-right' == $pos || 'right' == $pos ) {
@@ -242,15 +260,15 @@ if ( 'heading-right' == $pos || 'right' == $pos ) {
 		$link_sufix  = '';
 		if ( $link ) {
 			if ( 'title' == $read_more ) {
-				$link_prefix = '<a class="porto-sicon-box-link" href="' . esc_url( $url ) . '" ' . $target . ' ' . $rel . ' ' . $link_title . '>';
+				$link_prefix = '<a class="porto-sicon-box-link" href="' . esc_url( $url ) . '"' . $target . $rel . $link_title . '>';
 				$link_sufix  = '</a>';
 			}
 		}
 		if ( $title ) {
-			$html .= $link_prefix . '<' . esc_attr( $heading_tag ) . ' class="porto-sicon-title" style="' . esc_attr( $title_style ) . '">' . porto_strip_script_tags( $title ) . '</' . esc_attr( $heading_tag ) . '>' . $link_sufix;
+			$html .= $link_prefix . '<' . esc_attr( $heading_tag ) . $title_attrs_escaped . ( $title_style ? ' style="' . esc_attr( $title_style ) . '"' : '' ) . '>' . porto_strip_script_tags( $title ) . '</' . esc_attr( $heading_tag ) . '>' . $link_sufix;
 		}
 		if ( $subtitle ) {
-			$html .= '<p' . ( $subtitle_style ? ' style="' . $subtitle_style . '"' : '' ) . '>' . porto_strip_script_tags( $subtitle ) . '</p>';
+			$html .= '<p' . $subtitle_attrs_escaped . ( $subtitle_style ? ' style="' . $subtitle_style . '"' : '' ) . '>' . porto_strip_script_tags( $subtitle ) . '</p>';
 		}
 		$html .= '</div> <!-- header -->';
 	}
@@ -260,11 +278,11 @@ if ( 'heading-right' == $pos || 'right' == $pos ) {
 		}
 	}
 	if ( $content ) {
-		$html .= '<div class="porto-sicon-description" style="' . esc_attr( $desc_style ) . '">';
+		$html .= '<div class="porto-sicon-description" style="' . esc_attr( $desc_style ) . '"' . $desc_attrs_escaped . '>';
 		$html .= do_shortcode( $content );
 		if ( $link ) {
 			if ( 'more' == $read_more ) {
-				$more_link  = '<a class="porto-sicon-read" href="' . esc_url( $url ) . '" ' . $target . ' ' . $rel . ' ' . $link_title . '>';
+				$more_link  = '<a class="porto-sicon-read" href="' . esc_url( $url ) . '"' . $target . $rel . $link_title . '>';
 				$more_link .= $read_text;
 				$more_link .= '&nbsp;&raquo;';
 				$more_link .= '</a>';
@@ -292,23 +310,23 @@ if ( 'heading-right' == $pos || 'right' == $pos ) {
 		$link_sufix  = '';
 		if ( $link ) {
 			if ( 'title' == $read_more ) {
-				$link_prefix = '<a class="porto-sicon-box-link" href="' . esc_url( $url ) . '" ' . $target . ' ' . $rel . ' ' . $link_title . '>';
+				$link_prefix = '<a class="porto-sicon-box-link" href="' . esc_url( $url ) . '"' . $target . $rel . $link_title . '>';
 				$link_sufix  = '</a>';
 			}
 		}
 		if ( $title ) {
-			$html .= $link_prefix . '<' . esc_attr( $heading_tag ) . ' class="porto-sicon-title" style="' . esc_attr( $title_style ) . '">' . porto_strip_script_tags( $title ) . '</' . esc_attr( $heading_tag ) . '>' . $link_sufix;
+			$html .= $link_prefix . '<' . esc_attr( $heading_tag ) . $title_attrs_escaped . ' style="' . esc_attr( $title_style ) . '">' . porto_strip_script_tags( $title ) . '</' . esc_attr( $heading_tag ) . '>' . $link_sufix;
 		}
 		if ( $subtitle ) {
-			$html .= '<p' . ( $subtitle_style ? ' style="' . $subtitle_style . '"' : '' ) . '>' . porto_strip_script_tags( $subtitle ) . '</p>';
+			$html .= '<p' . $subtitle_attrs_escaped . ( $subtitle_style ? ' style="' . $subtitle_style . '"' : '' ) . '>' . porto_strip_script_tags( $subtitle ) . '</p>';
 		}
 		$html .= '</div> <!-- header -->';
 	}
 	if ( $content || ( $link && 'more' == $read_more && $read_text ) ) {
-		$html .= '<div class="porto-sicon-description" style="' . esc_attr( $desc_style ) . '">';
+		$html .= '<div class="porto-sicon-description" style="' . esc_attr( $desc_style ) . '"' . $desc_attrs_escaped . '>';
 		$html .= do_shortcode( $content );
 		if ( $link && 'more' == $read_more && $read_text ) {
-			$more_link  = '<a class="porto-sicon-read xx" href="' . esc_url( $url ) . '" ' . $target . ' ' . $rel . ' ' . $link_title . '>';
+			$more_link  = '<a class="porto-sicon-read xx" href="' . esc_url( $url ) . '"' . $target . $rel . $link_title . '>';
 			$more_link .= $read_text;
 			$more_link .= '<span>&nbsp;&raquo;</span>';
 			$more_link .= '</a>';
@@ -322,10 +340,10 @@ if ( 'heading-right' == $pos || 'right' == $pos ) {
 }
 
 
-$html .= '</div> <!-- porto-sicon-box -->';
+$html .= '</div><!-- porto-sicon-box -->';
 if ( $link ) {
 	if ( 'box' == $read_more ) {
-		$html = '<a class="porto-sicon-box-link" href="' . esc_url( $url ) . '" ' . $target . ' ' . $rel . ' ' . $link_title . '>' . $html . '</a>';
+		$html = '<a class="porto-sicon-box-link" href="' . esc_url( $url ) . '"' . $target . $rel . $link_title . '>' . $html . '</a>';
 	}
 }
 

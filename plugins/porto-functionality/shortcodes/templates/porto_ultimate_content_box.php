@@ -33,7 +33,10 @@ extract(
 
 $style = $url = $link_title = $target = $hover = $shadow = $data_attr = $target = $link_title  = $rel = '';
 
-$content_box_design_style = apply_filters( VC_SHORTCODE_CUSTOM_CSS_FILTER_TAG, vc_shortcode_custom_css_class( $css_contentbox, ' ' ), 'porto_ultimate_content_box', $atts );
+$content_box_design_style = '';
+if ( defined( 'VC_SHORTCODE_CUSTOM_CSS_FILTER_TAG' ) ) {
+	$content_box_design_style = apply_filters( VC_SHORTCODE_CUSTOM_CSS_FILTER_TAG, vc_shortcode_custom_css_class( $css_contentbox, ' ' ), 'porto_ultimate_content_box', $atts );
+}
 
 $box_class = 'porto-ultimate-content-box' . ( $content_box_design_style ? ' ' . trim( $content_box_design_style ) : '' ) . ( $content_pos ? ' has-content-pos justify-content-' . $content_pos : '' );
 if ( $bg_type ) {

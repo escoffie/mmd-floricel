@@ -265,8 +265,8 @@ function porto_load_recent_posts_shortcode() {
 					'param_name' => 'dots_pos',
 					'std'        => '',
 					'value'      => array(
-						__( 'Top beside title', 'porto-functionality' ) => 'show-dots-title',
 						__( 'Bottom', 'porto-functionality' ) => '',
+						__( 'Top beside title', 'porto-functionality' ) => 'show-dots-title',
 					),
 					'dependency' => array(
 						'element'   => 'show_dots',

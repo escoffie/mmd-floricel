@@ -60,7 +60,7 @@ if ( $slider_config ) {
 	}
 	$options['nav']  = $show_nav;
 	$options['dots'] = $show_dots;
-	if ( $show_dots ) {
+	if ( $show_dots && $dots_pos ) {
 		$carousel_class .= ' ' . $dots_pos;
 	}
 }

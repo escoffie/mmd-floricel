@@ -17,15 +17,15 @@ extract(
 			'overlay_bg_opacity' => '15',
 			'text_color'         => 'light',
 
-			'orderby'            => 'title',
-			'order'              => 'asc',
+			'orderby'            => 'name',
+			'order'              => 'ASC',
 			'hide_empty'         => '',
 			'parent'             => '',
 			'ids'                => '',
 			'addlinks_pos'       => '',
 			'media_type'         => '',
 			'show_featured'      => '',
-			'hide_count'         => 0,
+			'hide_count'         => '',
 			'hover_effect'       => '',
 			'image_size'         => '',
 
@@ -37,6 +37,8 @@ extract(
 			'pagination'         => 0,
 			'dots_pos'           => '',
 			'stage_padding'      => '',
+			'autoplay'           => '',
+			'autoplay_timeout'   => 5000,
 
 			'animation_type'     => '',
 			'animation_duration' => 1000,
@@ -54,6 +56,16 @@ if ( $hide_count ) {
 }
 if ( $hover_effect ) {
 	$el_class .= ' show-count-on-hover';
+}
+
+if ( is_array( $number ) && isset( $number['size'] ) ) {
+	$number = $number['size'];
+}
+if ( is_array( $spacing ) && isset( $spacing['size'] ) ) {
+	$spacing = $spacing['size'];
+}
+if ( is_array( $overlay_bg_opacity ) && isset( $overlay_bg_opacity['size'] ) ) {
+	$overlay_bg_opacity = $overlay_bg_opacity['size'];
 }
 
 $hide_empty = $hide_empty ? 1 : 0;
@@ -119,9 +131,6 @@ if ( $pagination && $dots_pos ) {
 if ( $wrapper_class ) {
 	$porto_woocommerce_loop['el_class'] = $wrapper_class;
 }
-if ( 'products-slider' == $view && $stage_padding ) {
-	$porto_woocommerce_loop['stage_padding'] = $stage_padding;
-}
 if ( $media_type ) {
 	$porto_woocommerce_loop['product_categories_media_type'] = $media_type;
 }
@@ -133,12 +142,24 @@ if ( $image_size ) {
 	$porto_woocommerce_loop['image_size'] = $image_size;
 }
 
+if ( 'products-slider' == $view ) {
+	if ( $stage_padding ) {
+		$porto_woocommerce_loop['stage_padding'] = $stage_padding;
+	}
+	if ( $autoplay ) {
+		$porto_woocommerce_loop['autoplay'] = ( 'yes' == $autoplay ? true : false );
+		if ( 5000 !== intval( $autoplay_timeout ) ) {
+			$porto_woocommerce_loop['autoplay_timeout'] = $autoplay_timeout;
+		}
+	}
+	$porto_woocommerce_loop['navigation'] = $navigation;
+	$porto_woocommerce_loop['pagination'] = $pagination;
+}
+
 $porto_woocommerce_loop['category-view'] = 'category-pos-' . explode( '-', $text_position )[0] . ( isset( explode( '-', $text_position )[1] ) ? ' category-text-' . explode( '-', $text_position )[1] : '' ) . ( 'light' != $text_color ? ' category-color-' . $text_color : '' );
 
 if ( 'creative' == $view ) {
-	$porto_woocommerce_loop['grid_height']  = $grid_height;
-	$porto_woocommerce_loop['grid_layout']  = porto_creative_grid_layout( $grid_layout );
-	$porto_woocommerce_loop['grid_spacing'] = $spacing;
+	$porto_woocommerce_loop['grid_layout'] = porto_creative_grid_layout( $grid_layout );
 
 	if ( '4' == $grid_layout ) {
 		$porto_woocommerce_loop['creative_grid'] = 'true';
@@ -146,7 +167,9 @@ if ( 'creative' == $view ) {
 		wp_enqueue_script( 'isotope' );
 	}
 
-	porto_creative_grid_style( $porto_woocommerce_loop['grid_layout'], $grid_height, $wrapper_id, $spacing );
+	$grid_height_number = trim( preg_replace( '/[^0-9]/', '', $grid_height ) );
+	$unit               = trim( str_replace( $grid_height_number, '', $grid_height ) );
+	porto_creative_grid_style( $porto_woocommerce_loop['grid_layout'], $grid_height_number, $wrapper_id, $spacing, true, $unit );
 }
 
 if ( '0' == $overlay_bg_opacity || ( '15' != $overlay_bg_opacity && $overlay_bg_opacity ) ) {
@@ -160,7 +183,6 @@ if ( ! empty( $ids ) ) {
 	$orderby = 'include';
 	$order   = 'ASC';
 }
-
 $output .= do_shortcode( '[product_categories number="' . $number . '" columns="' . $columns . '" orderby="' . $orderby . '" order="' . $order . '" hide_empty="' . $hide_empty . '" parent="' . $parent . '" ids="' . $ids . '"]' );
 
 if ( 'products-slider' == $view ) {

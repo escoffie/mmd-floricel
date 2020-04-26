@@ -40,7 +40,11 @@ class Porto_Elementor_Recent_Posts_Widget extends \Elementor\Widget_Base {
 	}
 
 	protected function _register_controls() {
-		$slider_options = porto_update_vc_options_to_elementor( porto_vc_product_slider_fields() );
+		$slider_options = porto_vc_product_slider_fields();
+		unset( $slider_options[7] );
+		unset( $slider_options[8] );
+		$slider_options = porto_update_vc_options_to_elementor( $slider_options );
+		$slider_options['dots_pos']['options']['show-dots-title'] = __( 'Top beside title', 'porto-functionality' );
 
 		unset( $slider_options['navigation']['default'] );
 

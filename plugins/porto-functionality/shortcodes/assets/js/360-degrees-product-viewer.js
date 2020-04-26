@@ -67,7 +67,7 @@
 					minLeft = containerOffset - dragWidth/2,
 					maxLeft = containerOffset + containerWidth - dragWidth/2;
 
-				self.xPosition = self.handle.offset().left + dragWidth - ( ($(window).width() < 992) ? e.originalEvent.touches[0].pageX : e.pageX );
+				self.xPosition = self.handle.offset().left + dragWidth - ( ($(window).width() < 992) && e.originalEvent.touches ? e.originalEvent.touches[0].pageX : e.pageX );
 
 				self.element.on('mousemove touchmove', function (e) {
 					if( !self.animating) {
@@ -90,7 +90,7 @@
 
 		productViewer.prototype.animateDraggedHandle = function(e, dragWidth, containerOffset, containerWidth, minLeft, maxLeft) {
 			var self = this;
-			var leftValue = ( ($(window).width() < 992) ? e.originalEvent.touches[0].pageX : e.pageX ) + self.xPosition - dragWidth;
+			var leftValue = ( ($(window).width() < 992) && e.originalEvent.touches ? e.originalEvent.touches[0].pageX : e.pageX ) + self.xPosition - dragWidth;
 			if (leftValue < minLeft) {
 				leftValue = minLeft;
 			} else if (leftValue > maxLeft) {

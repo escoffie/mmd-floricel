@@ -52,8 +52,9 @@ $uniqid           = uniqid();
 $vc_version    = ( defined( 'WPB_VC_VERSION' ) ) ? WPB_VC_VERSION : 0;
 $is_vc_49_plus = ( version_compare( 4.9, $vc_version, '<=' ) ) ? 'porto-adjust-bottom-margin' : '';
 
-$css_btn_design = apply_filters( VC_SHORTCODE_CUSTOM_CSS_FILTER_TAG, vc_shortcode_custom_css_class( $css_adv_btn, ' ' ), 'porto_buttons', $atts );
-$css_btn_design = esc_attr( $css_btn_design );
+if ( defined( 'VC_SHORTCODE_CUSTOM_CSS_FILTER_TAG' ) ) {
+	$css_btn_design = apply_filters( VC_SHORTCODE_CUSTOM_CSS_FILTER_TAG, vc_shortcode_custom_css_class( $css_adv_btn, ' ' ), 'porto_buttons', $atts );
+}
 
 	$shadow_click = 'none';
 $alt              = 'icon';

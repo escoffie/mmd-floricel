@@ -73,8 +73,10 @@ if ( is_array( $countdown_opt ) ) {
 	}
 }
 
-$countdown_design_style = apply_filters( VC_SHORTCODE_CUSTOM_CSS_FILTER_TAG, vc_shortcode_custom_css_class( $css_countdown, ' ' ), 'porto_countdown', $atts );
-$data_attr              = '';
+if ( defined( 'VC_SHORTCODE_CUSTOM_CSS_FILTER_TAG' ) ) {
+	$countdown_design_style = apply_filters( VC_SHORTCODE_CUSTOM_CSS_FILTER_TAG, vc_shortcode_custom_css_class( $css_countdown, ' ' ), 'porto_countdown', $atts );
+}
+$data_attr = '';
 if ( '' == $count_frmt ) {
 	$count_frmt = 'DHMS';
 }
@@ -219,8 +221,9 @@ echo porto_filter_output( $output );
 
 global $porto_shortcode_countdown_use;
 if ( ! isset( $porto_shortcode_countdown_use ) || ! $porto_shortcode_countdown_use ) :
-	$porto_shortcode_countdown_use = true;
-	?>
+	if ( wp_script_is( 'countdown', 'registered' ) ) :
+		$porto_shortcode_countdown_use = true;
+		?>
 <script>
 	jQuery(document).ready(function ($) {
 		'use strict';
@@ -239,4 +242,5 @@ if ( ! isset( $porto_shortcode_countdown_use ) || ! $porto_shortcode_countdown_u
 		}
 	});
 </script>
+	<?php endif; ?>
 <?php endif; ?>

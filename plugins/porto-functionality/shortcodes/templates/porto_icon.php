@@ -12,7 +12,7 @@ extract(
 			'icon_img'            => '',
 			'img_width'           => '48',
 			'icon_size'           => '32',
-			'icon_color'          => '#333',
+			'icon_color'          => '',
 			'icon_style'          => 'none',
 			'icon_color_bg'       => '#ffffff',
 			'icon_color_border'   => '#333333',
@@ -47,17 +47,19 @@ switch ( $icon_type ) {
 if ( empty( $animation_type ) && ! empty( $icon_animation ) ) {
 	$animation_type = $icon_animation;
 }
-$css_porto_icon = apply_filters( VC_SHORTCODE_CUSTOM_CSS_FILTER_TAG, vc_shortcode_custom_css_class( $css_porto_icon, ' ' ), 'porto_icon', $atts );
-$css_porto_icon = esc_attr( $css_porto_icon );
+
+if ( defined( 'VC_SHORTCODE_CUSTOM_CSS_FILTER_TAG' ) ) {
+	$css_porto_icon = apply_filters( VC_SHORTCODE_CUSTOM_CSS_FILTER_TAG, vc_shortcode_custom_css_class( $css_porto_icon, ' ' ), 'porto_icon', $atts );
+}
 
 $output = $style = $link_sufix = $link_prefix = $target = $href = $icon_align_style = $css_trans = $target = $link_title  = $rel = '';
 
 if ( $animation_type ) {
-	$css_trans = 'data-appear-animation="' . esc_attr( $animation_type ) . '"';
+	$css_trans = ' data-appear-animation="' . esc_attr( $animation_type ) . '"';
 }
 
 $uniqid = uniqid();
-if ( $icon_link ) {
+if ( $icon_link && function_exists( 'vc_build_link' ) ) {
 	$href         = vc_build_link( $icon_link );
 	$url          = ( isset( $href['url'] ) && $href['url'] ) ? $href['url'] : '';
 	$target       = ( isset( $href['target'] ) && $href['target'] ) ? "target='" . esc_attr( trim( $href['target'] ) ) . "'" : '';
@@ -125,9 +127,9 @@ if ( 'custom' == $icon_type ) {
 		if ( $img_width ) {
 			$style .= 'font-size: ' . esc_attr( $img_width ) . 'px;';
 		}
-		$output .= "\n" . $link_prefix . '<div class="porto-sicon-img ' . esc_attr( $elx_class ) . '" style="' . esc_attr( $style ) . '" ' . $css_trans . '>';
-		$output .= "\n\t" . '<img class="img-icon" alt="' . esc_attr( $alt ) . '" src="' . esc_url( $img ) . '" width="' . esc_attr( $attachment[1] ) . '" height="' . esc_attr( $attachment[2] ) . '" />';
-		$output .= "\n" . '</div>' . $link_sufix;
+		$output .= $link_prefix . '<div class="porto-sicon-img ' . esc_attr( $elx_class ) . '" style="' . esc_attr( $style ) . '"' . $css_trans . '>';
+		$output .= '<img class="img-icon" alt="' . esc_attr( $alt ) . '" src="' . esc_url( $img ) . '" width="' . esc_attr( $attachment[1] ) . '" height="' . esc_attr( $attachment[2] ) . '" />';
+		$output .= '</div>' . $link_sufix;
 	}
 } else {
 	if ( $icon_color ) {
@@ -148,10 +150,14 @@ if ( 'custom' == $icon_type ) {
 				$style .= 'border-width:' . $icon_border_size . 'px;';
 			}
 		}
-		$style .= 'width:' . $icon_border_spacing . 'px;';
-		$style .= 'height:' . $icon_border_spacing . 'px;';
-		$style .= 'line-height:' . $icon_border_spacing . 'px;';
-		$style .= 'border-radius:' . $icon_border_radius . 'px;';
+		if ( $icon_border_spacing ) {
+			$style .= 'width:' . $icon_border_spacing . 'px;';
+			$style .= 'height:' . $icon_border_spacing . 'px;';
+			$style .= 'line-height:' . $icon_border_spacing . 'px;';
+		}
+		if ( $icon_border_radius ) {
+			$style .= 'border-radius:' . $icon_border_radius . 'px;';
+		}
 	}
 	if ( $icon_size ) {
 		$style .= 'font-size:' . $icon_size . 'px;';
@@ -160,9 +166,9 @@ if ( 'custom' == $icon_type ) {
 		$style .= 'display:inline-block;';
 	}
 	if ( $icon ) {
-		$output .= "\n" . $link_prefix . '<div class="porto-icon ' . esc_attr( $icon_style ) . ' ' . esc_attr( $elx_class ) . '" ' . $css_trans . ' style="' . esc_attr( $style ) . '">';
-		$output .= "\n\t" . '<i class="' . esc_attr( $icon ) . '"></i>';
-		$output .= "\n" . '</div>' . $link_sufix;
+		$output .= $link_prefix . '<div class="porto-icon ' . esc_attr( $icon_style ) . ( $elx_class ? ' ' . esc_attr( $elx_class ) : '' ) . '"' . $css_trans . ' style="' . esc_attr( $style ) . '">';
+		$output .= '<i class="' . esc_attr( $icon ) . '"></i>';
+		$output .= '</div>' . $link_sufix;
 	}
 }
 

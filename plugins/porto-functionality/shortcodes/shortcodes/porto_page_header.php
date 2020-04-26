@@ -78,6 +78,13 @@ function porto_load_page_header_shortcode() {
 					'admin_label' => true,
 				),
 				array(
+					'type'        => 'checkbox',
+					'param_name'  => 'hide_breadcrumb',
+					'value'       => array(
+						__( 'Hide Breadcrumbs', 'porto-functionality' ) => 'yes',
+					),
+				),
+				array(
 					'type'       => 'colorpicker',
 					'heading'    => __( 'Breadcrumbs Text Color', 'porto-functionality' ),
 					'param_name' => 'breadcrumbs_text_color',

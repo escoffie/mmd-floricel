@@ -20,7 +20,10 @@ extract(
 
 $output        = '';
 $inline_styles = '';
-$css_ib_styles = apply_filters( VC_SHORTCODE_CUSTOM_CSS_FILTER_TAG, vc_shortcode_custom_css_class( $css_ibanner_layer, ' ' ), 'porto_interactive_banner_layer', $atts );
+$css_ib_styles = '';
+if ( defined( 'VC_SHORTCODE_CUSTOM_CSS_FILTER_TAG' ) ) {
+	$css_ib_styles = apply_filters( VC_SHORTCODE_CUSTOM_CSS_FILTER_TAG, vc_shortcode_custom_css_class( $css_ibanner_layer, ' ' ), 'porto_interactive_banner_layer', $atts );
+}
 $el_class      = porto_shortcode_extract_class( $el_class );
 
 $classes = 'porto-ibanner-layer';
@@ -78,18 +81,24 @@ $output = '<div class="' . esc_attr( $classes ) . '"';
 if ( $inline_styles ) {
 	$output .= ' style="' . esc_attr( $inline_styles ) . '"';
 }
+$output .= '>';
+
 if ( $animation_type ) {
-	$output .= ' data-appear-animation="' . esc_attr( $animation_type ) . '"';
+	$output .= '<div data-appear-animation="' . esc_attr( $animation_type ) . '"';
 	if ( $animation_delay ) {
 		$output .= ' data-appear-animation-delay="' . esc_attr( $animation_delay ) . '"';
 	}
 	if ( $animation_duration && 1000 != $animation_duration ) {
 		$output .= ' data-appear-animation-duration="' . esc_attr( $animation_duration ) . '"';
 	}
+	$output .= '>';
 }
-$output .= '>';
 
 $output .= do_shortcode( $content );
+
+if ( $animation_type ) {
+	echo '</div>';
+}
 
 $output .= '</div>';
 

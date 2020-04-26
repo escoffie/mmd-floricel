@@ -35,7 +35,7 @@ class Porto_Elementor_Products_Widget extends \Elementor\Widget_Base {
 		if ( ( isset( $_REQUEST['action'] ) && 'elementor' == $_REQUEST['action'] ) || isset( $_REQUEST['elementor-preview'] ) ) {
 			return array( 'porto-elementor-widgets-js', 'isotope' );
 		} else {
-			return array( 'isotope' );
+			return array();
 		}
 	}
 
@@ -44,8 +44,9 @@ class Porto_Elementor_Products_Widget extends \Elementor\Widget_Base {
 		$order_way_values = array_slice( porto_vc_woo_order_way(), 1 );
 		$slider_options   = porto_update_vc_options_to_elementor( porto_vc_product_slider_fields() );
 
-		$slider_options['nav_pos2']['condition']['navigation'] = 'yes';
-		$slider_options['nav_type']['condition']['navigation'] = 'yes';
+		$slider_options['nav_pos2']['condition']['navigation']       = 'yes';
+		$slider_options['nav_type']['condition']['navigation']       = 'yes';
+		$slider_options['autoplay_timeout']['condition']['autoplay'] = 'yes';
 
 		$this->start_controls_section(
 			'section_products',
@@ -156,9 +157,9 @@ class Porto_Elementor_Products_Widget extends \Elementor\Widget_Base {
 			'grid_layout',
 			array(
 				'label'     => __( 'Grid Layout', 'porto-functionality' ),
-				'type'      => Controls_Manager::SELECT,
+				'type'      => 'image_choose',
 				'default'   => '1',
-				'options'   => array_combine( array_values( porto_sh_commons( 'masonry_layouts' ) ), array_values( porto_sh_commons( 'masonry_layouts' ) ) ),
+				'options'   => array_combine( array_values( porto_sh_commons( 'masonry_layouts' ) ), array_keys( porto_sh_commons( 'masonry_layouts' ) ) ),
 				'condition' => array(
 					'view' => 'creative',
 				),
@@ -202,7 +203,7 @@ class Porto_Elementor_Products_Widget extends \Elementor\Widget_Base {
 				'type'      => Controls_Manager::SELECT,
 				'label'     => __( 'Columns', 'porto-functionality' ),
 				'condition' => array(
-					'post_layout' => array( 'products-slider', 'grid', 'divider' ),
+					'view' => array( 'products-slider', 'grid', 'divider' ),
 				),
 				'default'   => '4',
 				'options'   => porto_sh_commons( 'products_columns' ),
@@ -215,7 +216,7 @@ class Porto_Elementor_Products_Widget extends \Elementor\Widget_Base {
 				'type'      => Controls_Manager::SELECT,
 				'label'     => __( 'Columns on mobile ( <= 575px )', 'porto-functionality' ),
 				'condition' => array(
-					'post_layout' => array( 'products-slider', 'grid', 'divider' ),
+					'view' => array( 'products-slider', 'grid', 'divider' ),
 				),
 				'default'   => '',
 				'options'   => array(
@@ -236,6 +237,22 @@ class Porto_Elementor_Products_Widget extends \Elementor\Widget_Base {
 					'view' => array( 'products-slider', 'grid', 'divider' ),
 				),
 				'options'   => array_combine( array_values( porto_sh_commons( 'products_column_width' ) ), array_keys( porto_sh_commons( 'products_column_width' ) ) ),
+			)
+		);
+
+		$this->add_control(
+			'pagination_style',
+			array(
+				'type'      => Controls_Manager::SELECT,
+				'label'     => __( 'Pagination Style', 'porto-functionality' ),
+				'condition' => array(
+					'view' => array( 'list', 'grid', 'divider' ),
+				),
+				'options'   => array(
+					''          => __( 'No pagination', 'porto-functionality' ),
+					'default'   => __( 'Default' ),
+					'load_more' => __( 'Load more' ),
+				),
 			)
 		);
 

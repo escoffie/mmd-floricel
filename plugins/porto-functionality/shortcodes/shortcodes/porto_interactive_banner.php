@@ -111,7 +111,7 @@ function porto_load_interactive_banner_shortcode() {
 					'admin_label' => true,
 					'value'       => '',
 					'description' => __( 'We recommend using banner layer child element instead of this field.', 'porto-functionality' ),
-					'group'       => 'Depreciated',
+					'group'       => 'Deprecated',
 				),
 				array(
 					'type'        => 'textarea_html',
@@ -120,7 +120,7 @@ function porto_load_interactive_banner_shortcode() {
 					'param_name'  => 'content',
 					'value'       => '',
 					'description' => __( 'We recommend using banner layer child element instead of this field.', 'porto-functionality' ),
-					'group'       => 'Depreciated',
+					'group'       => 'Deprecated',
 				),
 				$custom_class,
 

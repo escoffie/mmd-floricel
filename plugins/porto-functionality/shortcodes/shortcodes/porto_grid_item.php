@@ -1,6 +1,16 @@
 <?php
 
 // Porto Masonry Item
+if ( function_exists( 'register_block_type' ) ) {
+	register_block_type(
+		'porto/porto-grid-item',
+		array(
+			'editor_script'   => 'porto_blocks',
+			'render_callback' => 'porto_shortcode_grid_item',
+		)
+	);
+}
+
 add_shortcode( 'porto_grid_item', 'porto_shortcode_grid_item' );
 add_action( 'vc_after_init', 'porto_load_grid_item_shortcode' );
 

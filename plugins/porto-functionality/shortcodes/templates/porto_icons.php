@@ -12,7 +12,11 @@ extract(
 		$atts
 	)
 );
-$icon_design_css = apply_filters( VC_SHORTCODE_CUSTOM_CSS_FILTER_TAG, vc_shortcode_custom_css_class( $css_icon, ' ' ), 'porto_icons', $atts );
+
+$icon_design_css = '';
+if ( defined( 'VC_SHORTCODE_CUSTOM_CSS_FILTER_TAG' ) ) {
+	$icon_design_css = apply_filters( VC_SHORTCODE_CUSTOM_CSS_FILTER_TAG, vc_shortcode_custom_css_class( $css_icon, ' ' ), 'porto_icons', $atts );
+}
 
 if ( $className ) {
 	if ( $el_class ) {

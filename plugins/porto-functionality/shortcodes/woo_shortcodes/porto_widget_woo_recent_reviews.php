@@ -27,23 +27,51 @@ function porto_load_widget_woo_recent_reviews_shortcode() {
 			'category'    => __( 'WooCommerce Widgets', 'porto-functionality' ),
 			'class'       => 'wpb_vc_wp_widget',
 			'description' => __( 'Display a list of your most recent reviews on your site.', 'woocommerce' ),
-			'params'      => array(
+			'params'      => array_merge(
 				array(
-					'type'        => 'textfield',
-					'heading'     => __( 'Title', 'woocommerce' ),
-					'param_name'  => 'title',
-					'admin_label' => true,
+					array(
+						'type'        => 'textfield',
+						'heading'     => __( 'Title', 'woocommerce' ),
+						'param_name'  => 'title',
+						'admin_label' => true,
+					),
+					array(
+						'type'       => 'dropdown',
+						'heading'    => __( 'Layout', 'porto-functionality' ),
+						'param_name' => 'view',
+						'std'        => 'grid',
+						'value'      => array(
+							__( 'Grid', 'porto-functionality' )   => 'grid',
+							__( 'Slider', 'porto-functionality' ) => 'products-slider',
+						),
+					),
+					array(
+						'type'       => 'dropdown',
+						'heading'    => __( 'Columns', 'porto-functionality' ),
+						'param_name' => 'columns',
+						'std'        => '2',
+						'value'      => porto_sh_commons( 'blog_grid_columns' ),
+					),
+					array(
+						'type'       => 'textfield',
+						'heading'    => __( 'Number of products to show', 'woocommerce' ),
+						'param_name' => 'number',
+						'value'      => 6,
+					),
+					array(
+						'type'       => 'checkbox',
+						'heading'    => __( 'Show Description', 'woocommerce' ),
+						'param_name' => 'show_desc',
+						'value'      => array( __( 'Yes', 'js_composer' ) => 'yes' ),
+					),
+					$custom_class,
 				),
+				porto_vc_product_slider_fields(),
 				array(
-					'type'       => 'textfield',
-					'heading'    => __( 'Number of products to show', 'woocommerce' ),
-					'param_name' => 'number',
-					'value'      => 6,
-				),
-				$custom_class,
-				$animation_type,
-				$animation_duration,
-				$animation_delay,
+					$animation_type,
+					$animation_duration,
+					$animation_delay,
+				)
 			),
 		)
 	);

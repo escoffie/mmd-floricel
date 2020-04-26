@@ -1,8 +1,3 @@
-
-.mce-i-porto {
-    background: url("../images/shortcodes.png") center center no-repeat !important;
-}
-
 /* Porto Visual Composer Elements */
 [class*="porto_vc_"] {
     background: url(../images/vc_elements.png) !important;
@@ -12,8 +7,8 @@
 
 /* Porto Visual Composer Elements */
 [class*="porto4_vc_"],
-/*[data-type*="porto/porto-"] .editor-block-icon,
-[class*="editor-block-list-item-porto-porto-"] */.editor-block-icon {
+.mce-i-porto,
+.block-editor-block-icon:empty {
     background: url(../images/shortcodes.png) no-repeat center center !important;
 }
 .editor-block-icon svg { background: #fff; }

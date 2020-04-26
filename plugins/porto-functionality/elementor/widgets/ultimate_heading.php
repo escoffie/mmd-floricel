@@ -46,6 +46,9 @@ class Porto_Elementor_Ultimate_Heading_Widget extends \Elementor\Widget_Base {
 				'label'       => __( 'Main  Heading', 'porto-functionality' ),
 				'type'        => Controls_Manager::TEXT,
 				'default'     => '',
+				'dynamic'     => array(
+					'active' => true,
+				),
 				'placeholder' => __( 'Title', 'porto-functionality' ),
 			)
 		);
@@ -55,7 +58,6 @@ class Porto_Elementor_Ultimate_Heading_Widget extends \Elementor\Widget_Base {
 			array(
 				'type'  => Controls_Manager::WYSIWYG,
 				'label' => __( 'Sub Heading (Optional)', 'porto-functionality' ),
-				'value' => '',
 			)
 		);
 
@@ -253,6 +255,9 @@ class Porto_Elementor_Ultimate_Heading_Widget extends \Elementor\Widget_Base {
 	protected function render() {
 		$atts = $this->get_settings_for_display();
 
+		$this->add_inline_editing_attributes( 'main_heading' );
+		$main_heading_attrs_escaped = ' ' . $this->get_render_attribute_string( 'main_heading' );
+
 		if ( $template = porto_shortcode_template( 'porto_ultimate_heading' ) ) {
 			include $template;
 		}
@@ -295,8 +300,9 @@ class Porto_Elementor_Ultimate_Heading_Widget extends \Elementor\Widget_Base {
 				if ( ! unit ) {
 					settings.main_heading_margin_bottom += 'px';
 				}
-				view.addRenderAttribute( 'heading', 'style', 'margin-bottom:' + settings.main_heading_margin_bottom );
+				view.addRenderAttribute( 'main_heading', 'style', 'margin-bottom:' + settings.main_heading_margin_bottom );
 			}
+			view.addInlineEditingAttributes( 'main_heading' );
 			if ( settings.sub_heading_margin_bottom ) {
 				var unit = settings.sub_heading_margin_bottom.replace( /[0-9.]/, '' );
 				if ( ! unit ) {
@@ -310,7 +316,7 @@ class Porto_Elementor_Ultimate_Heading_Widget extends \Elementor\Widget_Base {
 			<div {{{ view.getRenderAttributeString( 'spacer' ) }}}>{{{ line }}}</div>
 		<# } #>
 		<# if ( settings.main_heading ) { #>
-			<div class="porto-u-main-heading"><{{{ settings.heading_tag }}} {{{ view.getRenderAttributeString( 'heading' ) }}}>{{{ settings.main_heading }}}</{{{ settings.heading_tag }}}></div>
+			<div class="porto-u-main-heading"><{{{ settings.heading_tag }}} {{{ view.getRenderAttributeString( 'main_heading' ) }}}>{{{ settings.main_heading }}}</{{{ settings.heading_tag }}}></div>
 		<# } #>
 		<# if ( 'middle' == settings.spacer_position ) { #>
 			<div {{{ view.getRenderAttributeString( 'spacer' ) }}}>{{{ line }}}</div>

@@ -1,6 +1,14 @@
 <?php
-// Porto Icon
-
+// Porto Interactive Banner Layer
+if ( function_exists( 'register_block_type' ) ) {
+	register_block_type(
+		'porto/porto-interactive-banner-layer',
+		array(
+			'editor_script'   => 'porto_blocks',
+			'render_callback' => 'porto_shortcode_interactive_banner_layer',
+		)
+	);
+}
 add_shortcode( 'porto_interactive_banner_layer', 'porto_shortcode_interactive_banner_layer' );
 add_action( 'vc_after_init', 'porto_load_interactive_banner_layer_shortcode' );
 
@@ -8,6 +16,9 @@ function porto_shortcode_interactive_banner_layer( $atts, $content = null ) {
 
 	ob_start();
 	if ( $template = porto_shortcode_template( 'porto_interactive_banner_layer' ) ) {
+		if ( ! empty( $atts['className'] ) ) {
+			$atts['el_class'] = $atts['className'];
+		}
 		include $template;
 	}
 	return ob_get_clean();
@@ -64,12 +75,6 @@ function porto_load_interactive_banner_layer_shortcode() {
 					'max'         => 150,
 					'step'        => 1,
 					'description' => __( '50 is middle, 0 is top and 100 is bottom.', 'porto-functionality' ),
-				),
-				array(
-					'type'        => 'vc_link',
-					'heading'     => __( 'Link ', 'porto-functionality' ),
-					'param_name'  => 'layer_link',
-					'description' => __( 'Add link / select existing page to link to this layer', 'porto-functionality' ),
 				),
 				$animation_type,
 				$animation_duration,

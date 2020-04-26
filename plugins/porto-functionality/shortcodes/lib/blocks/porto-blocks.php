@@ -9,6 +9,8 @@ if ( ! class_exists( 'PortoBlocksClass' ) ) :
 	class PortoBlocksClass {
 		function __construct() {
 			add_action( 'rest_api_init', array( $this, 'registerRestAPI' ) );
+
+			add_filter( 'woocommerce_rest_prepare_product_cat', array( $this, 'add_cat_icon_field' ), 10, 3 );
 		}
 
 		function registerRestAPI() {
@@ -28,6 +30,27 @@ if ( ! class_exists( 'PortoBlocksClass' ) ) :
 					'schema'          => null,
 				)
 			);
+		}
+
+		public function add_cat_icon_field( $response, $item, $request ) {
+			if ( ! isset( $_REQUEST['porto'] ) ) {
+				return $response;
+			}
+			$data             = $response->get_data();
+			$data['cat_icon'] = esc_html( get_metadata( 'product_cat', $item->term_id, 'category_icon', true ) );
+			if ( ! empty( $data['image'] ) ) {
+				if ( ! empty( $_REQUEST['image_size'] ) ) {
+					$image_size = $_REQUEST['image_size'];
+				} else {
+					$image_size = 'shop_catalog';
+				}
+				$image = wp_get_attachment_image_src( $data['image']['id'], $image_size, false );
+				if ( is_array( $image ) ) {
+					$data['image']['catalog_src'] = $image[0];
+				}
+			}
+			$response->set_data( $data );
+			return $response;
 		}
 
 		/**

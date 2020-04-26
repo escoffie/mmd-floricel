@@ -135,7 +135,7 @@ if ( $lightbox ) {
 	$output .= '<div class="lightbox" data-plugin-options="' . esc_attr( $lightbox_options ) . '">';
 }
 
-$output .= '<ul class="porto-diamonds wpb_content_element ' . esc_attr( $el_class ) . '"';
+$output .= '<ul class="porto-diamonds' . ( $el_class ? ' ' . esc_attr( $el_class ) : '' ) . '"';
 if ( $animation_type ) {
 	$output .= ' data-appear-animation="' . esc_attr( $animation_type ) . '"';
 	if ( $animation_delay ) {

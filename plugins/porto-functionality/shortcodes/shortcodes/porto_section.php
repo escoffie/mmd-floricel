@@ -1,5 +1,87 @@
 <?php
 
+if ( function_exists( 'register_block_type' ) ) {
+	register_block_type(
+		'porto/porto-section',
+		array(
+			'editor_script'   => 'porto_blocks',
+			'render_callback' => function( $atts, $content = null ) {
+				$atts = shortcode_atts(
+					array(
+						'add_container'  => '',
+						'bg_color'       => '',
+						'bg_img'         => '',
+						'bg_img_url'     => '',
+						'bg_repeat'      => '',
+						'bg_pos'         => '',
+						'bg_size'        => '',
+						'parallax_speed' => '',
+						'bg_video'       => '',
+						'tag'            => 'section',
+						'align'          => '',
+						'className'      => '',
+					),
+					$atts
+				);
+				$classes = array( 'vc_section', 'porto-section' );
+				$attrs   = '';
+				$style   = '';
+				if ( $atts['bg_video'] ) {
+					wp_enqueue_script( 'jquery-vide' );
+					$classes[] = 'section-video';
+					$attrs .= ' data-video-path="' . esc_url( str_replace( '.mp4', '', $atts['bg_video'] ) ) . '"';
+					$attrs .= ' data-plugin-video-background';
+					$attrs .= ' data-plugin-options="{\'posterType\': \'jpg\', \'position\': \'50% 50%\', \'overlay\': true}"';
+				} elseif ( $atts['bg_img_url'] ) {
+					if ( $atts['parallax_speed'] ) {
+						wp_enqueue_script( 'skrollr' );
+						$classes[] = 'section-parallax';
+						$attrs    .= ' data-plugin-parallax data-plugin-options="' . esc_attr( json_encode( array( 'speed' => $atts['parallax_speed'] ) ) ) . '" data-image-src="' . esc_url( $atts['bg_img_url'] ) . '"';
+					} else {
+						$style .= 'background-image: url(' . esc_url( $atts['bg_img_url'] ) . ');';
+					}
+					if ( $atts['bg_repeat'] ) {
+						$style .= 'background-repeat:' . $atts['bg_repeat'] . ';';
+					}
+					if ( $atts['bg_pos'] ) {
+						$style .= 'background-position:' . $atts['bg_pos'] . ';';
+					}
+					if ( $atts['bg_size'] ) {
+						$style .= 'background-size:' . $atts['bg_size'] . ';';
+					}
+				}
+				if ( $atts['bg_color'] ) {
+					$style .= 'background-color:' . $atts['bg_color'] . ';';
+				}
+				if ( $style ) {
+					$attrs .= ' style="' . esc_attr( $style ) . '"';
+				}
+
+				if ( $atts['add_container'] ) {
+					$classes[] = 'porto-inner-container';
+				}
+				if ( $atts['align'] ) {
+					$classes[] = 'align' . $atts['align'];
+				}
+				if ( $atts['className'] ) {
+					$classes[] = trim( $atts['className'] );
+				}
+				$output = '<' . esc_html( $atts['tag'] ) . ' class="' . esc_attr( implode( ' ', $classes ) ) . '"' . $attrs . '>';
+				if ( $atts['add_container'] ) {
+					$output .= '<div class="container">';
+				}
+					$output .= do_shortcode( $content );
+				if ( $atts['add_container'] ) {
+					$output .= '</div>';
+				}
+				$output .= '</' . esc_html( $atts['tag'] ) . '>';
+
+				return $output;
+			},
+		)
+	);
+}
+
 // Porto Section
 add_shortcode( 'porto_section', 'porto_shortcode_section' );
 add_action( 'vc_after_init', 'porto_load_section_shortcode' );
@@ -159,7 +241,7 @@ function porto_load_section_shortcode() {
 					'heading'    => __( 'Divider Position', 'porto-functionality' ),
 					'param_name' => 'divider_pos',
 					'value'      => array(
-						__( 'Top', 'porto-functionality' )    => '',
+						__( 'Top', 'porto-functionality' ) => '',
 						__( 'Bottom', 'porto-functionality' ) => 'bottom',
 					),
 					'dependency' => array(

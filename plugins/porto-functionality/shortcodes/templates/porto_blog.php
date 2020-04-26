@@ -39,6 +39,8 @@ extract(
 			'show_nav_hover'     => false,
 			'pagination'         => 0,
 			'dots_pos'           => '',
+			'autoplay'           => '',
+			'autoplay_timeout'   => 5000,
 		),
 		$atts
 	)
@@ -131,6 +133,7 @@ if ( $posts->have_posts() ) {
 
 	ob_start();
 
+	$is_creative_layout = false;
 	if ( 'timeline' == $post_layout ) {
 		global $prev_post_year, $prev_post_month, $first_timeline_loop, $post_count, $porto_post_style;
 
@@ -176,28 +179,13 @@ if ( $posts->have_posts() ) {
 			$post_layout        = 'masonry';
 			$porto_blog_columns = -1;
 			$porto_post_count   = 0;
+			$is_creative_layout = true;
 
 			$grid_height_number = trim( preg_replace( '/[^0-9]/', '', $grid_height ) );
 			$unit               = trim( str_replace( $grid_height_number, '', $grid_height ) );
 			porto_creative_grid_style( $porto_grid_layout, $grid_height_number, $wrapper_id, false, true, $unit, 'article.post' );
 
-			$ms     = 1;
-			$ms_col = '';
-			foreach ( $porto_grid_layout as $layout ) {
-				$width_arr = explode( '-', $layout['width'] );
-				if ( count( $width_arr ) > 1 ) {
-					$width = (int) $width_arr[0] / (int) $width_arr[1];
-				} else {
-					$width = (int) $width_arr[0];
-				}
-				if ( $width < $ms ) {
-					$ms     = $width;
-					$ms_col = $layout['width'];
-				}
-			}
-			if ( $ms_col ) {
-				$container_attrs .= ' data-plugin-options="' . esc_attr( json_encode( array( 'masonry' => array( 'columnWidth' => '.post.grid-col-' . $ms_col ) ) ) ) . '"';
-			}
+			$container_attrs .= ' data-plugin-options="' . esc_attr( json_encode( array( 'masonry' => array( 'columnWidth' => '.grid-col-sizer' ) ) ) ) . '"';
 		} elseif ( 'slider' == $post_layout ) {
 			$container_class .= ' owl-carousel porto-carousel has-ccols';
 			if ( $navigation ) {
@@ -227,19 +215,20 @@ if ( $posts->have_posts() ) {
 			switch ( $columns ) {
 				case '1':
 					$no_spacing = true;
+					$container_class .= ' ccols-1';
 					break;
 				case '2':
-					$container_class .= ' ccols-md-2';
+					$container_class .= ' ccols-md-2 ccols-1';
 					$options['md']    = 2;
 					$options['xs']    = 1;
 					break;
 				case '3':
-					$container_class .= ' ccols-xl-3 ccols-md-2';
+					$container_class .= ' ccols-xl-3 ccols-md-2 ccols-1';
 					$options['md']    = 2;
 					$options['xs']    = 1;
 					break;
 				case '4':
-					$container_class .= ' ccols-xl-4 ccols-md-3 ccols-sm-2';
+					$container_class .= ' ccols-xl-4 ccols-md-3 ccols-sm-2 ccols-1';
 					$options['md']    = 3;
 					$options['sm']    = 2;
 					$options['xs']    = 1;
@@ -253,8 +242,8 @@ if ( $posts->have_posts() ) {
 					break;
 			}
 
-			$options['nav']   = $navigation ? true : false;
-			$options['dots']  = $pagination ? true : false;
+			$options['nav']      = $navigation ? true : false;
+			$options['dots']     = $pagination ? true : false;
 			$container_attrs .= ' data-plugin-options="' . esc_attr( json_encode( $options ) ) . '"';
 
 			$post_layout        = 'grid';
@@ -290,6 +279,9 @@ if ( $posts->have_posts() ) {
 	}
 	if ( $excerpt_length ) {
 		$porto_settings['blog-excerpt-length'] = $global_excerpt_length;
+	}
+	if ( $is_creative_layout ) {
+		echo '<div class="grid-col-sizer"></div>';
 	}
 	?>
 

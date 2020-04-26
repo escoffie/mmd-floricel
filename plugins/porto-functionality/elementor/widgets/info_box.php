@@ -4,23 +4,23 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Porto Elementor Stat Counter Widget
+ * Porto Elementor Info Box Widget
  *
- * Porto Element widget to display stat counters.
+ * Porto Element widget to display icon boxes.
  *
  * @since 5.1.0
  */
 
 use Elementor\Controls_Manager;
 
-class Porto_Elementor_Stat_Counter_Widget extends \Elementor\Widget_Base {
+class Porto_Elementor_Info_Box_Widget extends \Elementor\Widget_Base {
 
 	public function get_name() {
-		return 'porto_stat_counter';
+		return 'porto_info_box';
 	}
 
 	public function get_title() {
-		return __( 'Counter', 'porto-functionality' );
+		return __( 'Info Box', 'porto-functionality' );
 	}
 
 	public function get_categories() {
@@ -28,15 +28,15 @@ class Porto_Elementor_Stat_Counter_Widget extends \Elementor\Widget_Base {
 	}
 
 	public function get_keywords() {
-		return array( 'icon', 'counter', 'statistics', 'up' );
+		return array( 'icon', 'info box', 'image box', 'icon box' );
 	}
 
 	protected function _register_controls() {
 
 		$this->start_controls_section(
-			'section_stat_counter',
+			'section_info_box',
 			array(
-				'label' => __( 'Counter', 'porto-functionality' ),
+				'label' => __( 'Info Box', 'porto-functionality' ),
 			)
 		);
 
@@ -46,7 +46,7 @@ class Porto_Elementor_Stat_Counter_Widget extends \Elementor\Widget_Base {
 				'label'       => __( 'Icon to display', 'porto-functionality' ),
 				'type'        => Controls_Manager::SELECT,
 				'options'     => array(
-					'icon'   => __( 'Font Awesome', 'porto-functionality' ),
+					'icon'   => __( 'Icon Fonts', 'porto-functionality' ),
 					'custom' => __( 'Custom Image Icon', 'porto-functionality' ),
 				),
 				'default'     => 'icon',
@@ -309,96 +309,152 @@ class Porto_Elementor_Stat_Counter_Widget extends \Elementor\Widget_Base {
 		);
 
 		$this->add_control(
-			'icon_position',
+			'title',
+			array(
+				'type'        => Controls_Manager::TEXT,
+				'label'       => __( 'Title', 'porto-functionality' ),
+				'description' => __( 'Provide the title for this icon box.', 'porto-functionality' ),
+				'dynamic'     => array(
+					'active' => true,
+				),
+			)
+		);
+
+		$this->add_control(
+			'subtitle',
+			array(
+				'type'        => Controls_Manager::TEXT,
+				'label'       => __( 'Sub title', 'porto-functionality' ),
+				'description' => __( 'Provide the sub title for this icon box.', 'porto-functionality' ),
+				'dynamic'     => array(
+					'active' => true,
+				),
+			)
+		);
+
+		$this->add_control(
+			'content',
+			array(
+				'type'        => Controls_Manager::WYSIWYG,
+				'label'       => __( 'Description', 'porto-functionality' ),
+				'description' => __( 'Provide the description for this icon box.', 'porto-functionality' ),
+			)
+		);
+
+		$this->add_control(
+			'read_more',
+			array(
+				'type'    => Controls_Manager::SELECT,
+				'label'   => __( 'Apply link to:', 'porto-functionality' ),
+				'options' => array(
+					'none'  => __( 'No Link', 'porto-functionality' ),
+					'box'   => __( 'Complete Box', 'porto-functionality' ),
+					'title' => __( 'Box Title', 'porto-functionality' ),
+					'more'  => __( 'Display Read More', 'porto-functionality' ),
+				),
+				'default' => 'none',
+			)
+		);
+
+		$this->add_control(
+			'link',
+			array(
+				'type'        => Controls_Manager::URL,
+				'label'       => __( 'Add Link', 'porto-functionality' ),
+				'description' => __( 'Add a custom link or select existing page.', 'porto-functionality' ),
+				'condition'   => array(
+					'read_more' => array( 'box', 'title', 'more' ),
+				),
+			)
+		);
+
+		$this->add_control(
+			'read_text',
+			array(
+				'type'        => Controls_Manager::TEXT,
+				'label'       => __( 'Read More Text', 'porto-functionality' ),
+				'default'     => 'Read More',
+				'description' => __( 'Customize the read more text.', 'porto-functionality' ),
+				'condition'   => array(
+					'read_more' => 'more',
+				),
+			)
+		);
+
+		$this->add_control(
+			'hover_effect',
 			array(
 				'type'        => Controls_Manager::SELECT,
-				'label'       => __( 'Icon Position', 'porto-functionality' ),
+				'label'       => __( 'Select Hover Effect type', 'porto-functionality' ),
 				'options'     => array(
-					'top'   => __( 'Top', 'porto-functionality' ),
-					'right' => __( 'Right', 'porto-functionality' ),
-					'left'  => __( 'Left', 'porto-functionality' ),
+					'style_1' => __( 'No Effect', 'porto-functionality' ),
+					'style_2' => __( 'Icon Zoom', 'porto-functionality' ),
+					'style_3' => __( 'Icon Bounce Up', 'porto-functionality' ),
 				),
-				'default'     => 'top',
-				'description' => __( 'Enter Position of Icon', 'porto-functionality' ),
+				'default'     => 'style_1',
+				'description' => __( 'Select the type of effct you want on hover', 'porto-functionality' ),
 			)
 		);
 
 		$this->add_control(
-			'counter_title',
+			'pos',
 			array(
-				'type'        => Controls_Manager::TEXT,
-				'label'       => __( 'Counter Title', 'porto-functionality' ),
-				'description' => __( 'Enter title for stats counter block', 'porto-functionality' ),
+				'type'        => Controls_Manager::SELECT,
+				'label'       => __( 'Box Style', 'porto-functionality' ),
+				'options'     => array(
+					'default'       => __( 'Icon at Left with heading', 'porto-functionality' ),
+					'heading-right' => __( 'Icon at Right with heading', 'porto-functionality' ),
+					'left'          => __( 'Icon at Left', 'porto-functionality' ),
+					'right'         => __( 'Icon at Right', 'porto-functionality' ),
+					'top'           => __( 'Icon at Top', 'porto-functionality' ),
+				),
+				'default'     => 'default',
+				'description' => __( 'Select icon position. Icon box style will be changed according to the icon position.', 'porto-functionality' ),
 			)
 		);
 
 		$this->add_control(
-			'counter_value',
+			'h_align',
 			array(
-				'type'        => Controls_Manager::TEXT,
-				'label'       => __( 'Counter Value', 'porto-functionality' ),
-				'default'     => '1250',
-				'description' => __( 'Enter number for counter without any special character. You may enter a decimal number. Eg 12.76', 'porto-functionality' ),
-			)
-		);
-
-		$this->add_control(
-			'counter_sep',
-			array(
-				'type'        => Controls_Manager::TEXT,
-				'label'       => __( 'Thousands Separator', 'porto-functionality' ),
-				'default'     => ',',
-				'description' => __( 'Enter character for thousanda separator. e.g. \',\' will separate 125000 into 125,000', 'porto-functionality' ),
-			)
-		);
-
-		$this->add_control(
-			'counter_decimal',
-			array(
-				'type'        => Controls_Manager::TEXT,
-				'label'       => __( 'Replace Decimal Point With', 'porto-functionality' ),
-				'default'     => '.',
-				'description' => __( "Did you enter a decimal number (Eg - 12.76) The decimal point '.' will be replaced with value that you will enter above.", 'porto-functionality' ),
-			)
-		);
-
-		$this->add_control(
-			'counter_prefix',
-			array(
-				'type'        => Controls_Manager::TEXT,
-				'label'       => __( 'Counter Value Prefix', 'porto-functionality' ),
-				'description' => __( 'Enter prefix for counter value', 'porto-functionality' ),
-			)
-		);
-
-		$this->add_control(
-			'counter_suffix',
-			array(
-				'type'        => Controls_Manager::TEXT,
-				'label'       => __( 'Counter Value Suffix', 'porto-functionality' ),
-				'description' => __( 'Enter suffix for counter value', 'porto-functionality' ),
-			)
-		);
-
-		$this->add_control(
-			'speed',
-			array(
-				'type'        => Controls_Manager::NUMBER,
-				'label'       => __( 'Counter rolling time', 'porto-functionality' ),
-				'default'     => 3,
-				'min'         => 1,
-				'max'         => 10,
-				'description' => __( 'How many seconds the counter should roll?', 'porto-functionality' ),
+				'type'      => Controls_Manager::SELECT,
+				'label'     => __( 'Horizontal Align', 'porto-functionality' ),
+				'options'   => array(
+					'left'   => __( 'Left', 'porto-functionality' ),
+					'right'  => __( 'Right', 'porto-functionality' ),
+					'center' => __( 'Center', 'porto-functionality' ),
+				),
+				'default'   => 'center',
+				'condition' => array(
+					'pos' => 'top',
+				),
 			)
 		);
 
 		$this->end_controls_section();
 
 		$this->start_controls_section(
-			'section_stat_counter_font_options',
+			'section_info_box_font_options',
 			array(
 				'label' => __( 'Typography', 'porto-functionality' ),
 				'tab'   => Controls_Manager::TAB_STYLE,
+			)
+		);
+
+		$this->add_control(
+			'heading_tag',
+			array(
+				'type'        => Controls_Manager::SELECT,
+				'label'       => __( 'Title Tag', 'porto-functionality' ),
+				'options'     => array(
+					'h3' => __( 'Default', 'porto-functionality' ),
+					'h1' => __( 'H1', 'porto-functionality' ),
+					'h2' => __( 'H2', 'porto-functionality' ),
+					'h4' => __( 'H4', 'porto-functionality' ),
+					'h5' => __( 'H5', 'porto-functionality' ),
+					'h6' => __( 'H6', 'porto-functionality' ),
+				),
+				'default'     => 'h3',
+				'description' => __( 'Default is H3', 'porto-functionality' ),
 			)
 		);
 
@@ -407,19 +463,39 @@ class Porto_Elementor_Stat_Counter_Widget extends \Elementor\Widget_Base {
 			array(
 				'name'     => 'title_google_font_style',
 				'scheme'   => Elementor\Scheme_Typography::TYPOGRAPHY_1,
-				'label'    => __( 'Counter Title Typograhy', 'porto-functionality' ),
-				'selector' => '{{WRAPPER}} .stats-text',
+				'label'    => __( 'Title Typograhy', 'porto-functionality' ),
+				'selector' => '{{WRAPPER}} .porto-sicon-title',
 			)
 		);
 
 		$this->add_control(
-			'counter_color_txt1',
+			'title_font_color1',
 			array(
-				'type'        => Controls_Manager::COLOR,
-				'label'       => __( 'Title Color', 'porto-functionality' ),
-				'description' => __( 'Select text color for counter title.', 'porto-functionality' ),
-				'selectors'   => array(
-					'{{WRAPPER}} .stats-text' => 'color: {{VALUE}};',
+				'type'      => Controls_Manager::COLOR,
+				'label'     => __( 'Title Color', 'porto-functionality' ),
+				'selectors' => array(
+					'{{WRAPPER}} .porto-sicon-title' => 'color: {{VALUE}};',
+				),
+			)
+		);
+
+		$this->add_group_control(
+			Elementor\Group_Control_Typography::get_type(),
+			array(
+				'name'     => 'sub_title_google_font_style',
+				'scheme'   => Elementor\Scheme_Typography::TYPOGRAPHY_1,
+				'label'    => __( 'Sub Title Typograhy', 'porto-functionality' ),
+				'selector' => '{{WRAPPER}} .porto-sicon-header p',
+			)
+		);
+
+		$this->add_control(
+			'subtitle_font_color1',
+			array(
+				'type'      => Controls_Manager::COLOR,
+				'label'     => __( 'Sub Title Color', 'porto-functionality' ),
+				'selectors' => array(
+					'{{WRAPPER}} .porto-sicon-header p' => 'color: {{VALUE}};',
 				),
 			)
 		);
@@ -429,41 +505,18 @@ class Porto_Elementor_Stat_Counter_Widget extends \Elementor\Widget_Base {
 			array(
 				'name'     => 'desc_google_font_style',
 				'scheme'   => Elementor\Scheme_Typography::TYPOGRAPHY_1,
-				'label'    => __( 'Counter Value Typograhy', 'porto-functionality' ),
-				'selector' => '{{WRAPPER}} .stats-number',
+				'label'    => __( 'Description Typograhy', 'porto-functionality' ),
+				'selector' => '{{WRAPPER}} .porto-sicon-description',
 			)
 		);
 
 		$this->add_control(
 			'desc_font_color1',
 			array(
-				'type'        => Controls_Manager::COLOR,
-				'label'       => __( 'Counter Value Color', 'porto-functionality' ),
-				'description' => __( 'Select text color for counter digits.', 'porto-functionality' ),
-				'selectors'   => array(
-					'{{WRAPPER}} .stats-number' => 'color: {{VALUE}};',
-				),
-			)
-		);
-
-		$this->add_group_control(
-			Elementor\Group_Control_Typography::get_type(),
-			array(
-				'name'     => 'suf_pref_google_font_style',
-				'scheme'   => Elementor\Scheme_Typography::TYPOGRAPHY_1,
-				'label'    => __( 'Counter suffix-prefix Typograhy', 'porto-functionality' ),
-				'selector' => '{{WRAPPER}} .counter_prefix, {{WRAPPER}} .counter_suffix',
-			)
-		);
-
-		$this->add_control(
-			'suf_pref_font_color1',
-			array(
-				'type'        => Controls_Manager::COLOR,
-				'label'       => __( 'Counter suffix-prefix Color', 'porto-functionality' ),
-				'description' => __( 'Select text color for counter prefix and suffix.', 'porto-functionality' ),
-				'selectors'   => array(
-					'{{WRAPPER}} .counter_prefix, {{WRAPPER}} .counter_suffix' => 'color: {{VALUE}};',
+				'type'      => Controls_Manager::COLOR,
+				'label'     => __( 'Description Color', 'porto-functionality' ),
+				'selectors' => array(
+					'{{WRAPPER}} .porto-sicon-description' => 'color: {{VALUE}};',
 				),
 			)
 		);
@@ -483,13 +536,22 @@ class Porto_Elementor_Stat_Counter_Widget extends \Elementor\Widget_Base {
 		$atts['icon_border_size']    = '';
 		$atts['icon_border_radius']  = '';
 		$atts['icon_border_spacing'] = '';
-		$atts['font_size_title']     = '';
-		$atts['font_size_counter']   = '';
 		if ( is_array( $atts['icon_img'] ) && isset( $atts['icon_img']['id'] ) ) {
 			$atts['icon_img'] = (int) $atts['icon_img']['id'];
 		}
 
-		if ( $template = porto_shortcode_template( 'porto_stat_counter' ) ) {
+		if ( $template = porto_shortcode_template( 'porto_info_box' ) ) {
+			$this->add_inline_editing_attributes( 'title' );
+			$this->add_render_attribute( 'title', 'class', 'porto-sicon-title' );
+			$this->add_inline_editing_attributes( 'subtitle' );
+			$this->add_inline_editing_attributes( 'content', 'advanced' );
+			$title_attrs_escaped       = ' ' . $this->get_render_attribute_string( 'title' );
+			$subtitle_attrs_escaped    = ' ' . $this->get_render_attribute_string( 'subtitle' );
+			$desc_attrs_escaped        = ' ' . $this->get_render_attribute_string( 'content' );
+			$atts['icon_color']        = '';
+			$atts['icon_color_bg']     = '';
+			$atts['icon_color_border'] = '';
+			$atts['icon_border_style'] = '';
 			include $template;
 		}
 	}
@@ -497,9 +559,19 @@ class Porto_Elementor_Stat_Counter_Widget extends \Elementor\Widget_Base {
 	protected function _content_template() {
 		?>
 		<#
-			view.addRenderAttribute( 'wrapper', 'class', 'stats-block stats-' + settings.icon_position );
+			view.addRenderAttribute( 'wrapper', 'class', 'porto-sicon-box' );
+			if ( 'top' == settings.pos && 'center' != settings.h_align ) {
+				view.addRenderAttribute( 'wrapper', 'class', 'text-' + settings.h_align );
+			}
+			if ( settings.hover_effect ) {
+				view.addRenderAttribute( 'wrapper', 'class', settings.hover_effect );
+			}
+			if ( settings.pos ) {
+				view.addRenderAttribute( 'wrapper', 'class', settings.pos + '-icon' );
+				view.addRenderAttribute( 'icon-wrapper', 'class', 'porto-sicon-' + settings.pos );
+			}
 
-			var box_html = '<div class="porto-sicon-' + settings.icon_position + '"><div class="porto-just-icon-wrapper">';
+			var box_html = '<div class="porto-just-icon-wrapper">';
 			if ( 'custom' == settings.icon_type ) {
 				view.addRenderAttribute( 'porto-sicon-img', 'class', 'porto-sicon-img' );
 				if ( 'circle' == settings.icon_style ) {
@@ -512,7 +584,7 @@ class Porto_Elementor_Stat_Counter_Widget extends \Elementor\Widget_Base {
 					view.addRenderAttribute( 'porto-sicon-img', 'class', 'porto-u-square' );
 				}
 				if ( settings.icon_img.url ) {
-					box_html += '<div ' + view.getRenderAttributeString( 'porto-sicon-img' ) + '>';
+					box_html += '<div style="display: inline-block;" ' + view.getRenderAttributeString( 'porto-sicon-img' ) + '>';
 					box_html += '<img class="img-icon" src="' + settings.icon_img.url + '" />';
 					box_html += '</div>';
 				}
@@ -521,31 +593,116 @@ class Porto_Elementor_Stat_Counter_Widget extends \Elementor\Widget_Base {
 				if ( settings.icon_style ) {
 					view.addRenderAttribute( 'porto-icon', 'class', settings.icon_style );
 				}
-				box_html += '<div ' + view.getRenderAttributeString( 'porto-icon' ) + '>';
+				box_html += '<div style="display: inline-block;" ' + view.getRenderAttributeString( 'porto-icon' ) + '>';
 				box_html += '<i class="' + settings.icon_cl.value + '"></i>';
 				box_html += '</div>';
 			}
-			box_html += '</div></div>';
+			box_html += '</div>';
 
+			if ( settings.link ) {
+				view.addRenderAttribute( 'link', 'href', settings.link );
+				if ( 'more' == settings.read_more ) {
+					view.addRenderAttribute( 'link', 'class', 'porto-sicon-read' );
+				} else {
+					view.addRenderAttribute( 'link', 'class', 'porto-sicon-box-link' );
+				}
+			}
+
+			view.addRenderAttribute( 'title', 'class', 'porto-sicon-title' );
+			view.addInlineEditingAttributes( 'title' );
+			view.addInlineEditingAttributes( 'subtitle' );
+			view.addInlineEditingAttributes( 'content', 'advanced' );
 		#>
+		<# if ( settings.link && 'box' == settings.read_more ) { #>
+		<a {{{ view.getRenderAttributeString( 'link' ) }}}>
+		<# } #>
 		<div {{{ view.getRenderAttributeString( 'wrapper' ) }}}>
-			<# if ( 'right' !== settings.icon_position ) { #>
-				{{{ box_html }}}
-			<# } #>
-			<div class="stats-desc">
-				<# if ( settings.counter_prefix ) { #>
-					<div class="counter_prefix mycust">{{{ settings.counter_prefix }}}</div>
+			<# if ( 'heading-right' == settings.pos || 'right' == settings.pos ) { #>
+				<# if ( 'right' == settings.pos ) { #>
+					<div class="porto-sicon-body">
 				<# } #>
-				<div class="stats-number" data-speed="{{{ settings.speed }}}" data-counter-value="{{{ settings.counter_value }}}" data-separator="{{{ settings.counter_sep }}}" data-decimal="{{{ settings.counter_decimal }}}">0</div>
-				<# if ( settings.counter_suffix ) { #>
-					<div class="counter_suffix mycust">{{{ settings.counter_suffix }}}</div>
+				<# if ( settings.title || settings.subtitle ) { #>
+					<div class="porto-sicon-header">
+						<# if ( settings.title ) { #>
+							<# if ( settings.link && 'title' == settings.read_more ) { #>
+								<a {{{ view.getRenderAttributeString( 'link' ) }}}>
+							<# } #>
+							<{{{ settings.heading_tag }}} {{{ view.getRenderAttributeString( 'title' ) }}}>{{{ settings.title }}}</{{{ settings.heading_tag }}}>
+							<# if ( settings.link && 'title' == settings.read_more ) { #>
+								</a>
+							<# } #>
+						<# } #>
+						<# if ( settings.subtitle ) { #>
+							<p {{{ view.getRenderAttributeString( 'subtitle' ) }}}>{{{ settings.subtitle }}}</p>
+						<# } #>
+					</div>
 				<# } #>
-				<div class="stats-text">{{{ settings.counter_title }}}</div>
-			</div>
-			<# if ( 'right' === settings.icon_position ) { #>
-				{{{ box_html }}}
+				<# if ( 'right' !== settings.pos ) { #>
+					<# if ( 'none' !== settings.icon_cl.value || settings.icon_img.url ) { #>
+						<div {{{ view.getRenderAttributeString( 'icon-wrapper' ) }}}>{{{ box_html }}}</div>
+					<# } #>
+				<# } #>
+				<# if ( settings.content ) { #>
+					<div class="porto-sicon-description" {{{ view.getRenderAttributeString( 'description' ) }}}>
+					{{{ settings.content }}}
+					<# if ( settings.link && 'more' == settings.read_more ) { #>
+						<a {{{ view.getRenderAttributeString( 'link' ) }}}>
+						{{{ settings.read_text }}}
+						&nbsp;&raquo;
+						</a>
+					<# } #>
+					</div>
+				<# } #>
+				<# if ( 'right' == settings.pos ) { #>
+					</div>
+					<# if ( 'none' !== settings.icon_cl.value || settings.icon_img.url ) { #>
+						<div {{{ view.getRenderAttributeString( 'icon-wrapper' ) }}}>{{{ box_html }}}</div>
+					<# } #>
+				<# } #>
+			<# } else { #>
+				<# if ( 'none' !== settings.icon_cl.value || settings.icon_img.url ) { #>
+					<div {{{ view.getRenderAttributeString( 'icon-wrapper' ) }}}>{{{ box_html }}}</div>
+				<# } #>
+				<# if ( 'left' == settings.pos ) { #>
+					<div class="porto-sicon-body">
+				<# } #>
+				<# if ( settings.title || settings.subtitle ) { #>
+					<div class="porto-sicon-header">
+						<# if ( settings.title ) { #>
+							<# if ( settings.link && 'title' == settings.read_more ) { #>
+								<a {{{ view.getRenderAttributeString( 'link' ) }}}>
+							<# } #>
+							<{{{ settings.heading_tag }}} {{{ view.getRenderAttributeString( 'title' ) }}}>{{{ settings.title }}}</{{{ settings.heading_tag }}}>
+							<# if ( settings.link && 'title' == settings.read_more ) { #>
+								</a>
+							<# } #>
+						<# } #>
+						<# if ( settings.subtitle ) { #>
+							<p {{{ view.getRenderAttributeString( 'subtitle' ) }}}>{{{ settings.subtitle }}}</p>
+						<# } #>
+					</div>
+				<# } #>
+
+				<# if ( settings.content ) { #>
+					<div class="porto-sicon-description" {{{ view.getRenderAttributeString( 'content' ) }}}>
+					{{{ settings.content }}}
+					<# if ( settings.link && 'more' == settings.read_more ) { #>
+						<a {{{ view.getRenderAttributeString( 'link' ) }}}>
+						{{{ settings.read_text }}}
+						&nbsp;&raquo;
+						</a>
+					<# } #>
+					</div>
+				<# } #>
+
+				<# if ( 'left' == settings.pos ) { #>
+					</div>
+				<# } #>
 			<# } #>
 		</div>
+		<# if ( settings.link && 'box' == settings.read_more ) { #>
+		</a>
+		<# } #>
 		<?php
 	}
 }

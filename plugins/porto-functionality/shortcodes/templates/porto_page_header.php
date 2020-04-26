@@ -5,6 +5,7 @@ extract(
 			'breadcrumbs_type'         => '1',
 			'page_title'               => '',
 			'page_sub_title'           => '',
+			'hide_breadcrumb'          => '',
 			'breadcrumbs_text_color'   => '',
 			'breadcrumbs_link_color'   => '',
 			'page_title_font_size'     => '',
@@ -65,6 +66,9 @@ if ( $page_title ) {
 }
 if ( $page_sub_title ) {
 	$args['porto_shortcode_sub_title'] = $page_sub_title;
+}
+if ( $hide_breadcrumb ) {
+	$args['hide_breadcrumb'] = true;
 }
 	$args['is_shortcode'] = true;
 	porto_get_template_part( 'page_header/page_header_' . $breadcrumbs_type, null, $args );

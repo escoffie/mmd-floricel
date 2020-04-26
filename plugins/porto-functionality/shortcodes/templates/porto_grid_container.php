@@ -62,25 +62,9 @@ if ( 'preset' == $layout ) {
 	$unit               = trim( str_replace( $grid_height_number, '', $grid_height ) );
 	$porto_item_count   = 0;
 
-	$ms     = 1;
-	$ms_col = '';
-	foreach ( $porto_grid_layout as $pl ) {
-		$width_arr = explode( '-', $pl['width'] );
-		if ( count( $width_arr ) > 1 ) {
-			$width = (int) $width_arr[0] / (int) $width_arr[1];
-		} else {
-			$width = (int) $width_arr[0];
-		}
-		if ( $width < $ms ) {
-			$ms     = $width;
-			$ms_col = $pl['width'];
-		}
-	}
 	$el_class .= ( $el_class ? ' ' : '' ) . 'porto-preset-layout';
 
-	if ( $ms_col ) {
-		$iso_options['masonry'] = array( 'columnWidth' => $iso_options['itemSelector'] . '.grid-col-' . $ms_col );
-	}
+	$iso_options['masonry'] = array( 'columnWidth' => '.grid-col-sizer' );
 
 	if ( function_exists( 'vc_is_inline' ) && vc_is_inline() ) {
 		$extra_attrs = array();
@@ -106,6 +90,8 @@ if ( 'preset' == $layout ) {
 	if ( $column_width > 0 ) {
 		$replace_count = 1;
 		$content       = str_replace( array( '[porto_grid_item width="' . esc_attr( $column_width_str ) . '"', '[porto_grid_item  width="' . esc_attr( $column_width_str ) . '"' ), '[porto_grid_item width="' . esc_attr( $column_width_str ) . '" column_class="true"', $content, $replace_count );
+	} else {
+		$iso_options['masonry'] = array( 'columnWidth' => '.grid-col-sizer' );
 	}
 }
 $iso_options['animationEngine'] = 'best-available';
@@ -113,10 +99,11 @@ $iso_options['resizable']       = false;
 
 $output .= '<div id="grid-' . $rand_escaped . '" class="' . esc_attr( $el_class ) . ' wpb_content_element clearfix" data-plugin-masonry data-plugin-options=\'' . json_encode( $iso_options ) . '\'' . $extra_attrs . '>';
 $output .= do_shortcode( $content );
-$output .= '</div>';
-if ( 'preset' == $layout ) {
+if ( 'preset' == $layout || '.grid-col-sizer' == $iso_options['masonry']['columnWidth'] ) {
+	$output .= '<div class="grid-col-sizer"></div>';
 	unset( $GLOBALS['porto_grid_layout'], $GLOBALS['porto_item_count'] );
 }
+$output .= '</div>';
 
 $gutter_size_number  = preg_replace( '/[^.0-9]/', '', $gutter_size );
 $gutter_size         = str_replace( $gutter_size_number, (float) ( $gutter_size_number / 2 ), $gutter_size );

@@ -9,11 +9,11 @@ function porto_block_meta_fields() {
 			'name'    => 'container',
 			'title'   => __( 'Wrap as Container', 'porto-functionality' ),
 			'desc'    => '',
-			'type'    => 'radio',
-			'default' => 'no',
+			'type'    => 'select',
+			'default' => '',
 			'options' => array(
-				'yes' => __( 'Yes', 'porto-functionality' ),
-				'no'  => __( 'No', 'porto-functionality' ),
+				'yes' => __( 'Inner Container', 'porto-functionality' ),
+				'fluid'  => __( 'Fluid Container', 'porto-functionality' ),
 			),
 		),
 		'custom_css' => array(

@@ -4,48 +4,50 @@ $output = $title = $view = $per_page = $columns = $column_width = $addlinks_pos 
 extract(
 	shortcode_atts(
 		array(
-			'shortcode'          => 'products',
-			'title'              => '',
-			'title_border_style' => '',
-			'title_align'        => '',
-			'view'               => 'grid',
-			'grid_layout'        => '1',
-			'grid_height'        => 600,
-			'spacing'            => '',
+			'shortcode'            => 'products',
+			'title'                => '',
+			'title_border_style'   => '',
+			'title_align'          => '',
+			'view'                 => 'grid',
+			'grid_layout'          => '1',
+			'grid_height'          => 600,
+			'spacing'              => '',
 
-			'per_page'           => '',
-			'columns'            => 4,
-			'columns_mobile'     => '',
-			'column_width'       => '',
+			'per_page'             => '',
+			'columns'              => 4,
+			'columns_mobile'       => '',
+			'column_width'         => '',
 
-			'count'              => '',
-			'pagination_style'   => '',
-			'category_filter'    => '',
+			'count'                => '',
+			'pagination_style'     => '',
+			'category_filter'      => '',
 
-			'orderby'            => 'date',
-			'order'              => 'desc',
-			'category'           => '',
-			'ids'                => '',
-			'attribute'          => '',
-			'filter'             => '',
+			'orderby'              => '',
+			'order'                => '',
+			'category'             => '',
+			'ids'                  => '',
+			'attribute'            => '',
+			'filter'               => '',
 
-			'addlinks_pos'       => '',
-			'use_simple'         => false,
-			'overlay_bg_opacity' => '30',
-			'image_size'         => '',
-			'navigation'         => 1,
-			'nav_pos'            => '',
-			'nav_pos2'           => '',
-			'nav_type'           => '',
-			'show_nav_hover'     => false,
-			'pagination'         => 0,
-			'dots_pos'           => '',
-			'animation_type'     => '',
-			'animation_duration' => 1000,
-			'animation_delay'    => 0,
-			'el_class'           => '',
-			'className'          => '',
-			'status'             => '',
+			'addlinks_pos'         => '',
+			'use_simple'           => false,
+			'overlay_bg_opacity'   => '30',
+			'image_size'           => '',
+			'navigation'           => 1,
+			'nav_pos'              => '',
+			'nav_pos2'             => '',
+			'nav_type'             => '',
+			'show_nav_hover'       => false,
+			'pagination'           => 0,
+			'dots_pos'             => '',
+			'autoplay'             => '',
+			'autoplay_timeout'     => 5000,
+			'animation_type'       => '',
+			'animation_duration'   => 1000,
+			'animation_delay'      => 0,
+			'el_class'             => '',
+			'className'            => '',
+			'status'               => '',
 		),
 		$atts
 	)
@@ -143,11 +145,11 @@ if ( $category_filter ) {
 	}
 	$category_html .= '</ul>';
 	$output        .= '<div class="products-filter">';
-	if ( apply_filters( 'porto_wooocommerce_products_shortcode_sticky_filter', true ) ) {
+	if ( apply_filters( 'porto_wooocommerce_products_shortcode_sticky_filter', false ) ) {
 		$output .= '<div data-plugin-sticky data-plugin-options="{&quot;autoInit&quot;: true, &quot;minWidth&quot;: 991, &quot;containerSelector&quot;: &quot;.porto-products&quot;, &quot;autoFit&quot;:true, &quot;paddingOffsetBottom&quot;: 10}">';
 	}
 				$output .= apply_filters( 'porto_wooocommerce_products_shortcode_categories_html', $category_html );
-	if ( apply_filters( 'porto_wooocommerce_products_shortcode_sticky_filter', true ) ) {
+	if ( apply_filters( 'porto_wooocommerce_products_shortcode_sticky_filter', false ) ) {
 		$output .= '</div>';
 	}
 	$output .= '</div>';
@@ -175,9 +177,19 @@ if ( $columns_mobile ) {
 	$porto_woocommerce_loop['columns_mobile'] = $columns_mobile;
 }
 $porto_woocommerce_loop['column_width'] = $column_width;
-$porto_woocommerce_loop['pagination']   = $pagination;
-$porto_woocommerce_loop['navigation']   = $navigation;
 $porto_woocommerce_loop['addlinks_pos'] = $addlinks_pos;
+
+if ( 'products-slider' == $view ) {
+	$porto_woocommerce_loop['pagination'] = $pagination;
+	$porto_woocommerce_loop['navigation'] = $navigation;
+	if ( $autoplay ) {
+		$porto_woocommerce_loop['autoplay'] = ( 'yes' == $autoplay ? true : false );
+		if ( 5000 !== intval( $autoplay_timeout ) ) {
+			$porto_woocommerce_loop['autoplay_timeout'] = $autoplay_timeout;
+		}
+	}
+}
+
 if ( $use_simple ) {
 	if ( ! isset( $porto_settings['product-review'] ) || $porto_settings['product-review'] ) {
 		remove_action( 'woocommerce_after_shop_loop_item_title', 'woocommerce_template_loop_rating', 5 );
@@ -285,9 +297,7 @@ if ( 'creative' == $view || ( 'grid' == $view && '' !== $spacing ) || ( '0' == $
 			}
 		}
 	} elseif ( 'creative' == $view ) {
-		$porto_woocommerce_loop['grid_height']  = $grid_height;
-		$porto_woocommerce_loop['grid_layout']  = porto_creative_grid_layout( $grid_layout );
-		$porto_woocommerce_loop['grid_spacing'] = $spacing;
+		$porto_woocommerce_loop['grid_layout'] = porto_creative_grid_layout( $grid_layout );
 
 		if ( ! $count ) {
 			$count = count( $porto_woocommerce_loop['grid_layout'] );
@@ -295,7 +305,9 @@ if ( 'creative' == $view || ( 'grid' == $view && '' !== $spacing ) || ( '0' == $
 
 		wp_enqueue_script( 'isotope' );
 
-		porto_creative_grid_style( $porto_woocommerce_loop['grid_layout'], $grid_height, $wrapper_id, $spacing, false, '', '.product-col', $grid_layout );
+		$grid_height_number = trim( preg_replace( '/[^0-9]/', '', $grid_height ) );
+		$unit               = trim( str_replace( $grid_height_number, '', $grid_height ) );
+		porto_creative_grid_style( $porto_woocommerce_loop['grid_layout'], $grid_height_number, $wrapper_id, $spacing, false, $unit, '.product-col', $grid_layout );
 	}
 
 	if ( ( 'onimage2' == $addlinks_pos || 'onimage3' == $addlinks_pos ) && ( '0' == $overlay_bg_opacity || ( '30' != $overlay_bg_opacity && $overlay_bg_opacity ) ) ) {
@@ -316,6 +328,7 @@ if ( 'creative' == $view || ( 'grid' == $view && '' !== $spacing ) || ( '0' == $
 if ( $count ) {
 	$extra_atts .= ' limit="' . intval( $count ) . '"';
 }
+
 $output .= do_shortcode( '[' . esc_html( $shortcode ) . ' columns="' . $columns . '"' . $extra_atts . ']' );
 
 if ( 'products-slider' == $view ) {

@@ -3,7 +3,7 @@
 Plugin Name: Porto Theme - Functionality
 Plugin URI: http://themeforest.net/user/p-themes
 Description: Adds functionality such as Shortcodes, Post Types and Widgets to Porto Theme
-Version: 1.5.2
+Version: 1.6.0
 Author: P-Themes
 Author URI: http://themeforest.net/user/p-themes
 License: GPL2
@@ -64,11 +64,6 @@ class Porto_Functionality {
 		// add meta library
 		require_once( PORTO_META_BOXES_PATH . 'lib/meta_values.php' );
 		require_once( PORTO_META_BOXES_PATH . 'lib/meta_fields.php' );
-
-		// register elementor widgets
-		add_action( 'elementor/widgets/widgets_registered', array( $this, 'register_elementor_widgets' ), 10, 1 );
-
-		add_action( 'wp_enqueue_scripts', array( $this, 'load_elementor_widgets_js' ) );
 	}
 
 	// load plugin text domain
@@ -83,6 +78,11 @@ class Porto_Functionality {
 
 		// add metaboxes
 		require_once( PORTO_META_BOXES_PATH . 'meta_boxes.php' );
+
+		if ( defined( 'ELEMENTOR_VERSION' ) ) {
+			// register elementor widgets
+			require_once( dirname( PORTO_META_BOXES_PATH ) . '/elementor/init.php' );
+		}
 	}
 
 	public function init() {
@@ -187,37 +187,6 @@ class Porto_Functionality {
 	protected function load_woocommerce_widgets() {
 		foreach ( $this->woo_widgets as $widget ) {
 			require_once( PORTO_WIDGETS_PATH . $widget . '.php' );
-		}
-	}
-
-	// Register Elementor widgets
-	public function register_elementor_widgets( $self ) {
-		if ( ! defined( 'ELEMENTOR_VERSION' ) ) {
-			return;
-		}
-		$widgets = array(
-			'blog',
-			'products',
-			'ultimate_heading',
-			'info_box',
-			'recent_posts',
-			'stat_counter',
-		);
-
-		foreach ( $widgets as $widget ) {
-			include dirname( __FILE__ ) . '/elementor-widgets/' . $widget . '.php';
-			$class_name = 'Porto_Elementor_' . ucfirst( $widget ) . '_Widget';
-			$self->register_widget_type( new $class_name( array(), array( 'widget_name' => $class_name ) ) );
-		}
-	}
-
-	public function load_elementor_widgets_js() {
-		if ( ! defined( 'ELEMENTOR_VERSION' ) ) {
-			return;
-		}
-
-		if ( ( isset( $_REQUEST['action'] ) && 'elementor' == $_REQUEST['action'] ) || isset( $_REQUEST['elementor-preview'] ) ) {
-			wp_register_script( 'porto-elementor-widgets-js', plugin_dir_url( __FILE__ ) . 'elementor-widgets/assets/elementor.js', array( 'jquery' ), PORTO_SHORTCODES_VERSION, true );
 		}
 	}
 }

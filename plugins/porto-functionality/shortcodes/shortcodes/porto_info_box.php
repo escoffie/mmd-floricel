@@ -16,6 +16,9 @@ function porto_shortcode_info_box( $atts, $content = null ) {
 
 	ob_start();
 	if ( $template = porto_shortcode_template( 'porto_info_box' ) ) {
+		if ( empty( $atts['icon_color_bg'] ) ) {
+			$atts['icon_color_bg'] = 'transparent';
+		}
 		include $template;
 	}
 	return ob_get_clean();

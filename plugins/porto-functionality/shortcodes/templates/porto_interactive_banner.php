@@ -38,6 +38,7 @@ extract(
 			'animation_type'         => '',
 			'animation_duration'     => 1000,
 			'animation_delay'        => 0,
+			'align'                  => '',
 		),
 		$atts
 	)
@@ -54,7 +55,10 @@ if ( ( ! isset( $content ) || empty( $content ) ) && isset( $atts['content'] ) &
 	$content = $atts['content'];
 }
 
-$css_ib_styles = apply_filters( VC_SHORTCODE_CUSTOM_CSS_FILTER_TAG, vc_shortcode_custom_css_class( $css_ibanner, ' ' ), 'porto_interactive_banner', $atts );
+$css_ib_styles = '';
+if ( defined( 'VC_SHORTCODE_CUSTOM_CSS_FILTER_TAG' ) ) {
+	$css_ib_styles = apply_filters( VC_SHORTCODE_CUSTOM_CSS_FILTER_TAG, vc_shortcode_custom_css_class( $css_ibanner, ' ' ), 'porto_interactive_banner', $atts );
+}
 global $porto_settings_optimize;
 
 $output = $target = $link = $banner_style_inline = $title_bg = $img_style = $target = '';
@@ -71,7 +75,7 @@ if ( $image_opacity && '1' != $image_opacity ) {
 if ( $banner_image ) {
 	global $porto_carousel_lazyload;
 	$img_attr = array();
-	if ( 'enable' === $lazyload || $lazyload ) {
+	if ( $lazyload ) {
 		if ( isset( $porto_carousel_lazyload ) && true === $porto_carousel_lazyload ) {
 			$img_attr['class'] = 'porto-ibanner-img owl-lazy';
 		} else {
@@ -89,17 +93,17 @@ if ( $banner_image ) {
 		if ( $lazyload ) {
 			$img_data = wp_get_attachment_image_src( $banner_image, 'full' );
 			if ( $img_data ) {
-				$placeholder               = porto_generate_placeholder( $img_data[1] . 'x' . $img_data[2] );
-				$img_attr['src']           = esc_url( $placeholder[0] );
-				$img_attr['data-original'] = esc_url( $img_data[0] );
+				$placeholder          = porto_generate_placeholder( $img_data[1] . 'x' . $img_data[2] );
+				$img_attr['src']      = esc_url( $placeholder[0] );
+				$img_attr['data-src'] = esc_url( $img_data[0] );
 			}
 		}
 		$img = wp_get_attachment_image( $banner_image, 'full', false, $img_attr );
 	} else {
 		if ( $lazyload ) {
-			$placeholder               = porto_generate_placeholder( '1x1' );
-			$img_attr['src']           = esc_url( $placeholder[0] );
-			$img_attr['data-original'] = esc_url( $banner_image );
+			$placeholder          = porto_generate_placeholder( '1x1' );
+			$img_attr['src']      = esc_url( $placeholder[0] );
+			$img_attr['data-src'] = esc_url( $banner_image );
 		} else {
 			$img_attr['src'] = esc_url( $banner_image );
 		}
@@ -199,6 +203,9 @@ if ( trim( $css_ib_styles ) ) {
 if ( trim( $el_class ) ) {
 	$classes .= ' ' . trim( $el_class );
 }
+if ( $align ) {
+	$classes .= ' align' . $align;
+}
 
 // lazy load background image
 if ( isset( $porto_settings_optimize['lazyload'] ) && $porto_settings_optimize['lazyload'] ) {
@@ -212,6 +219,7 @@ if ( isset( $porto_settings_optimize['lazyload'] ) && $porto_settings_optimize['
 
 // parallax
 if ( $parallax && $banner_image ) {
+	wp_enqueue_script( 'skrollr' );
 	if ( is_numeric( $banner_image ) ) {
 		$image_url = wp_get_attachment_image_url( $banner_image, 'full' );
 	} else {
@@ -241,11 +249,11 @@ if ( $img ) {
 	$output .= $img;
 }
 if ( $banner_title || $banner_desc || $content ) {
-	$output .= '<div class="porto-ibanner-desc' . ( $content && false !== strpos( $content, '[porto_interactive_banner_layer ' ) ? ' no-padding d-flex' : '' ) . '"' . ( $title_bg ? ' style="' . esc_attr( $title_bg ) . '"' : '' ) . '>';
+	$output .= '<div class="porto-ibanner-desc' . ( $content && ( false !== strpos( $content, '[porto_interactive_banner_layer ' ) || false !== strpos( $content, 'class="porto-ibanner-layer' ) ) ? ' no-padding d-flex' : '' ) . '"' . ( $title_bg ? ' style="' . esc_attr( $title_bg ) . '"' : '' ) . '>';
 	if ( $banner_title ) {
 		$output .= '<' . $heading_tag . ' class="porto-ibanner-title" style="' . esc_attr( $banner_title_style_inline ) . '">' . do_shortcode( $banner_title ) . '</' . $heading_tag . '>';
 	}
-	if ( $content && false !== strpos( $content, '[porto_interactive_banner_layer ' ) ) {
+	if ( $content && ( false !== strpos( $content, '[porto_interactive_banner_layer ' ) || false !== strpos( $content, 'class="porto-ibanner-layer' ) ) ) {
 		if ( $add_container ) {
 			$output .= '<div class="container"><div class="porto-ibanner-container">';
 		}
