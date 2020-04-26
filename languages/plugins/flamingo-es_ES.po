@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Plugins - Flamingo - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2020-01-15 18:59:52+0000\n"
+"PO-Revision-Date: 2020-02-17 10:50:45+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -295,7 +295,7 @@ msgstr "Ver todas las etiquetas"
 #: admin/includes/class-contacts-list-table.php:94
 #: admin/includes/meta-boxes.php:11
 msgid "Delete"
-msgstr "Eliminar"
+msgstr "Borrar"
 
 #: admin/includes/class-contacts-list-table.php:16
 msgid "Last Contact"
@@ -420,7 +420,7 @@ msgstr "Guardar"
 
 #: admin/admin.php:207 admin/includes/meta-boxes.php:222
 msgid "Last name"
-msgstr "Apellido"
+msgstr "Apellidos"
 
 #: admin/admin.php:206 admin/includes/meta-boxes.php:217
 msgid "First name"
