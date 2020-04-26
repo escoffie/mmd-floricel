@@ -57,12 +57,13 @@ if ( version_compare( $porto_woo_version, '2.4', '<' ) ) {
 						</div></div>
 						<div class="product-details">
 						<?php if ( ! $_product->is_visible() ) { ?>
+							<?php echo porto_filter_output( $product_name ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+						<?php } else { ?>
+							<a href="<?php echo esc_url( $product_permalink ); ?>">
 								<?php echo porto_filter_output( $product_name ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
-							<?php } else { ?>
-								<a href="<?php echo esc_url( $product_permalink ); ?>">
-									<?php echo porto_filter_output( $product_name ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
-								</a>
-							<?php } ?>
+							</a>
+						<?php } ?>
+						<?php do_action( 'porto_woocommerce_minicart_after_product_name', $_product ); ?>
 						<?php echo function_exists( 'wc_get_formatted_cart_item_data' ) ? wc_get_formatted_cart_item_data( $cart_item ) : WC()->cart->get_item_data( $cart_item ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 						<?php echo apply_filters( 'woocommerce_widget_cart_item_quantity', '<span class="quantity">' . sprintf( '%s &times; %s', $cart_item['quantity'], $product_price ) . '</span>', $cart_item, $cart_item_key ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 						<?php

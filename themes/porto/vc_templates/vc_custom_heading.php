@@ -188,7 +188,7 @@ if ( apply_filters( 'vc_custom_heading_template_use_wrapper', false ) || $show_b
 	$output       .= '<div class="' . esc_attr( $css_class ) . '">';
 	$heading_class = 'heading-tag';
 	if ( 'custom' !== $skin ) {
-		$heading_class .= 'heading-' . $skin;
+		$heading_class .= ' heading-' . $skin;
 	}
 	if ( $text_transform ) {
 		$heading_class .= ' ' . $text_transform;

@@ -611,9 +611,6 @@ if ( ! class_exists( 'Redux_Framework_porto_settings' ) ) {
 						'default'  => '#0088cc',
 						'validate' => 'color',
 						'compiler' => true,
-						'output'   => array(
-							'color' => '.alternative-font, a, .color-primary',
-						),
 					),
 					array(
 						'id'       => 'skin-color-inverse',
@@ -884,29 +881,6 @@ if ( ! class_exists( 'Redux_Framework_porto_settings' ) ) {
 							'font-family' => 'Shadows Into Light',
 						),
 					),
-					/*array(
-					'id'=>'logo-font',
-					'type' => 'typography',
-					'title' => __( 'Logo Font', 'porto' ),
-					'subtitle' => __( 'This is only used when Logo Type is Text.', 'porto' ),
-					'google' => true,
-					'subsets' => false,
-					'font-style' => false,
-					'text-align' => false,
-					'letter-spacing' => true,
-					'default'=> array(
-					'color'=>"",
-					'google'=>true,
-					'font-weight'=>'',
-					'font-family'=>'',
-					'font-size'=>'',
-					'line-height' => '',
-					'letter-spacing' => ''
-					),
-					'output' => array(
-					'#header .logo-text'
-					)
-					),*/
 					array(
 						'id'             => 'h1-font',
 						'type'           => 'typography',
@@ -917,7 +891,7 @@ if ( ! class_exists( 'Redux_Framework_porto_settings' ) ) {
 						'text-align'     => false,
 						'letter-spacing' => true,
 						'default'        => array(
-							'color'          => '#212529',
+							'color'          => '',
 							'google'         => true,
 							'font-weight'    => '400',
 							'font-family'    => 'Open Sans',
@@ -936,14 +910,13 @@ if ( ! class_exists( 'Redux_Framework_porto_settings' ) ) {
 						'text-align'     => false,
 						'letter-spacing' => true,
 						'default'        => array(
-							'color'          => '#212529',
+							'color'          => '',
 							'google'         => true,
 							'font-weight'    => '400',
 							'font-family'    => 'Open Sans',
 							'font-size'      => '30px',
 							'line-height'    => '40px',
 							'letter-spacing' => '',
-
 						),
 					),
 					array(
@@ -956,7 +929,7 @@ if ( ! class_exists( 'Redux_Framework_porto_settings' ) ) {
 						'text-align'     => false,
 						'letter-spacing' => true,
 						'default'        => array(
-							'color'          => '#212529',
+							'color'          => '',
 							'google'         => true,
 							'font-weight'    => '400',
 							'font-family'    => 'Open Sans',
@@ -975,7 +948,7 @@ if ( ! class_exists( 'Redux_Framework_porto_settings' ) ) {
 						'text-align'     => false,
 						'letter-spacing' => true,
 						'default'        => array(
-							'color'          => '#212529',
+							'color'          => '',
 							'google'         => true,
 							'font-weight'    => '400',
 							'font-family'    => 'Open Sans',
@@ -994,7 +967,7 @@ if ( ! class_exists( 'Redux_Framework_porto_settings' ) ) {
 						'text-align'     => false,
 						'letter-spacing' => true,
 						'default'        => array(
-							'color'          => '#212529',
+							'color'          => '',
 							'google'         => true,
 							'font-weight'    => '400',
 							'font-family'    => 'Open Sans',
@@ -1013,7 +986,7 @@ if ( ! class_exists( 'Redux_Framework_porto_settings' ) ) {
 						'text-align'     => false,
 						'letter-spacing' => true,
 						'default'        => array(
-							'color'          => '#212529',
+							'color'          => '',
 							'google'         => true,
 							'font-weight'    => '400',
 							'font-family'    => 'Open Sans',
@@ -1031,9 +1004,6 @@ if ( ! class_exists( 'Redux_Framework_porto_settings' ) ) {
 						'font-style'     => false,
 						'text-align'     => false,
 						'letter-spacing' => true,
-						'output'         => array(
-							'p',
-						),
 					),
 					array(
 						'id'             => 'footer-font',
@@ -1044,11 +1014,6 @@ if ( ! class_exists( 'Redux_Framework_porto_settings' ) ) {
 						'font-style'     => false,
 						'text-align'     => false,
 						'letter-spacing' => true,
-						'output'         => true,
-						'output'         => array(
-							'#footer',
-							'#footer p',
-						),
 					),
 					array(
 						'id'             => 'footer-heading-font',
@@ -1061,17 +1026,6 @@ if ( ! class_exists( 'Redux_Framework_porto_settings' ) ) {
 						'font-size'      => false,
 						'line-height'    => false,
 						'letter-spacing' => true,
-						'output'         => array(
-							'#footer h1',
-							'#footer h2',
-							'#footer h3',
-							'#footer h4',
-							'#footer h5',
-							'#footer h6',
-							'#footer .widget-title',
-							'#footer .widget-title a',
-							'.footer-top .widget-title',
-						),
 					),
 					array(
 						'id'             => 'shortcode-testimonial-font',
@@ -1105,9 +1059,6 @@ if ( ! class_exists( 'Redux_Framework_porto_settings' ) ) {
 						'line-height'    => false,
 						'letter-spacing' => false,
 						'subsets'        => false,
-						'output'         => array(
-							'font-family' => '.custom-font1',
-						),
 					),
 					array(
 						'title'          => esc_html__( 'Custom Font 2', 'porto' ),
@@ -1123,9 +1074,6 @@ if ( ! class_exists( 'Redux_Framework_porto_settings' ) ) {
 						'line-height'    => false,
 						'letter-spacing' => false,
 						'subsets'        => false,
-						'output'         => array(
-							'font-family' => '.custom-font2',
-						),
 					),
 					array(
 						'title'          => esc_html__( 'Custom Font 3', 'porto' ),
@@ -1141,9 +1089,6 @@ if ( ! class_exists( 'Redux_Framework_porto_settings' ) ) {
 						'line-height'    => false,
 						'letter-spacing' => false,
 						'subsets'        => false,
-						'output'         => array(
-							'font-family' => '.custom-font3',
-						),
 					),
 				),
 			);
@@ -1160,12 +1105,9 @@ if ( ! class_exists( 'Redux_Framework_porto_settings' ) ) {
 						'notice' => false,
 					),
 					array(
-						'id'     => 'body-bg',
-						'type'   => 'background',
-						'title'  => __( 'Background', 'porto' ),
-						'output' => array(
-							'body',
-						),
+						'id'    => 'body-bg',
+						'type'  => 'background',
+						'title' => __( 'Background', 'porto' ),
 					),
 					array(
 						'id'      => 'body-bg-gradient',
@@ -1192,12 +1134,9 @@ if ( ! class_exists( 'Redux_Framework_porto_settings' ) ) {
 						'notice' => false,
 					),
 					array(
-						'id'     => 'content-bg',
-						'type'   => 'background',
-						'title'  => __( 'Background', 'porto' ),
-						'output' => array(
-							'#main',
-						),
+						'id'    => 'content-bg',
+						'type'  => 'background',
+						'title' => __( 'Background', 'porto' ),
 					),
 					array(
 						'id'      => 'content-bg-gradient',
@@ -1224,12 +1163,9 @@ if ( ! class_exists( 'Redux_Framework_porto_settings' ) ) {
 						'notice' => false,
 					),
 					array(
-						'id'     => 'content-bottom-bg',
-						'type'   => 'background',
-						'title'  => __( 'Background', 'porto' ),
-						'output' => array(
-							'#main .content-bottom-wrapper',
-						),
+						'id'    => 'content-bottom-bg',
+						'type'  => 'background',
+						'title' => __( 'Background', 'porto' ),
 					),
 					array(
 						'id'      => 'content-bottom-bg-gradient',
@@ -1326,9 +1262,6 @@ if ( ! class_exists( 'Redux_Framework_porto_settings' ) ) {
 						'default' => array(
 							'background-color' => '',
 						),
-						'output'  => array(
-							'.header-wrapper',
-						),
 					),
 					array(
 						'id'      => 'header-wrap-bg-gradient',
@@ -1361,9 +1294,6 @@ if ( ! class_exists( 'Redux_Framework_porto_settings' ) ) {
 						'default' => array(
 							'background-color' => '#ffffff',
 						),
-						'output'  => array(
-							'#header .header-main',
-						),
 					),
 					array(
 						'id'      => 'header-bg-gradient',
@@ -1389,9 +1319,6 @@ if ( ! class_exists( 'Redux_Framework_porto_settings' ) ) {
 						'title'    => __( 'Text Color', 'porto' ),
 						'default'  => '',
 						'validate' => 'color',
-						'output'   => array(
-							'color' => '#header, #header .header-main .header-contact .nav-top > li > a, #header .top-links > li.menu-item:before',
-						),
 					),
 					array(
 						'id'      => 'header-link-color',
@@ -1600,9 +1527,6 @@ if ( ! class_exists( 'Redux_Framework_porto_settings' ) ) {
 						'title'    => __( 'Text Color', 'porto' ),
 						'default'  => '#777777',
 						'validate' => 'color',
-						'output'   => array(
-							'color' => '#header .header-top, .header-top .top-links>li.menu-item:after',
-						),
 					),
 					array(
 						'id'      => 'header-top-link-color',
@@ -1669,9 +1593,6 @@ if ( ! class_exists( 'Redux_Framework_porto_settings' ) ) {
 						'title'    => __( 'Background Color', 'porto' ),
 						'default'  => '',
 						'validate' => 'color',
-						'output'   => array(
-							'background-color' => '.header-bottom',
-						),
 					),
 					array(
 						'id'       => 'header-bottom-container-bg-color',
@@ -1679,9 +1600,6 @@ if ( ! class_exists( 'Redux_Framework_porto_settings' ) ) {
 						'title'    => __( 'Container Background Color', 'porto' ),
 						'default'  => '',
 						'validate' => 'color',
-						'output'   => array(
-							'background-color' => '.header-bottom > .container',
-						),
 					),
 					array(
 						'id'      => 'header-bottom-height',
@@ -1696,9 +1614,6 @@ if ( ! class_exists( 'Redux_Framework_porto_settings' ) ) {
 						'title'    => __( 'Text Color', 'porto' ),
 						'default'  => '',
 						'validate' => 'color',
-						'output'   => array(
-							'#header .header-bottom',
-						),
 					),
 					array(
 						'id'      => 'header-bottom-link-color',
@@ -1708,9 +1623,6 @@ if ( ! class_exists( 'Redux_Framework_porto_settings' ) ) {
 						'default' => array(
 							'regular' => '',
 							'hover'   => '',
-						),
-						'output'  => array(
-							'#header .header-bottom a:not(.btn)',
 						),
 					),
 					array(
@@ -2112,15 +2024,9 @@ if ( ! class_exists( 'Redux_Framework_porto_settings' ) ) {
 						'notice' => false,
 					),
 					array(
-						'id'      => 'breadcrumbs-bg',
-						'type'    => 'background',
-						'title'   => __( 'Background', 'porto' ),
-						'default' => array(
-							'background-color' => '#212529',
-						),
-						'output'  => array(
-							'.page-top',
-						),
+						'id'    => 'breadcrumbs-bg',
+						'type'  => 'background',
+						'title' => __( 'Background', 'porto' ),
 					),
 					array(
 						'id'      => 'breadcrumbs-bg-gradient',
@@ -2262,9 +2168,6 @@ if ( ! class_exists( 'Redux_Framework_porto_settings' ) ) {
 						'default' => array(
 							'background-color' => '#212529',
 						),
-						'output'  => array(
-							'#footer',
-						),
 					),
 					array(
 						'id'      => 'footer-bg-gradient',
@@ -2306,12 +2209,9 @@ if ( ! class_exists( 'Redux_Framework_porto_settings' ) ) {
 						'notice' => false,
 					),
 					array(
-						'id'     => 'footer-main-bg',
-						'type'   => 'background',
-						'title'  => __( 'Background', 'porto' ),
-						'output' => array(
-							'#footer .footer-main',
-						),
+						'id'    => 'footer-main-bg',
+						'type'  => 'background',
+						'title' => __( 'Background', 'porto' ),
 					),
 					array(
 						'id'      => 'footer-main-bg-gradient',
@@ -2343,9 +2243,6 @@ if ( ! class_exists( 'Redux_Framework_porto_settings' ) ) {
 						'type'     => 'color',
 						'title'    => __( 'Label Color', 'porto' ),
 						'validate' => 'color',
-						'output'   => array(
-							'color' => '#footer .widget.contact-info .contact-details strong',
-						),
 					),
 					array(
 						'id'       => 'footer-text-color',
@@ -2385,12 +2282,9 @@ if ( ! class_exists( 'Redux_Framework_porto_settings' ) ) {
 						'notice' => false,
 					),
 					array(
-						'id'     => 'footer-top-bg',
-						'type'   => 'background',
-						'title'  => __( 'Background', 'porto' ),
-						'output' => array(
-							'.footer-top',
-						),
+						'id'    => 'footer-top-bg',
+						'type'  => 'background',
+						'title' => __( 'Background', 'porto' ),
 					),
 					array(
 						'id'      => 'footer-top-bg-gradient',
@@ -2431,9 +2325,6 @@ if ( ! class_exists( 'Redux_Framework_porto_settings' ) ) {
 						'default' => array(
 							'background-color' => '#1c2023',
 						),
-						'output'  => array(
-							'#footer .footer-bottom',
-						),
 					),
 					array(
 						'id'      => 'footer-bottom-bg-gradient',
@@ -2459,9 +2350,6 @@ if ( ! class_exists( 'Redux_Framework_porto_settings' ) ) {
 						'title'    => __( 'Text Color', 'porto' ),
 						'default'  => '#555555',
 						'validate' => 'color',
-						'output'   => array(
-							'color' => '#footer .footer-bottom, #footer .footer-bottom p, #footer .footer-bottom .widget > div > ul li, #footer .footer-bottom .widget > ul li',
-						),
 					),
 					array(
 						'id'      => 'footer-bottom-link-color',
@@ -2733,9 +2621,6 @@ if ( ! class_exists( 'Redux_Framework_porto_settings' ) ) {
 						'title'    => __( 'Toggle Text Color', 'porto' ),
 						'default'  => '',
 						'validate' => 'color',
-						'output'   => array(
-							'color' => '#header.sticky-header .searchform-popup .search-toggle',
-						),
 					),
 					array(
 						'id'       => 'sticky-searchform-toggle-hover-color',
@@ -2743,9 +2628,6 @@ if ( ! class_exists( 'Redux_Framework_porto_settings' ) ) {
 						'title'    => __( 'Toggle Hover Color', 'porto' ),
 						'default'  => '',
 						'validate' => 'color',
-						'output'   => array(
-							'color' => '#header.sticky-header .searchform-popup .search-toggle:hover',
-						),
 					),
 				),
 			);
@@ -2773,14 +2655,17 @@ if ( ! class_exists( 'Redux_Framework_porto_settings' ) ) {
 						'notice' => false,
 					),
 					array(
+						'id'      => 'minicart-icon-font-size',
+						'type'    => 'text',
+						'title'   => __( 'Icon Font Size', 'porto' ),
+						'default' => '',
+					),
+					array(
 						'id'       => 'minicart-icon-color',
 						'type'     => 'color',
 						'title'    => __( 'Icon Color', 'porto' ),
 						'default'  => '#0088cc',
 						'validate' => 'color',
-						'output'   => array(
-							'color' => '#mini-cart .cart-subtotal, #mini-cart .minicart-icon',
-						),
 					),
 					array(
 						'id'       => 'minicart-item-color',
@@ -2788,9 +2673,6 @@ if ( ! class_exists( 'Redux_Framework_porto_settings' ) ) {
 						'title'    => __( 'Item Color', 'porto' ),
 						'default'  => '',
 						'validate' => 'color',
-						'output'   => array(
-							'color' => '#mini-cart .cart-items, #mini-cart .cart-items-text',
-						),
 					),
 					array(
 						'id'       => 'minicart-bg-color',
@@ -2798,9 +2680,6 @@ if ( ! class_exists( 'Redux_Framework_porto_settings' ) ) {
 						'title'    => __( 'Background Color', 'porto' ),
 						'default'  => '',
 						'validate' => 'color',
-						'output'   => array(
-							'background' => '#mini-cart',
-						),
 					),
 					array(
 						'id'       => 'minicart-popup-border-color',
@@ -2821,9 +2700,6 @@ if ( ! class_exists( 'Redux_Framework_porto_settings' ) ) {
 						'title'    => __( 'Icon Color', 'porto' ),
 						'default'  => '',
 						'validate' => 'color',
-						'output'   => array(
-							'color' => '.sticky-header #mini-cart .cart-subtotal, .sticky-header #mini-cart .minicart-icon, .sticky-header #mini-cart.minicart-arrow-alt .cart-head:after',
-						),
 					),
 					array(
 						'id'       => 'sticky-minicart-item-color',
@@ -2831,9 +2707,6 @@ if ( ! class_exists( 'Redux_Framework_porto_settings' ) ) {
 						'title'    => __( 'Item Color', 'porto' ),
 						'default'  => '',
 						'validate' => 'color',
-						'output'   => array(
-							'color' => '.sticky-header #mini-cart .cart-items, .sticky-header #mini-cart .cart-items-text',
-						),
 					),
 					array(
 						'id'       => 'sticky-minicart-bg-color',
@@ -2841,9 +2714,6 @@ if ( ! class_exists( 'Redux_Framework_porto_settings' ) ) {
 						'title'    => __( 'Background Color', 'porto' ),
 						'default'  => '',
 						'validate' => 'color',
-						'output'   => array(
-							'background' => '.sticky-header #mini-cart',
-						),
 					),
 					array(
 						'id'       => 'sticky-minicart-popup-border-color',
@@ -4432,7 +4302,7 @@ if ( ! class_exists( 'Redux_Framework_porto_settings' ) ) {
 						'type'     => 'button_set',
 						'required' => array( 'blog-excerpt', 'equals', true ),
 						'title'    => __( 'Basis for Excerpt Length', 'porto' ),
-						'subtitle' => __( 'Excerpt length is based on words or characters?' ),
+						'subtitle' => __( 'Excerpt length is based on words or characters?', 'porto' ),
 						'desc'     => __( 'This works for other post types too.', 'porto' ),
 						'options'  => array(
 							'words'      => __( 'Words', 'porto' ),
@@ -6368,11 +6238,20 @@ if ( ! class_exists( 'Redux_Framework_porto_settings' ) ) {
 				),
 			);
 			// Woocommerce
+			$all_roles = array();
+			if ( is_admin() ) {
+				$roles = wp_roles()->roles;
+				$roles = apply_filters( 'editable_roles', $roles );
+				foreach ( $roles as $role_name => $role_info ) {
+					$initial_assigned_roles = array( $role_name => $role_info['name'] );
+					$all_roles              = array_merge( $all_roles, $initial_assigned_roles );
+				}
+			}
 			$this->sections[] = $this->add_customizer_field(
 				array(
 					'icon'       => 'el-icon-shopping-cart',
 					'icon_class' => 'icon',
-					'title'      => __( 'Woocommerce', 'porto' ),
+					'title'      => __( 'WooCommerce', 'porto' ),
 					'transport'  => 'postMessage',
 					'fields'     => array(
 						array(
@@ -6441,6 +6320,46 @@ if ( ! class_exists( 'Redux_Framework_porto_settings' ) ) {
 							'default'  => true,
 							'on'       => __( 'Yes', 'porto' ),
 							'off'      => __( 'No', 'porto' ),
+						),
+						array(
+							'id'        => 'product-show-price-role',
+							'type'      => 'button_set',
+							'multi'     => true,
+							'title'     => __( 'Select roles to see price', 'porto' ),
+							'default'   => array(),
+							'options'   => $all_roles,
+							'transport' => 'refresh',
+						),
+						array(
+							'id'        => 'woo-pre-order',
+							'type'      => 'switch',
+							'title'     => __( 'Enable Pre-Order', 'porto' ),
+							'transport' => 'refresh',
+						),
+						array(
+							'id'          => 'woo-pre-order-label',
+							'type'        => 'text',
+							'title'       => __( 'Pre-order Label', 'porto' ),
+							'description' => __( 'This text will be used on \'Add to Cart\' button.', 'porto' ),
+							'required'    => array( 'woo-pre-order', 'equals', true ),
+							'transport'   => 'refresh',
+						),
+						array(
+							'id'          => 'woo-pre-order-msg-date',
+							'type'        => 'text',
+							'title'       => __( 'Availability Date Text', 'porto' ),
+							/* translators: available date */
+							'description' => __( 'ex: Available date: %s (%s will be replaced with available date.)', 'porto' ),
+							'required'    => array( 'woo-pre-order', 'equals', true ),
+							'transport'   => 'refresh',
+						),
+						array(
+							'id'          => 'woo-pre-order-msg-nodate',
+							'type'        => 'text',
+							'title'       => __( 'No Date Message', 'porto' ),
+							'placeholder' => __( 'Available soon', 'porto' ),
+							'required'    => array( 'woo-pre-order', 'equals', true ),
+							'transport'   => 'refresh',
 						),
 					),
 				),
@@ -7730,7 +7649,7 @@ if ( ! class_exists( 'Redux_Framework_porto_settings' ) ) {
 				'show_import_export'        => true,
 				'show_options_object'       => false,
 				'transient_time'            => 60 * MINUTE_IN_SECONDS,
-				'output'                    => true,
+				'output'                    => false,
 				'output_tag'                => true,
 				'database'                  => '',
 				'system_info'               => false,

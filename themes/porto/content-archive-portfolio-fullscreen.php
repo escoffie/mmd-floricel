@@ -9,13 +9,13 @@ if ( $item_cats ) {
 	}
 }
 
-$sub_title      = porto_portfolio_sub_title( $post );
-$attachment     = porto_get_attachment( get_post_thumbnail_id(), 'full' );
+$sub_title  = porto_portfolio_sub_title( $post );
+$attachment = porto_get_attachment( get_post_thumbnail_id(), 'full' );
 
 if ( has_post_thumbnail() ) :
 
 	?>
-	<article <?php post_class( $post_class ); ?> id="porto_portfolio_<?php echo $post->ID; ?>">
+	<article <?php post_class( $post_class ); ?> id="porto_portfolio_<?php echo (int) $post->ID; ?>">
 		<?php porto_render_rich_snippets(); ?>
 		<div class="portfolio-item" style="background-image: url(<?php echo esc_url( $attachment['src'] ); ?>);">
 

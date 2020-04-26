@@ -1,18 +1,4 @@
 /* Wordpress Gutenberg Columns */
-@media (min-width: 600px) {
-	.wp-block-columns {
-		flex-wrap: nowrap;
-	}
-	.wp-block-column {
-		&:not(:first-child) {
-			margin-left: 15px;
-		}
-		&:not(:last-child) {
-			margin-right: 15px;
-		}
-	}
-}
-
 .page-content {
 	> *.alignwide {
 		margin-left: auto;
@@ -70,4 +56,8 @@
 			color: #666;
 		}
 	}
+}
+
+.porto-heading > a {
+	color: inherit
 }

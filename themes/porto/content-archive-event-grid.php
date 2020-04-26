@@ -101,7 +101,7 @@ tick_sep_size="desktop:17px;"]'
 			?>
 			<?php if ( isset( $porto_settings['event-readmore'] ) && $porto_settings['event-readmore'] ) : ?>
 				<?php /* translators: $1: Event Singular Name */ ?>
-				<div><a class="read-more" href="<?php the_permalink(); ?>"><?php printf( esc_html__( 'View %s' ), $porto_settings['event-singular-name'] ? $porto_settings['event-singular-name'] : 'Event' ); ?></a></div>
+				<div><a class="read-more" href="<?php the_permalink(); ?>"><?php printf( esc_html__( 'View %s', 'porto' ), $porto_settings['event-singular-name'] ? esc_html( $porto_settings['event-singular-name'] ) : esc_html__( 'Event', 'porto' ) ); ?></a></div>
 			<?php endif; ?>
 		</span>
 	</span>

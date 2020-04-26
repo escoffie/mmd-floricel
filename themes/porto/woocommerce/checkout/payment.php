@@ -64,7 +64,7 @@ if ( ! is_ajax() ) {
 		<?php $img = PORTO_URI . '/images/ajax-loader.gif'; ?>
 		<?php $img_2x = PORTO_URI . '/images/ajax-loader@2x.gif 2x'; ?>
 
-		<?php echo apply_filters( 'woocommerce_order_button_html', '<button type="submit" class="button alt" name="woocommerce_checkout_place_order" id="place_order" value="' . esc_attr( $order_button_text ) . '" data-value="' . esc_attr( $order_button_text ) . '">'. esc_html( $order_button_text ) .'</button><img src="'.$img.'" srcset="'.$img_2x.'" alt="loader"/>' ); // @codingStandardsIgnoreLine ?>
+		<?php echo apply_filters( 'woocommerce_order_button_html', '<button type="submit" class="button alt" name="woocommerce_checkout_place_order" id="place_order" value="' . esc_attr( $order_button_text ) . '" data-value="' . esc_attr( $order_button_text ) . '">'. esc_html( $order_button_text ) .'</button><img src="' . $img . '" srcset="' . $img_2x . '" alt="loader"/>' ); // @codingStandardsIgnoreLine ?>
 
 		<?php do_action( 'woocommerce_review_order_after_submit' ); ?>
 

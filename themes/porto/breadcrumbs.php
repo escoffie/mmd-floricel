@@ -13,7 +13,12 @@ if ( ( is_front_page() && is_home() ) || is_front_page() ) {
 	$page_title  = false;
 }
 ?>
-<?php if ( $breadcrumbs || $page_title ) : ?>
+<?php
+if ( $breadcrumbs || $page_title ) :
+	if ( $porto_settings['breadcrumbs-parallax'] ) {
+		wp_enqueue_script( 'skrollr' );
+	}
+	?>
 	<?php if ( 'boxed' != porto_get_wrapper_type() && 'boxed' == $porto_settings['breadcrumbs-wrapper'] ) : ?>
 		<div id="breadcrumbs-boxed">
 	<?php endif; ?>

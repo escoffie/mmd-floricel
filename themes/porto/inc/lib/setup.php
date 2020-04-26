@@ -23,6 +23,13 @@ if ( isset( $porto_settings['search-live'] ) && $porto_settings['search-live'] )
 }
 
 // Porto Studio
-if ( class_exists( 'Vc_Manager' ) && ( ( is_admin() && ( 'post.php' == $GLOBALS['pagenow'] || 'post-new.php' == $GLOBALS['pagenow'] || porto_is_ajax() ) ) || ( isset( $_REQUEST['vc_editable'] ) && $_REQUEST['vc_editable'] ) ) && ( current_user_can( 'edit_posts' ) || current_user_can( 'edit_pages' ) ) ) {
+if ( ( ( class_exists( 'Vc_Manager' ) && ( ( is_admin() && ( 'post.php' == $GLOBALS['pagenow'] || 'post-new.php' == $GLOBALS['pagenow'] || porto_is_ajax() ) ) || ( isset( $_REQUEST['vc_editable'] ) && $_REQUEST['vc_editable'] ) ) ) ||
+	( defined( 'ELEMENTOR_VERSION' ) && ( porto_is_elementor_preview() || wp_doing_ajax() ) ) ) &&
+	( current_user_can( 'edit_posts' ) || current_user_can( 'edit_pages' ) ) ) {
 	require_once PORTO_LIB . '/lib/porto-studio/porto-studio.php';
+}
+
+// Pre Order
+if ( isset( $porto_settings['woo-pre-order'] ) && $porto_settings['woo-pre-order'] ) {
+	require PORTO_LIB . '/lib/woocommerce-pre-order/init.php';
 }

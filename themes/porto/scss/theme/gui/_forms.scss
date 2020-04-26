@@ -84,6 +84,11 @@ select {
     padding-#{$right}: 25px;
 }
 
+@media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+    select::-ms-expand { display: none }
+    select:focus::-ms-value { background: transparent; color: currentColor }
+}
+
 label.checkbox {
     display: inline-block;
     margin-top: 0;

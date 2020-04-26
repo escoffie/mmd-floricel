@@ -232,7 +232,7 @@ class Porto_Walker_Nav_Menu_Edit extends Walker_Nav_Menu {
 		?>
 	<p class="description description-wide">
 		<label for="edit-menu-item-icon-<?php echo esc_attr( $item_id ); ?>">
-			<?php echo 'Font Awesome Icon Class'; ?><br />
+			<?php echo 'Icon Class'; ?><br />
 			<input type="text" id="edit-menu-item-icon-<?php echo esc_attr( $item_id ); ?>" class="widefat code edit-menu-item-icon"
 				<?php if ( $item->icon ) : ?>
 					name="menu-item-icon[<?php echo esc_attr( $item_id ); ?>]"
@@ -240,7 +240,7 @@ class Porto_Walker_Nav_Menu_Edit extends Walker_Nav_Menu {
 					data-name="menu-item-icon[<?php echo esc_attr( $item_id ); ?>]"
 					value="<?php echo esc_attr( $item->icon ); ?>" />
 			<?php /* translators: $1: opening A tag which has link to the FontAwesome icons page $2: closing A tag */ ?>
-			<span><?php printf( esc_html__( 'Input font awesome icon or icon class. You can see %1$sFont Awesome Icons in here%2$s. For example: fas fa-user', 'porto' ), '<a target="_blank" href="http://fortawesome.github.io/Font-Awesome/icons/">', '</a>' ); ?></span>
+			<span><?php printf( esc_html__( 'Input icon class. You can see %1$sFont Awesome Icons in here%2$s. For example: fas fa-user', 'porto' ), '<a target="_blank" href="http://fortawesome.github.io/Font-Awesome/icons/">', '</a>' ); ?></span>
 		</label>
 	</p>
 	<p class="description">

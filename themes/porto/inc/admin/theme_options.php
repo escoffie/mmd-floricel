@@ -10,7 +10,6 @@ require_once( PORTO_ADMIN . '/functions.php' );
 
 // include redux framework core functions
 require_once( PORTO_ADMIN . '/ReduxCore/framework.php' );
-
 // porto theme settings options
 require_once( PORTO_ADMIN . '/theme_options/settings.php' );
 
@@ -28,23 +27,6 @@ $porto_cur_version = get_option( 'porto_version', '1.0' );
 if ( ! porto_is_ajax() && version_compare( PORTO_VERSION, $porto_cur_version, '!=' ) ) {
 
 	if ( version_compare( phpversion(), '5.3', '>=' ) ) {
-
-		// fix container width value
-		if ( version_compare( $porto_cur_version, '2.8.3', '<=' ) ) {
-			global $porto_settings, $reduxPortoSettings;
-
-			switch ( $porto_settings['container-width'] ) {
-				case 1024:
-					$reduxPortoSettings->ReduxFramework->set( 'container-width', '1020' );
-					break;
-				case 1170:
-					$reduxPortoSettings->ReduxFramework->set( 'container-width', '1140' );
-					break;
-				case 1280:
-					$reduxPortoSettings->ReduxFramework->set( 'container-width', '1260' );
-					break;
-			}
-		}
 
 		// set search layout and minicart type for old versions
 		porto_restore_default_options_for_old_versions( true );

@@ -1024,39 +1024,14 @@
     .cart-icon {
         position: relative;
         line-height: 0;
+        font-weight: 400;
     }
     .minicart-icon {
         vertical-align: middle;
         display: inline-block;
-        font-weight: 400;
         font-style: normal;
         &:before {
             margin: 0;
-        }
-    }
-    .cart-items {
-        position: absolute;
-        #{$right}: -8px;
-        top: -4px;
-        font-size: 10px;
-        font-weight: 600;
-        text-align: center;
-        display: inline-block;
-        width: 16px;
-        height: 16px;
-        line-height: 16px;
-        border-radius: 8px;
-        overflow: hidden;
-        color: #fff;
-        background-color: #ff5b5b;
-
-        .items-loading {
-            width: 16px;
-            height: 16px;
-            display: inline-block;
-            background: transparent url(../images/ajax-loader@2x.gif) no-repeat scroll center center / 16px 16px;
-            margin-top: -4px;
-            vertical-align: middle;
         }
     }
 
@@ -1142,6 +1117,7 @@
         max-height: 300px;
         overflow-y: auto;
         overflow-x: hidden;
+        margin: 0;
 
         &.scroll-scrolly_visible {
             li {
@@ -1225,6 +1201,33 @@
         > a:first-child {
             display: none;
         }
+    }
+}
+
+#mini-cart .cart-items,
+.my-wishlist .wishlist-count {
+    position: absolute;
+    #{$right}: -8px;
+    top: -4px;
+    font-size: 10px;
+    font-weight: 600;
+    text-align: center;
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    line-height: 16px;
+    border-radius: 8px;
+    overflow: hidden;
+    color: #fff;
+    background-color: #ff5b5b;
+
+    .items-loading {
+        width: 16px;
+        height: 16px;
+        display: inline-block;
+        background: transparent url(../images/ajax-loader@2x.gif) no-repeat scroll center center / 16px 16px;
+        margin-top: -4px;
+        vertical-align: middle;
     }
 }
 
@@ -1598,6 +1601,7 @@ html:not(.touch):not(.no-touch) #mini-cart:hover .cart-popup {
             .overlay-logo {
                 opacity: 0;
                 top: -90px;
+                visibility: hidden
             }
             .logo {
                 opacity: 1;

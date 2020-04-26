@@ -108,6 +108,7 @@ function porto_banner( $banner_class = '' ) {
 		foreach ( $post_types as $post_type ) {
 			if ( is_singular( $post_type ) ) {
 				if ( $portfolio_single_banner_image ) {
+					wp_enqueue_script( 'skrollr' );
 					?>
 					<div class="banner-container">
 						<section class="portfolio-parallax parallax section section-text-light section-parallax hidden-plus m-none image-height" data-plugin-parallax data-plugin-options='{"speed": 1.5}' data-image-src="<?php echo wp_get_attachment_url( $portfolio_single_banner_image ); ?>">
@@ -2210,7 +2211,7 @@ function porto_minicart() {
 				<?php if ( class_exists( 'Woocommerce' ) ) : ?>
 					<div class="cart-loading"></div>
 				<?php else : ?>
-					<ul class="cart_list py-3 px-0 mb-0"><li class="empty pt-0"><?php esc_html_e( 'Woocommerce is not installed.', 'porto' ); ?></li></ul>
+					<ul class="cart_list py-3 px-0 mb-0"><li class="empty pt-0"><?php esc_html_e( 'WooCommerce is not installed.', 'porto' ); ?></li></ul>
 				<?php endif; ?>
 				</div>
 			</div>
@@ -2432,8 +2433,8 @@ if ( ! function_exists( 'porto_woocommerce_product_nav' ) ) :
 
 		if ( porto_is_product() ) {
 			echo '<div class="product-nav">';
-			porto_woocommerce_next_product( true );
 			porto_woocommerce_prev_product( true );
+			porto_woocommerce_next_product( true );
 			echo '</div>';
 		}
 	}
@@ -2919,6 +2920,11 @@ function porto_header_elements( $elements ) {
 					}
 				} elseif ( 'divider' == $key ) {
 					echo '<span class="separator"></span>';
+				} elseif ( 'myaccount' == $key && class_exists( 'Woocommerce' ) ) {
+					echo '<a href="' . esc_url( wc_get_page_permalink( 'myaccount' ) ) . '"' . ' title="' . esc_attr__( 'My Account', 'porto' ) . '" class="my-account"><i class="porto-icon-user-2"></i></a>';
+				} elseif ( 'wishlist' == $key && class_exists( 'Woocommerce' ) && defined( 'YITH_WCWL' ) ) {
+					$wc_count = yith_wcwl_count_products();
+					echo '<a href="' . esc_url( YITH_WCWL()->get_wishlist_url() ) . '"' . ' title="' . esc_attr__( 'Wishlist', 'porto' ) . '" class="my-wishlist"><i class="porto-icon-wishlist-2"></i><span class="wishlist-count">' . intval( $wc_count ) . '</span></a>';
 				}
 				do_action( 'porto_header_elements', $key, $value );
 			}

@@ -15,7 +15,7 @@ $hide_title = ! $title || ! $page_title;
 
 if ( isset( $is_shortcode ) ) {
 	$hide_title  = false;
-	$breadcrumbs = true;
+	$breadcrumbs = isset( $hide_breadcrumb ) ? false : true;
 }
 ?>
 <div class="container<?php echo ! $hide_title ? '' : ' hide-title'; ?>">

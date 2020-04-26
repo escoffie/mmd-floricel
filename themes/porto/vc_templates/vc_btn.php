@@ -252,10 +252,6 @@ if ( $label ) {
 	$button_classes[] = 'vc_label';
 }
 
-if ( $styles ) {
-	$attributes[] = 'style="' . esc_attr( implode( ' ', $styles ) ) . '"';
-}
-
 if ( $animation_type ) {
 	$attributes[] = ' data-appear-animation="' . esc_attr( $animation_type ) . '"';
 	if ( $animation_delay ) {
@@ -340,6 +336,20 @@ if ( $button_classes ) {
 	}
 	$button_classes = esc_attr( apply_filters( VC_SHORTCODE_CUSTOM_CSS_FILTER_TAG, implode( ' ', array_filter( $button_classes ) ), $this->settings['base'], $atts ) );
 	$attributes[]   = 'class="' . trim( $button_classes ) . '"';
+
+	if ( 'custom' === $style ) {
+		if ( $custom_background ) {
+			$styles[] = vc_get_css_color( 'background-color', $custom_background );
+		}
+
+		if ( $custom_text ) {
+			$styles[] = vc_get_css_color( 'color', $custom_text );
+		}
+	}
+}
+
+if ( ! empty( $styles ) ) {
+	$attributes[] = 'style="' . esc_attr( implode( ' ', $styles ) ) . '"';
 }
 
 if ( $use_link ) {

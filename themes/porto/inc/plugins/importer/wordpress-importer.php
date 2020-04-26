@@ -881,6 +881,7 @@ if ( class_exists( 'WP_Importer' ) ) {
 						);
 
 						$postdata = apply_filters( 'wp_import_post_data_processed', $postdata, $post );
+						$postdata = wp_slash( $postdata );
 
 						$comment_post_ID = $post_id = wp_update_post( $postdata, true );
 
@@ -897,6 +898,10 @@ if ( class_exists( 'WP_Importer' ) ) {
 							//continue;
 							unset( $this->posts );
 							return;
+						}
+						$demo = ( isset( $_POST['demo'] ) && $_POST['demo'] ) ? $_POST['demo'] : 'landing';
+						if ( false !== strpos( $demo, 'elementor-' ) ) {
+							delete_post_meta( $post_id, '_elementor_css' );
 						}
 
 						// js composer fields
@@ -1083,6 +1088,7 @@ if ( class_exists( 'WP_Importer' ) ) {
 							if ( isset( $inserted_comments[ $comment['comment_parent'] ] ) ) {
 								$comment['comment_parent'] = $inserted_comments[ $comment['comment_parent'] ];
 							}
+							$comment                   = wp_slash( $comment );
 							$comment                   = wp_filter_comment( $comment );
 							$inserted_comments[ $key ] = wp_insert_comment( $comment );
 							do_action( 'wp_import_insert_comment', $inserted_comments[ $key ], $comment, $comment_post_ID, $post );
@@ -1128,6 +1134,10 @@ if ( class_exists( 'WP_Importer' ) ) {
 							// export gets meta straight from the DB so could have a serialized string
 							if ( ! $value ) {
 								$value = maybe_unserialize( $meta['value'] );
+							}
+
+							if ( in_array( $key, array( 'custom_css' ) ) ) {
+								$value = wp_slash( $value );
 							}
 
 							if ( $post_exists ) {

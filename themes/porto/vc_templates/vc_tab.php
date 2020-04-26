@@ -37,6 +37,9 @@ $atts   = vc_map_get_attributes( $this->getShortcode(), $atts );
 extract( $atts );
 
 $css_class = apply_filters( VC_SHORTCODE_CUSTOM_CSS_FILTER_TAG, 'tab-pane', $this->settings['base'] );
+if ( vc_is_inline() ) {
+	$css_class .= ' tab-content';
+}
 $output   .= '<div id="tab-' . ( empty( $tab_id ) ? sanitize_title( $title ) : esc_attr( $tab_id ) ) . '" class="' . esc_attr( $css_class ) . '">';
 $output   .= ( '' === trim( $content ) ) ? esc_html__( 'Empty section. Edit page to add content here.', 'js_composer' ) : wpb_js_remove_wpautop( $content );
 $output   .= '</div>';

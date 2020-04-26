@@ -93,7 +93,7 @@
 		"letter-spacing":"0"
 	},
 	"h1-font":{
-		"color":"#212529",
+		"color":"",
 		"google":true,
 		"font-weight":"400",
 		"font-family":"Open Sans",
@@ -102,7 +102,7 @@
 		"letter-spacing":""
 	},
 	"h2-font":{
-		"color":"#212529",
+		"color":"",
 		"google":true,
 		"font-weight":"400",
 		"font-family":"Open Sans",
@@ -111,7 +111,7 @@
 		"letter-spacing":""
 	},
 	"h3-font":{
-		"color":"#212529",
+		"color":"",
 		"google":true,
 		"font-weight":"400",
 		"font-family":"Open Sans",
@@ -120,7 +120,7 @@
 		"letter-spacing":""
 	},
 	"h4-font":{
-		"color":"#212529",
+		"color":"",
 		"google":true,
 		"font-weight":"400",
 		"font-family":"Open Sans",
@@ -129,7 +129,7 @@
 		"letter-spacing":""
 	},
 	"h5-font":{
-		"color":"#212529",
+		"color":"",
 		"google":true,
 		"font-weight":"400",
 		"font-family":"Open Sans",
@@ -138,7 +138,7 @@
 		"letter-spacing":""
 	},
 	"h6-font":{
-		"color":"#212529",
+		"color":"",
 		"google":true,
 		"font-weight":"400",
 		"font-family":"Open Sans",

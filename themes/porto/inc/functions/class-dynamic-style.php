@@ -22,7 +22,9 @@ if ( ! class_exists( 'Porto_Dynamic_Style' ) ) :
 			add_action( 'wp', array( $this, 'init' ) );
 
 			add_action( 'porto_admin_save_theme_settings', array( $this, 'compile_dynamic_css' ) );
-			add_action( 'customize_save_after', array( $this, 'compile_dynamic_css' ), 99 );
+			if ( is_admin() ) {
+				add_action( 'customize_save_after', array( $this, 'compile_dynamic_css' ), 99 );
+			}
 		}
 
 		public function init() {
@@ -56,8 +58,13 @@ if ( ! class_exists( 'Porto_Dynamic_Style' ) ) :
 		 * compile dynamic css when saving theme options
 		 */
 		public function compile_dynamic_css() {
-			global $reduxPortoSettings;
-			$reduxFramework = $reduxPortoSettings->ReduxFramework;
+			// filesystem
+			global $wp_filesystem;
+			// Initialize the WordPress filesystem, no more using file_put_contents function
+			if ( empty( $wp_filesystem ) ) {
+				require_once ABSPATH . '/wp-admin/includes/file.php';
+				WP_Filesystem();
+			}
 
 			$upload_dir = wp_upload_dir();
 			$style_path = $upload_dir['basedir'] . '/porto_styles';
@@ -77,7 +84,7 @@ if ( ! class_exists( 'Porto_Dynamic_Style' ) ) :
 
 					$filename = $style_path . '/dynamic_style' . $rtl_arr_value . '.css';
 					porto_check_file_write_permission( $filename );
-					$result = $reduxFramework->filesystem->execute( 'put_contents', $filename, array( 'content' => $this->minify_css( $css ) ) );
+					$result = $wp_filesystem->put_contents( $filename, $this->minify_css( $css ), FS_CHMOD_FILE );
 					if ( $result ) {
 						$result = true;
 					} else {
@@ -92,7 +99,7 @@ if ( ! class_exists( 'Porto_Dynamic_Style' ) ) :
 				$css      = ob_get_clean();
 				$filename = $style_path . '/style-editor.css';
 				porto_check_file_write_permission( $filename );
-				$result1 = $reduxFramework->filesystem->execute( 'put_contents', $filename, array( 'content' => $this->minify_css( $css ) ) );
+				$result1 = $wp_filesystem->put_contents( $filename, $this->minify_css( $css ), FS_CHMOD_FILE );
 				if ( $result1 && $result ) {
 					$result = true;
 				} else {
@@ -284,10 +291,17 @@ if ( ! class_exists( 'Porto_Dynamic_Style' ) ) :
 		}
 
 		protected function minify_css( $css ) {
+			if ( ! $css ) {
+				return '';
+			}
 			$output = preg_replace( '#/\*.*?\*/#s', '', $css );
 			$output = preg_replace( '/\s*([{}|:;,])\s+/', '$1', $output );
 			$output = preg_replace( '/\s\s+(.*)/', '$1', $output );
-			return $output;
+			$output = preg_replace( '/;(?=\s*})/', '', $output );
+			$output = preg_replace( '/ (,|;|\{|})/', '$1', $output );
+			$output = preg_replace( '/(:| )0\.([0-9]+)(%|em|ex|px|in|cm|mm|pt|pc)/i', '${1}.${2}${3}', $output );
+			$output = preg_replace( '/(:| )(\.?)0(%|em|ex|px|in|cm|mm|pt|pc)/i', '${1}0', $output );
+			return trim( $output );
 		}
 
 	}

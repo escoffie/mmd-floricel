@@ -66,20 +66,6 @@
     .product-prev {
         .product-link {
             &:before {
-                content: if-ltr('\e81a', '\e819');
-            }
-        }
-
-        .product-popup {
-            &:before {
-                #{$right}: 7px;
-            }
-        }
-    }
-
-    .product-next {
-        .product-link {
-            &:before {
                 content: if-ltr('\e819', '\e81a');
             }
         }
@@ -87,6 +73,20 @@
         .product-popup {
             &:before {
                 #{$right}: 36px;
+            }
+        }
+    }
+
+    .product-next {
+        .product-link {
+            &:before {
+                content: if-ltr('\e81a', '\e819');
+            }
+        }
+
+        .product-popup {
+            &:before {
+                #{$right}: 7px;
             }
         }
     }
@@ -269,7 +269,7 @@
         text-align: $left;
 
         a,
-        span:not(.ajax-loading) { 
+        span { 
             width: auto;
             text-indent: 0;
             overflow: visible;
@@ -345,7 +345,6 @@
     }
 
     #product-tab {
-        margin-bottom: 1.7857em;
 
         .description {
             margin-bottom: 0;
@@ -358,7 +357,9 @@
 }
 
 #product-tab {
-    margin-bottom: 1.5rem;
+    &:not(:last-child) {
+        margin-bottom: 1.5rem;
+    }
 
     .tab-content h2 {
         margin-bottom: 0.7em;
@@ -429,7 +430,14 @@ div.products {
     margin-bottom: 1.875rem;
 }
 .products.related {
-    margin-bottom: 1rem;
+    padding-bottom: 1.875rem;
+    margin-bottom: 0;
+}
+.main-content .products.related {
+    padding-bottom: .5rem;
+}
+#content-bottom + .products.related {
+    margin-top: 2.5rem;
 }
 
 .summary-before {
@@ -447,7 +455,7 @@ div.products {
         font-weight: $font-weight-bold;
         text-transform: uppercase;
         margin: 0;
-        z-index: 10;
+        z-index: 7;
         top: .8em;
         #{$left}: .8em;
 
@@ -517,7 +525,7 @@ div.products {
     }
     .owl-nav {
         [class*="owl-"], [class*="owl-"]:hover, [class*="owl-"]:active {
-            background: transparent !important;
+            background: none !important;
             font-size: 22px;
             color: #222529;
         }
@@ -866,14 +874,12 @@ h2.resp-accordion {
             position: relative;
             content: '\e91b';
             font-size: 1.125rem;
-            top: 1px;
             bottom: auto;
             #{$right}: auto;
         }
         .yith-wcwl-wishlistexistsbrowse, .yith-wcwl-wishlistaddedbrowse {
             a:before {
                 position: static;
-                content: '\e811';
                 margin-right: .125rem;
             }
         }
@@ -935,9 +941,6 @@ h2.resp-accordion {
                 &:after { content: ":"; }
             }
         }
-        .filter-item-list {
-            margin-top: 2px;
-        }
     }
 
     ul.product_list_widget li .product-image {
@@ -982,12 +985,6 @@ h2.resp-accordion {
     font-weight: 700;
     border: none;
 }
-.yith-wcwl-add-button {
-    .ajax-loading {
-        display: none !important;
-        visibility: hidden;
-    }
-}
 
 .filter-item-list {
     padding: 0;
@@ -996,14 +993,14 @@ h2.resp-accordion {
 
     .filter-color {
         display: block;
-        margin: side-values(4px 4px 4px 0);
+        margin: side-values(3px 6px 3px 0);
         padding-#{$right}: 0 !important;
-        width: 22px;
-        height: 22px;
+        width: 26px;
+        height: 26px;
         text-indent: -9999px;
         white-space: nowrap;
         position: relative;
-        box-shadow: 0 0 3px 0 rgba(0, 0, 0, 0.2);
+        box-shadow: 0 0 3px 0 rgba(0, 0, 0, .2);
         text-align: $left;
     }
     .chosen, .active {
@@ -1050,9 +1047,9 @@ h2.resp-accordion {
     padding: 0;
     border: 1px solid #e9e9e9;
     display: block;
-    line-height: 22px;
+    line-height: 24px;
     padding: 0 8px;
-    margin: side-values(3px 4px 3px 0);
+    margin: side-values(3px 6px 3px 0);
     min-width: 32px;
     text-align: center;
     font-size: 11px;
@@ -1072,6 +1069,13 @@ h2.resp-accordion {
     background-size: cover;
     background-color: transparent !important;
 }
-.single-product .woocommerce-variation.single_variation {
+.single-product .single_variation > div:not(:empty) {
     margin-bottom: .75rem;
+}
+.single-product .porto-pre-order-date {
+    flex: 0 0 100%;
+    max-width: 100%;
+}
+.label-pre-order {
+    font-size: .9em
 }

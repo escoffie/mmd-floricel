@@ -12,6 +12,7 @@ for ( $i = 1; $i <= 4; $i++ ) {
 <div id="footer" class="footer-2<?php echo ! $porto_settings['footer-ribbon'] ? '' : ' show-ribbon'; ?>"
 <?php
 if ( $porto_settings['footer-parallax'] ) {
+	wp_enqueue_script( 'skrollr' );
 	echo ' data-plugin-parallax data-plugin-options="{&quot;speed&quot;: ' . esc_attr( $porto_settings['footer-parallax-speed'] ) . '}"';}
 ?>
 >

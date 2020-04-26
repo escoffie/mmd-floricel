@@ -800,3 +800,56 @@ if ( ! function_exists( 'porto_is_product' ) ) :
 		return apply_filters( 'porto_is_product', $result );
 	}
 endif;
+
+if ( ! function_exists( 'porto_is_elementor_preview' ) ) :
+	function porto_is_elementor_preview() {
+		if ( ! defined( 'ELEMENTOR_VERSION' ) ) {
+			return false;
+		}
+		if ( ( isset( $_REQUEST['action'] ) && 'elementor' == $_REQUEST['action'] ) || isset( $_REQUEST['elementor-preview'] ) ) {
+			return true;
+		}
+		return false;
+	}
+endif;
+
+if ( ! function_exists( 'porto_check_using_elementor_style' ) ) :
+	function porto_check_using_elementor_style() {
+		if ( ! defined( 'ELEMENTOR_VERSION' ) ) {
+			return false;
+		}
+
+		$elementor_sidebars = get_theme_mod( 'elementor_sidebars', array() );
+		if ( ! empty( $elementor_sidebars ) ) {
+			global $porto_layout, $porto_sidebar, $porto_sidebar2;
+			foreach ( $elementor_sidebars as $sidebar_id => $widgets ) {
+				if ( ! empty( $widgets ) && ( 0 === strpos( $sidebar_id, 'footer-' ) || 0 === strpos( $sidebar_id, 'content-bottom-' ) ) ) {
+					return true;
+				}
+			}
+
+			if (
+				( in_array( $porto_layout, porto_options_both_sidebars() ) && ( ! empty( $elementor_sidebars[ $porto_sidebar ] ) || ! empty( $elementor_sidebars[ $porto_sidebar2 ] ) ) ) ||
+				( in_array( $porto_layout, porto_options_sidebars() ) && ! empty( $elementor_sidebars[ $porto_sidebar ] ) )
+				) {
+				return true;
+			}
+		}
+
+		if ( is_singular() ) {
+			$elementor_blocks = get_theme_mod( 'elementor_blocks_post_types', array() );
+			if ( ! empty( $elementor_blocks ) ) {
+				foreach ( $elementor_blocks as $post_type ) {
+					if ( is_singular( $post_type ) ) {
+						return true;
+					}
+				}
+			}
+		}
+
+		if ( porto_get_meta_value( '_porto_use_elementor_blocks' ) ) {
+			return true;
+		}
+		return false;
+	}
+endif;

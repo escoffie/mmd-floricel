@@ -8,9 +8,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 $porto_woo_version = porto_get_woo_version_number();
 ?>
 <div class="cart-v2">
-	<h2 class="heading-primary m-b-md font-weight-normal clearfix">
+	<h2 class="heading-primary m-b-md font-weight-normal">
 		<span><?php esc_html_e( 'Shopping Cart', 'porto' ); ?></span>
-		<a href="<?php echo esc_url( wc_get_checkout_url() ); ?>" class="btn btn-primary pull-right proceed-to-checkout"><?php esc_html_e( 'Proceed to Checkout', 'porto' ); ?></a>
+		<a href="<?php echo esc_url( wc_get_checkout_url() ); ?>" class="btn btn-primary proceed-to-checkout"><?php esc_html_e( 'Proceed to Checkout', 'porto' ); ?></a>
 	</h2>
 	<div class="row">
 		<div class="col-lg-8 col-xl-9">
@@ -73,6 +73,9 @@ $porto_woo_version = porto_get_woo_version_number();
 												} else {
 													echo wp_kses_post( apply_filters( 'woocommerce_cart_item_name', sprintf( '<a href="%s">%s</a>', $_product->get_permalink( $cart_item ), $_product->get_name() ), $cart_item, $cart_item_key ) );
 												}
+
+												do_action( 'woocommerce_after_cart_item_name', $cart_item, $cart_item_key );
+
 												// Meta data
 												echo function_exists( 'wc_get_formatted_cart_item_data' ) ? wc_get_formatted_cart_item_data( $cart_item ) : WC()->cart->get_item_data( $cart_item ); // PHPCS: XSS ok.
 												// Backorder notification

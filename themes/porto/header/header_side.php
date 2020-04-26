@@ -17,6 +17,18 @@ global $porto_settings, $porto_layout;
 				?>
 
 				<div class="header-minicart">
+					<?php
+					// my account
+					if ( class_exists( 'WooCommerce' ) && ( 'simple' == porto_get_minicart_type() || 'none' == porto_get_minicart_type() ) ) {
+						echo '<a href="' . esc_url( wc_get_page_permalink( 'myaccount' ) ) . '"' . ' title="' . esc_attr__( 'My Account', 'porto' ) . '" class="my-account"><i class="porto-icon-user-2"></i></a>';
+
+						// wishlist icon
+						if ( defined( 'YITH_WCWL' ) ) {
+							$wc_count = yith_wcwl_count_products();
+							echo '<a href="' . esc_url( YITH_WCWL()->get_wishlist_url() ) . '"' . ' title="' . esc_attr__( 'Wishlist', 'porto' ) . '" class="my-wishlist"><i class="porto-icon-wishlist-2"></i></a>';
+						}
+					}
+					?>
 					<?php echo porto_filter_output( $minicart ); ?>
 				</div>
 			</div>

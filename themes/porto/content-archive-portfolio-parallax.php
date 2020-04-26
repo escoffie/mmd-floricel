@@ -1,5 +1,7 @@
 <?php
 global $global_tax, $porto_settings, $porto_layout, $post, $porto_portfolio_columns, $porto_portfolio_view, $porto_portfolio_thumb, $porto_portfolio_thumb_bg, $porto_portfolio_thumb_image, $porto_portfolio_ajax_load, $porto_portfolio_ajax_modal;
+
+wp_enqueue_script( 'skrollr' );
 ?>
 <a href="<?php echo esc_url( get_site_url() . '/portfolio_cat/' . $global_tax['slug'] ); ?>">
 	<section class="portfolio-parallax parallax section section-text-light section-parallax m-none" data-plugin-parallax data-plugin-options='{"speed": 1.5}' data-image-src="<?php echo esc_url( $global_tax['image'] ); ?>">

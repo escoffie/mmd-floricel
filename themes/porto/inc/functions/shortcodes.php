@@ -110,7 +110,7 @@ function porto_load_shortcodes() {
 				__( 'Top', 'porto' )      => 'top',
 				__( 'Bottom', 'porto' )   => 'bottom',
 			),
-			'dependency'  => array(
+			'dependency' => array(
 				'element' => 'animation_type',
 				'value'   => array( '' ),
 			),
@@ -129,27 +129,27 @@ function porto_load_shortcodes() {
 			'group'       => $animation_group,
 		);
 		$floating_transition = array(
-			'type'        => 'checkbox',
-			'heading'     => __( 'Floating Transition', 'porto' ),
-			'param_name'  => 'floating_transition',
-			'value'       => array( __( 'Yes, please', 'js_composer' ) => 'yes' ),
-			'std'         => 'yes',
-			'dependency'  => array(
+			'type'       => 'checkbox',
+			'heading'    => __( 'Floating Transition', 'porto' ),
+			'param_name' => 'floating_transition',
+			'value'      => array( __( 'Yes, please', 'js_composer' ) => 'yes' ),
+			'std'        => 'yes',
+			'dependency' => array(
 				'element' => 'animation_type',
 				'value'   => array( '' ),
 			),
-			'group'       => $animation_group,
+			'group'      => $animation_group,
 		);
 		$floating_horizontal = array(
-			'type'        => 'checkbox',
-			'heading'     => __( 'Floating Horizontal', 'porto' ),
-			'param_name'  => 'floating_horizontal',
-			'value'       => array( __( 'Yes, please', 'js_composer' ) => 'yes' ),
-			'dependency'  => array(
+			'type'       => 'checkbox',
+			'heading'    => __( 'Floating Horizontal', 'porto' ),
+			'param_name' => 'floating_horizontal',
+			'value'      => array( __( 'Yes, please', 'js_composer' ) => 'yes' ),
+			'dependency' => array(
 				'element' => 'animation_type',
 				'value'   => array( '' ),
 			),
-			'group'       => $animation_group,
+			'group'      => $animation_group,
 		);
 
 		/* ---------------------------- */
@@ -1330,11 +1330,11 @@ function porto_load_shortcodes() {
 		vc_add_param(
 			'vc_custom_heading',
 			array(
-				'type'        => 'textfield',
-				'heading'     => __( 'Letter Spacing', 'porto' ),
-				'param_name'  => 'letter_spacing',
-				'std'         => '',
-				'group'       => $section_group,
+				'type'       => 'textfield',
+				'heading'    => __( 'Letter Spacing', 'porto' ),
+				'param_name' => 'letter_spacing',
+				'std'        => '',
+				'group'      => $section_group,
 			)
 		);
 		vc_add_param(

@@ -64,6 +64,9 @@ $porto_woo_version = porto_get_woo_version_number();
 								} else {
 									echo apply_filters( 'woocommerce_cart_item_name', sprintf( '<a href="%s">%s</a>', esc_url( $_product->get_permalink( $cart_item ) ), $_product->get_name() ), $cart_item, $cart_item_key );
 								}
+
+								do_action( 'woocommerce_after_cart_item_name', $cart_item, $cart_item_key );
+
 								// Meta data
 								echo function_exists( 'wc_get_formatted_cart_item_data' ) ? wc_get_formatted_cart_item_data( $cart_item ) : WC()->cart->get_item_data( $cart_item );
 								// Backorder notification

@@ -7,7 +7,7 @@
     max-width: 1110px;
 
     .csstransforms3d & {
-        padding: side-values(50px 0 0 52px);
+        padding: side-values(50px 0 12px 57px);
     }
 
     .no-csstransforms3d & {
@@ -17,7 +17,7 @@
     > li {
         display: inline-block;
         font-size: 18px;
-        margin-#{$right}: 130px;
+        margin-#{$right}: 135px;
 
         .no-csstransforms3d & {
             margin: side-values(0 20px 20px 0);
@@ -27,11 +27,11 @@
     .diamond {
         background: #f4f4f4;
         display: block;
-        height: 245px;
+        height: 255px;
         overflow: hidden;
         position: relative;
         text-decoration: none;
-        width: 245px;
+        width: 255px;
 
         &:after {
             @include transition (all .2s);
@@ -64,18 +64,29 @@
 
         .csstransforms3d & {
             overflow: hidden;
-            transform: rotate(-45deg);
+            @if $rtl == 1{
+                transform: rotate(45deg);
+            }
+            @else {
+                transform: rotate(-45deg);
+            }
         }
     }
 
     .content {
         display: table-cell;
-        height: 245px;
+        height: 255px;
         padding: 0 10px;
         transform: rotate(45deg);
+        @if $rtl == 1{
+            transform: rotate(-45deg);
+        }
+        @else {
+            transform: rotate(45deg);
+        }
         text-align: center;
         vertical-align: middle;
-        width: 245px;
+        width: 255px;
         position: relative;
 
         &:after {
@@ -110,24 +121,40 @@
     }
 }
 
-@media (max-width: 722px) {
+@media (min-width: #{$screen-lg}px) {
+    .porto-diamonds > li:nth-child(3) { margin-#{$right}: 0; }
+    .porto-diamonds > li:nth-child(4) { #{$right}: 132px; top: 9px; position: absolute; }
+    .porto-diamonds > li:nth-child(5) { margin-#{$left}: 527px; margin-top: -70px; }
+    .porto-diamonds > li:nth-child(6) { position: absolute; margin: side-values(-6px 0 0 -28px); }
+    .porto-diamonds > li:nth-child(7) { position: absolute; margin: side-values(97px 0 0 -133px); }
+    .porto-diamonds .diamond-sm,
+    .porto-diamonds .diamond-sm .content { height: 128px; width: 128px; }
+    .porto-diamonds .diamond-sm .content img { max-width: 195px; }
+}
+@media (max-width: #{$screen-lg - 1}px) {
+    .csstransforms3d .porto-diamonds,
+    .porto-diamonds { width: 748px; margin: 40px auto; padding: side-values(75px 0 75px 75px); }
+    .porto-diamonds > li { margin: 0; position: static; float: $left }
+    .porto-diamonds > li:nth-child(2n+1) { clear: both; }
+    .porto-diamonds > li:nth-child(2n+2) { margin: side-values(200px auto -50px 55px) }
+    .porto-diamonds > li:last-child { margin-bottom: 50px; }
+    .porto-diamonds:after { content: ''; display: block; clear: both }
+}
+
+@media (max-width: 748px) {
     .csstransforms3d .porto-diamonds,
     .porto-diamonds {
-        max-width: 245px;
-        padding-#{$left}: 0;
+        margin: side-values(40px 0 0 -222px);
+        padding: side-values(25px 0 0 50%);
+        width: 445px;
     }
 
-    .porto-diamonds > li {
-        margin-#{$right}: 0;
-        margin-bottom: 130px;
+    .lightbox .porto-diamonds > li {
+        float: none;
         clear: both;
-    }
+        margin: side-values(45px 0 115px 95px);
+        display: block;
 
-    .porto-diamonds > li:last-child {
-        margin-bottom: 50px;
-        margin-#{$right}: 0;
-        margin-top: 0;
-        padding-#{$left}: 0;
     }
 }
 

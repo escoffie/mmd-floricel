@@ -95,7 +95,7 @@ if ( isset( $porto_settings['catalog-enable'] ) && $porto_settings['catalog-enab
 		</a>
 	<?php if ( ( ! isset( $porto_woocommerce_loop['widget'] ) || ! $porto_woocommerce_loop['widget'] ) && ( ! isset( $porto_woocommerce_loop['use_simple_layout'] ) || ! $porto_woocommerce_loop['use_simple_layout'] ) && isset( $woocommerce_loop['addlinks_pos'] ) && ! empty( $woocommerce_loop['addlinks_pos'] ) && ( ! in_array( $woocommerce_loop['addlinks_pos'], array( 'default', 'onhover', 'outimage' ) ) || ( class_exists( 'YITH_WCWL' ) && $porto_settings['product-wishlist'] && 'onimage' == $woocommerce_loop['addlinks_pos'] ) ) && ( ! isset( $porto_woocommerce_loop['view'] ) || 'list' != $porto_woocommerce_loop['view'] ) ) : ?>
 		<div class="links-on-image">
-			<?php woocommerce_template_loop_add_to_cart(); ?>
+			<?php do_action( 'porto_woocommerce_loop_links_on_image' ); ?>
 		</div>
 	<?php endif; ?>
 	</div>

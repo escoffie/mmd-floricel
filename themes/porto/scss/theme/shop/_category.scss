@@ -17,8 +17,8 @@ ul.products {
 
 ul.products {
     &:not(.owl-carousel) {
-        display: -webkit-flex; display: -ms-flexbox; display: flex;
-        -webkit-flex-wrap: wrap; -ms-flex-wrap: wrap; flex-wrap: wrap;
+        display: -ms-flexbox; display: flex;
+        -ms-flex-wrap: wrap; flex-wrap: wrap;
     }
     li.product-col {
         margin-bottom: 1.4286em;
@@ -38,7 +38,6 @@ ul.products {
                 img {
                     position: relative;
                     opacity: 1;
-                    /*-webkit-backface-visibility: hidden;*/
                     transform: translateZ(0);
                 }
 
@@ -68,9 +67,10 @@ ul.products {
         }
 
         h3 {
-            font-size: 0.9375rem;
+            font-size: .9375rem;
             font-weight: 400;
             line-height: 1.35;
+            letter-spacing: -.01em;
             margin-bottom: .45rem;
         }
 
@@ -159,13 +159,22 @@ ul.products {
                 border-bottom: none;
             }
             .filter-item-list {
-                display: -webkit-flex; display: -ms-flexbox; display: flex;
+                display: -ms-flexbox; display: flex;
                 margin-top: -4px;
                 margin-bottom: 5px;
             }
         }
     }
     .variations { width: 100%; }
+}
+
+.products.gap-narrow li.product-col {
+    h3 {
+        font-size: .8125rem;
+    }
+    .price {
+        font-size: .9375rem;
+    }
 }
 
 ul.products {
@@ -514,9 +523,6 @@ ul.products {
 /* product layouts */
 ul.products {
     li.product-col {
-        h3 {
-            letter-spacing: -0.01em;
-        }
         .woocommerce-loop-product__title {
             white-space: nowrap;
             overflow: hidden;
@@ -670,6 +676,9 @@ ul.products {
             }
         }
     }
+}
+
+ul.grid {
     &.divider-line {
         li.product-outimage_aq_onimage.with-padding {
             .quickview {
@@ -678,8 +687,13 @@ ul.products {
                 width: auto;
             }
         }
+        .product-image {
+            border: none;
+        }
     }
+}
 
+ul.products {
     li.product-awq_onimage {
         .links-on-image .add-links {
             position: absolute;
@@ -1128,24 +1142,6 @@ ul.products {
             }
         }
     }
-
-    &.divider-line {
-        margin-left: 0;
-        margin-right: 0;
-        .product-col {
-            padding-left: 0;
-            padding-right: 0;
-            margin-bottom: 0;
-            &:hover {
-                z-index: 2;
-                .product-image {
-                    box-shadow: none;
-                }
-                box-shadow: 0 25px 35px -5px rgba(0,0,0,0.1);
-            }
-        }
-    }
-
     &.grid-creative {
         .product-inner,
         .product-image,
@@ -1181,6 +1177,24 @@ ul.products {
         }
     }
 }
+ul.grid {
+    &.divider-line {
+        margin-left: 0;
+        margin-right: 0;
+        .product-col {
+            padding-left: 0;
+            padding-right: 0;
+            margin-bottom: 0;
+            &:hover {
+                z-index: 2;
+                .product-image {
+                    box-shadow: none;
+                }
+                box-shadow: 0 25px 35px -5px rgba(0,0,0,.1);
+            }
+        }
+    }
+}
 
 ul.list {
     @media (min-width: 576px) {
@@ -1208,7 +1222,6 @@ ul.list {
         text-align: $left;
 
         .description {
-            display: block;
             margin-top: 0;
             margin-bottom: 1em;
             overflow: hidden;
@@ -1375,10 +1388,10 @@ ul.products.list {
 }
 
 .porto-products.show-category {
-    display: -webkit-flex; display: -ms-flexbox; display: flex;
+    display: -ms-flexbox; display: flex;
     -ms-flex-wrap: wrap; flex-wrap: wrap;
     /*@media (max-width: 767px) {
-        -webkit-flex-wrap: wrap; -ms-flex-wrap: wrap; flex-wrap: wrap;
+        -ms-flex-wrap: wrap; flex-wrap: wrap;
     }*/
     .section-title { flex: 0 0 100%; }
     .shop-loop-before { display: none !important; }
@@ -1525,112 +1538,3 @@ ul.products.yith-wcan-loading {
     text-decoration: none;
 }
 
-/* Add to Cart Notification Style 2 */
-#loading-mask {
-    font-size: 1.1em;
-    font-weight: 700;
-    position: fixed;
-    text-align: center;
-    z-index: 20002;
-    width: 100%;
-    height: 100%;
-    #{$left}: 0;
-    top: 0;
-}
-.loader-container {
-    position: absolute;
-    #{$left}: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 199;
-    text-align: center;
-    background-color: rgba(255,255,255,.5);
-    display: none;
-    > .loader {
-        position: absolute;
-        width: 100%;
-        top: 50%;
-        margin-top: -17px;
-    }
-    i.porto-ajax-loader {
-        display: inline-block;
-        border: 2px solid transparent;
-        width: 40px;
-        height: 40px;
-        vertical-align: middle;
-        border-radius: 20px;
-        @include animate-spin;
-        &:before {
-            left: -2px;
-            top: -2px;
-            display: inline-block;
-            position: absolute;
-            content: '';
-            width: inherit;
-            height: inherit;
-            border: inherit;
-            border-radius: inherit;
-            border-top-color: inherit;
-            animation: spin 1.5s infinite ease;
-        }
-    }
-}
-li.product-col {
-    .loader-container i.porto-ajax-loader {
-        width: 34px;
-        height: 34px;
-    }
-}
-.after-loading-success-message {
-    display: none;
-    font-size: 1.1em;
-    position: fixed;
-    text-align: center;
-    z-index: 20002;
-    width: 100%;
-    height: 100%;
-    #{$left}: 0;
-    top: 0;
-}
-.background-overlay {
-    position: absolute;
-    #{$left}: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    opacity: .5;
-    background-color: transparent;
-}
-.success-message-container {
-    margin: auto;
-    padding: 20px 14px;
-    line-height: 1.4;
-    position: relative;
-    text-align: center;
-    top: 35%;
-    width: 300px;
-    z-index: 1000;
-    background: #fff;
-    box-shadow: 0 0 5px rgba(0,0,0,.5);
-    .product-name {
-        font-size: 14px;
-        margin: 5px 0 10px;
-    }
-    .msg {
-        display: block;
-        margin-bottom: 10px;
-        font-size: 13px;
-    }
-    button {
-        margin-top: 12px;
-        padding: 8.5px 0;
-        min-width: 133px;
-    }
-    img {
-        display: inline-block;
-        width: 30%;
-        margin-left: auto;
-        margin-right: auto;
-    }
-}

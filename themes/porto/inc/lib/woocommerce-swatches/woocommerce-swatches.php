@@ -65,4 +65,4 @@ if ( ! class_exists( 'Porto_Woocommerce_Swatches' ) ) :
 	}
 endif;
 
-$GLOBALS['woocommerce_swatches'] = new Porto_Woocommerce_Swatches();
+new Porto_Woocommerce_Swatches();

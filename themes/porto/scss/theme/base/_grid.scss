@@ -130,3 +130,23 @@
         width: 100%;
     }
 }
+
+.grid-col-sizer {
+    width: 1.6666%;
+    height: 0;
+    flex: 0 0 1.6666%
+}
+
+@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+    .grid-col-sizer {
+        width: 3.3333%;
+        flex: 0 0 3.3333%;
+    }
+}
+
+@supports (-ms-ime-align:auto) {
+    .grid-col-sizer {
+        width: 3.3333%;
+        flex: 0 0 3.3333%;
+    }
+}

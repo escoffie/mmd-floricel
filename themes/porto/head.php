@@ -32,6 +32,16 @@ endif;
 if ( $porto_settings['icon-ipad-retina'] ) :
 	?>
 	<link rel="apple-touch-icon" sizes="152x152" href="<?php echo esc_url( str_replace( array( 'http:', 'https:' ), '', $porto_settings['icon-ipad-retina']['url'] ) ); ?>">
-<?php endif; ?>
+	<?php
+endif;
 
-<?php wp_head(); ?>
+global $porto_layout, $porto_sidebar;
+
+	$porto_layout_arr = porto_meta_layout();
+	$porto_layout     = $porto_layout_arr[0];
+	$porto_sidebar    = $porto_layout_arr[1];
+if ( in_array( $porto_layout, porto_options_both_sidebars() ) ) {
+	$GLOBALS['porto_sidebar2'] = $porto_layout_arr[2];
+}
+
+wp_head();

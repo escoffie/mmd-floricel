@@ -127,6 +127,8 @@ if ( ! class_exists( 'Porto_LazyLoad_Images' ) ) :
 						$lazy_image = porto_generate_placeholder( $match_width[2] . 'x' . $match_height[2] );
 						$lazy_image = $lazy_image[0];
 					}
+				} else {
+					continue;
 				}
 
 				$replace_html = preg_replace( '/<img(.*?)src=/is', '<img$1src="' . esc_url( $lazy_image ) . '" data-oi=', $img_html );

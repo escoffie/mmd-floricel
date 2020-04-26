@@ -641,7 +641,7 @@ if ( ! class_exists( 'Porto_Speed_Optimize_Wizard' ) ) {
 					<input type="checkbox" value="true" name="lazyload" <?php echo isset( $porto_settings_optimize['lazyload'] ) ? checked( $porto_settings_optimize['lazyload'], true, false ) : ''; ?>> <?php esc_html_e( 'Lazy Load Images', 'porto' ); ?>
 				</label>
 				<p><?php esc_html_e( 'Use with caution! Disable this option if you have any compability problems.', 'porto' ); ?></p>
-				<label><?php esc_html_e( 'Lazy Load Sub Menus' ) ?></label>
+				<label><?php esc_html_e( 'Lazy Load Sub Menus', 'porto' ); ?></label>
 				<p>
 					<label class="radio radio-inline">
 						<input type="radio" name="lazyload_menu" value="" <?php echo checked( ! isset( $porto_settings_optimize['lazyload_menu'] ) || ! $porto_settings_optimize['lazyload_menu'], true, false ); ?>><?php esc_html_e( 'Disable', 'porto' ); ?>
@@ -874,18 +874,21 @@ if ( ! class_exists( 'Porto_Speed_Optimize_Wizard' ) ) {
 		 * Get All Shortcodes List
 		 */
 		private function get_all_shortcode_list() {
+			$shortcode_list = array();
 			if ( ! class_exists( 'WPBMap' ) ) {
-				return array();
-			}
-			$shortcode_list    = array();
-			$all_vc_shortcodes = WPBMap::getAllShortCodes();
-			$all_vc_categories = WPBMap::getCategories();
-			if ( ! empty( $all_vc_shortcodes ) ) {
-				foreach ( $all_vc_shortcodes as $key => $s ) {
-					if ( 'vc_row' == $key || 'vc_row_inner' == $key || 'vc_column' == $key || 'vc_column_inner' == $key ) {
-						continue;
+				if ( class_exists( 'PortoShortcodesClass' ) ) {
+					$shortcode_list = array_merge( PortoShortcodesClass::$shortcodes, PortoShortcodesClass::$woo_shortcodes );
+				}
+			} else {
+				$all_vc_shortcodes = WPBMap::getAllShortCodes();
+				$all_vc_categories = WPBMap::getCategories();
+				if ( ! empty( $all_vc_shortcodes ) ) {
+					foreach ( $all_vc_shortcodes as $key => $s ) {
+						if ( 'vc_row' == $key || 'vc_row_inner' == $key || 'vc_column' == $key || 'vc_column_inner' == $key ) {
+							continue;
+						}
+						$shortcode_list[] = $key;
 					}
-					$shortcode_list[] = $key;
 				}
 			}
 			return apply_filters( 'porto_all_shortcode_list', $shortcode_list );
@@ -1014,6 +1017,26 @@ if ( ! class_exists( 'Porto_Speed_Optimize_Wizard' ) ) {
 						}
 					}
 				}
+
+				if ( defined( 'ELEMENTOR_VERSION' ) ) {
+					$post_ids = array();
+					foreach ( $shortcode_list as $shortcode ) {
+						$arr = $wpdb->get_results( 'SELECT m.post_id AS id, m.meta_value AS data FROM ' . esc_sql( $wpdb->postmeta ) . ' AS m INNER JOIN ' . esc_sql( $wpdb->posts ) . ' AS p ON m.post_id = p.ID WHERE p.post_status = "publish" AND p.post_type NOT IN ( "revision", "attachment" ) AND m.meta_key="_elementor_data" AND m.meta_value LIKE "%' . esc_sql( $wpdb->esc_like( '"widgetType":"' . $shortcode . '"' ) ) . '%"' );
+						if ( is_array( $arr ) ) {
+							foreach ( $arr as $v ) {
+								if ( ! array_key_exists( $v->id, $post_ids ) ) {
+									$post_ids[ $v->id ] = $v->data;
+								}
+							}
+						}
+					}
+					foreach ( $post_ids as $post_id => $data ) {
+						$data = json_decode( $data, true );
+						if ( ! in_array( $post_id, $used ) && $this->elementor_check_widgets( $data, $shortcode_list, $attrs ) ) {
+							$used[] = $post_id;
+						}
+					}
+				}
 			} else {
 				$excerpt_arr = array(
 					'post_content',
@@ -1051,16 +1074,63 @@ if ( ! class_exists( 'Porto_Speed_Optimize_Wizard' ) ) {
 						'porto_stat_counter',
 					);
 					$widgets = array_diff( $widgets, $used );
-					foreach ( $widgets as $widget ) { 
+					foreach ( $widgets as $widget ) {
 						$post_ids = $wpdb->get_col( 'SELECT post_id FROM ' . $wpdb->postmeta . ' as meta left join ' . $wpdb->posts . ' as posts on meta.post_id = posts.ID WHERE posts.post_type not in ("revision", "attachment") AND posts.post_status = "publish" and meta_key = "_elementor_data" and meta_value LIKE \'%"widgetType":"' . $widget . '"%\'' );
 						if ( ! empty( $post_ids ) ) {
 							$used[] = $widget;
+						}
+					}
+
+					$params = array(
+						'porto_interactive_banner'       => array( 'as_param' => 'banner' ),
+						'porto_interactive_banner_layer' => array( 'as_banner_layer' => 'yes' ),
+					);
+					foreach ( $params as $key => $param_arr ) {
+						if ( in_array( $key, $used ) ) {
+							continue;
+						}
+						$search_str = '';
+						foreach ( $param_arr as $c => $n ) {
+							if ( $search_str ) {
+								$search_str .= ' AND';
+							}
+							$search_str .= ' meta_value LIKE \'%"' . $c . '":"' . $n . '"%\'';
+						}
+						$post_ids = $wpdb->get_col( 'SELECT post_id FROM ' . $wpdb->postmeta . ' as meta left join ' . $wpdb->posts . ' as posts on meta.post_id = posts.ID WHERE posts.post_type not in ("revision", "attachment") AND posts.post_status = "publish" and meta_key = "_elementor_data" and' . $search_str );
+						if ( ! empty( $post_ids ) ) {
+							$used[] = $key;
 						}
 					}
 				}
 			}
 
 			return apply_filters( 'porto_used_shortcode_list', $used, $return_ids );
+		}
+
+		private function elementor_check_widgets( $data, $shortcode_list, $attrs ) {
+			if ( empty( $attrs ) || empty( $data ) ) {
+				return false;
+			}
+			foreach ( $data as $d ) {
+				if ( ! empty( $d['elements'] ) ) {
+					$result = $this->elementor_check_widgets( $d['elements'], $shortcode_list, $attrs );
+					if ( $result ) {
+						return true;
+					}
+				} elseif ( isset( $d['widgetType'] ) && in_array( $d['widgetType'], $shortcode_list ) ) {
+					$attr_exists = true;
+					foreach ( $attrs as $key => $val ) {
+						if ( ! isset( $d['settings'][ $key ] ) || $val !== $d['settings'][ $key ] ) {
+							$attr_exists = false;
+							break;
+						}
+					}
+					if ( $attr_exists ) {
+						return true;
+					}
+				}
+			}
+			return false;
 		}
 
 	}

@@ -656,7 +656,7 @@ jQuery(function($) {
     function showImportMessage(selected_demo, message, count, index) {
         var html = '';
         if (selected_demo) {
-            html += '<h3 class="porto-demo-install"><i class="porto-ajax-loader"></i> Installing ' + $('#' + selected_demo).html() + '</h3>';
+            html += '<h3 class="porto-demo-install"><i class="porto-ajax-loader"></i> Installing ' + jQuery('#porto-install-demo-type').data('title') + '</h3>';
         }
         if (message) {
             html += '<strong>' + message + '</strong>';
@@ -710,6 +710,11 @@ jQuery(function($) {
                 if (typeof demo_filter != 'undefined') {
                     loaddata.demo_filter = demo_filter;
                 }
+                if ($(document.body).hasClass('elementor-editor-active')) {
+                    loaddata.type = 'e'; // Elementor
+                } else {
+                    loaddata.type = 'v'; // Visual Composer
+                }
                 $('.blocks-wrapper').addClass('loading');
                 $.ajax({
                     url: ajaxurl,
@@ -751,16 +756,23 @@ jQuery(function($) {
                     block_id = $this.data('id');
                 $this.attr('disabled', 'disabled');
                 $this.closest('.block').addClass('importing');
+
+                var importdata = { action: 'porto_studio_import', block_id: block_id, wpnonce: porto_studio.wpnonce };
+                if ($(document.body).hasClass('elementor-editor-active')) {
+                    importdata.type = 'e'; // Elementor
+                } else {
+                    importdata.type = 'v'; // Visual Composer
+                }
                 $.ajax({
                     url: ajaxurl,
                     type: 'post',
                     dataType: 'json',
-                    data: { action: 'porto_studio_import', block_id: block_id, wpnonce: porto_studio.wpnonce },
+                    data: importdata,
                     success: function(response) {
-                        $this.removeAttr('disabled');
-                        $this.closest('.block').removeClass('importing');
+                        //$this.removeAttr('disabled');
+                        //$this.closest('.block').removeClass('importing');
                         if (response && response.content) {
-                            if (vc.storage) {
+                            if (typeof vc != 'undefined' && vc.storage) {
                                 vc.storage.append(response.content);
                                 vc.shortcodes.fetch({
                                     reset: !0
@@ -797,12 +809,14 @@ jQuery(function($) {
                                     $this.removeAttr('disabled');
                                     $this.closest('.block').removeClass('importing');
                                 });
+                            } else if (typeof elementor != 'undefined') {
+                                elementor.getPreviewView().addChildModel(response.content, {});
                             }
                         }
                         if (response && response.meta) {
                             for(var key in response.meta) {
-                                var value = response.meta[key];
-                                if (vc.storage && $('[name="' + key + '"]').length) {
+                                var value = response.meta[key].replace('/<script.*?\/script>/s', '');
+                                if (typeof vc != 'undefined' && vc.storage && $('[name="' + key + '"]').length) {
                                     switch($('[name="' + key + '"]')[0].tagName.toLowerCase()) {
                                         case 'input':
                                             var input_type = $('[name="' + key + '"]').attr('type').toLowerCase();
@@ -837,6 +851,18 @@ jQuery(function($) {
                                     if (porto_studio['meta_fields'][key].indexOf(value) === -1) {
                                         porto_studio['meta_fields'][key] += value;
                                     }
+                                } else if (typeof elementor != 'undefined') {
+                                    key = 'porto_' + key;
+                                    var key_data = elementor.settings.page.model.get(key);
+                                    if (typeof key_data == 'undefined') {
+                                        key_data = '';
+                                    }
+                                    if (!key_data || key_data.indexOf(value) === -1) {
+                                        elementor.settings.page.model.set(key, key_data + value);
+                                    }
+                                    if ('porto_custom_css' == key) {
+                                        elementorFrontend.hooks.doAction('refresh_dynamic_css', value, block_id);
+                                    }
                                 }
                             }
                         }
@@ -848,10 +874,10 @@ jQuery(function($) {
                         alert('There was an error when importing block. Please try again later!');
                     }
                 }).always(function() {
-                    if (vc.storage) {
+                    //if (vc.storage) {
                         $this.removeAttr('disabled');
                         $this.closest('.block').removeClass('importing');
-                    }
+                    //}
                 });
             });
             // porto studio in vc front-end editor
@@ -906,7 +932,7 @@ jQuery(function($) {
                 $('.blocks-wrapper .category-list li:first-child a').trigger('click', [cur_page, filter]);
             });
         }
-        $('#porto-studio-editor-button').on('click', function(e) {
+        $('#porto-studio-editor-button, #porto-elementor-panel-porto-studio').on('click', function(e) {
             e.preventDefault();
             if ($(this).hasClass('disabled')) {
                 return false;
@@ -917,7 +943,7 @@ jQuery(function($) {
                 $(this).removeAttr('data-original');
             });
             $('.blocks-wrapper').waitForImages(function() {
-                $('#porto-studio-editor-button').removeClass('disabled');
+                $('#porto-studio-editor-button, #porto-elementor-panel-porto-studio').removeClass('disabled');
                 $.magnificPopup.open({
                     items: {
                         src: '.blocks-wrapper'
@@ -1336,7 +1362,7 @@ jQuery(function($) {
                 showImportMessage(demo, '');
             }
             jQuery('.porto-install-demo .porto-demo-install .porto-ajax-loader').remove();
-            jQuery('.porto-install-demo .porto-demo-install').html($('#' + demo).html() + ' installation is finished!');
+            jQuery('.porto-install-demo .porto-demo-install').html(jQuery('#porto-install-demo-type').data('title') + ' installation is finished!');
             jQuery('.porto-install-demo .porto-demo-install').css('padding-left', 0);
             removeAlertLeavePage();
         }, 3000);
@@ -1359,6 +1385,26 @@ jQuery(function($) {
     });
 
     // import demos
+    jQuery(document).on('change', '.pagebuilder-selector input[type="radio"]', function() {
+        var $o = $(this).closest('.porto-install-section').find('.message-section');
+        $o.addClass('d-none').children('div').addClass('d-none');
+        if ($(this).parent('.radio').hasClass('notinstalled')) {
+            $o.removeClass('d-none').children('.' + $(this).val()).removeClass('d-none').siblings('div');
+            $(this).closest('.porto-install-section').find('.btn-actions').slideUp();
+        } else {
+            $(this).closest('.porto-install-section').find('.btn-actions').slideDown();
+        }
+
+        var live_urls = jQuery('#porto-install-options').data('live_urls');
+        if ( live_urls[ $(this).val() ] ) {
+            jQuery('#porto-install-options .live-site').attr('href', live_urls[ $(this).val() ]);
+            if ( 'js_composer' == $(this).val() ) {
+                jQuery('#porto-install-demo-type').val(jQuery('#porto-install-demo-type').data('o'));
+            } else {
+                jQuery('#porto-install-demo-type').val( $(this).val() + '-' + jQuery('#porto-install-demo-type').data('o'));
+            }
+        }
+    });
     jQuery(document).on('click', '.porto-install-demos .theme .theme-wrapper', function(e) {
         e.preventDefault();
         if (jQuery(this).closest('.theme').hasClass('open-classic')) {
@@ -1368,21 +1414,56 @@ jQuery(function($) {
         } else if (jQuery(this).closest('.theme').hasClass('open-blog')) {
             jQuery(this).closest('.porto-install-demos').find('.demo-sort-filters [data-filter-by="blog"] a').click();
         } else {
-            jQuery('#porto-install-options').show();
-            jQuery(this).closest('.porto-install-demos').find('.porto-install-demo .theme-img').html(jQuery(this).find('.theme-screenshot').children().clone());
-            jQuery(this).closest('.porto-install-demos').find('.porto-install-demo .theme-name').html(jQuery(this).find('.theme-name').text());
-            jQuery(this).closest('.porto-install-demos').find('.porto-install-demo .live-site').attr('href', jQuery(this).find('.theme-name').data('live-url'));
-            jQuery(this).closest('.porto-install-demos').find('.porto-install-demo .more-options').removeClass('opened');
-            jQuery(this).closest('.porto-install-demos').find('.porto-install-demo .porto-install-options-section').hide();
-            jQuery(this).closest('.porto-install-demos').find('.porto-install-demo .plugins-used').remove();
-            jQuery('#porto-install-demo-type').val(jQuery(this).find('.theme-name').attr('id'));
-            if (jQuery(this).find('.plugins-used').length) {
-                jQuery(this).find('.plugins-used').clone().insertAfter(jQuery(this).closest('.porto-install-demos').find('.porto-install-section'));
-                jQuery(this).closest('.porto-install-demos').find('.porto-install-demo .porto-install-section').hide();
-                jQuery(this).closest('.porto-install-demos').find('.porto-install-demo .more-options').hide();
+            var $wrap = jQuery(this).closest('.porto-install-demos'),
+                live_urls = jQuery(this).find('.theme-name').data('live-url'),
+                live_url = live_urls.js_composer,
+                $o = jQuery('#porto-install-options .pagebuilder-selector'),
+                active_p = $o.data('active-p');
+
+            if (jQuery(this).parent().hasClass('elementor') || jQuery(this).parent().hasClass('gutenberg')) {
+                if ('gutenberg' == active_p && !jQuery(this).parent().hasClass('gutenberg')) {
+                    active_p = 'js_composer';
+                } else if ('elementor' == active_p && !jQuery(this).parent().hasClass('elementor')) {
+                    active_p = 'js_composer';
+                }
+                live_url = live_urls[active_p];
+                $o.show();
+                $o.find('.radio:not(.js_composer)').hide();
+                if (jQuery(this).parent().hasClass('elementor')) {
+                    $o.find('.radio.elementor').show();
+                }
+                if (jQuery(this).parent().hasClass('gutenberg')) {
+                    $o.find('.radio.gutenberg').show();
+                }
+                $o.find('.radio.' + active_p + ' > input').attr('checked', true);
+                $o.find('.message-section').addClass('d-none').children('div').addClass('d-none');
+                if ($o.find('.radio.' + active_p).hasClass('notinstalled')) {
+                    $o.find('.message-section').removeClass('d-none').find('.' + active_p).removeClass('d-none');
+                    $o.next('.btn-actions').hide();
+                } else {
+                    $o.next('.btn-actions').show();
+                }
             } else {
-                jQuery(this).closest('.porto-install-demos').find('.porto-install-demo .porto-install-section').show();
-                jQuery(this).closest('.porto-install-demos').find('.porto-install-demo .more-options').show();
+                jQuery('#porto-install-options .pagebuilder-selector').hide();
+            }
+
+            jQuery('#porto-install-options').show().data('live_urls', live_urls);
+            $wrap.find('.porto-install-demo .theme-img').html(jQuery(this).find('.theme-screenshot').children().clone());
+            $wrap.find('.porto-install-demo .theme-name').html(jQuery(this).find('.theme-name').text());
+            $wrap.find('.porto-install-demo .live-site').attr('href', live_url);
+            $wrap.find('.porto-install-demo .more-options').removeClass('opened');
+            $wrap.find('.porto-install-demo .porto-install-options-section').hide();
+            $wrap.find('.porto-install-demo .plugins-used').remove();
+
+            var demo_id = jQuery(this).find('.theme-name').attr('id');
+            jQuery('#porto-install-demo-type').val('js_composer' == active_p ? demo_id : active_p + '-' + demo_id).data('o', demo_id).data('title', jQuery('#' + demo_id).html());
+            if (jQuery(this).find('.plugins-used').length) {
+                jQuery(this).find('.plugins-used').clone().insertAfter($wrap.find('.porto-install-section'));
+                $wrap.find('.porto-install-demo .porto-install-section').hide();
+                $wrap.find('.porto-install-demo .more-options').hide();
+            } else {
+                $wrap.find('.porto-install-demo .porto-install-section').show();
+                $wrap.find('.porto-install-demo .more-options').show();
             }
             if (jQuery('.porto-import-yes:not(:disabled)').length) {
                 jQuery('.porto-install-demo #import-status').html('');
@@ -1607,6 +1688,81 @@ jQuery(function($) {
         $('body').on('click', '#filter_areas-price', function(e) {
             $(this).closest('.vc_shortcode-param').next('.vc_shortcode-param')[$(this).is(':checked') ? 'show' : 'hide']();
         });
+
+        // extends tabs frontend editor
+        if (window.InlineShortcodeView_vc_tabs) {
+            window.InlineShortcodeView_vc_tabs.prototype.buildControlHtml = function(model) {
+                var params = model.get( 'params' ),
+                    $tab = $( '<li data-m-id="' + model.get( 'id' ) + '" class="nav-item"><a class="nav-link" href="#tab-' + model.getParam( 'tab_id' ) + '"></a></li>' );
+                $tab.data( 'model', model );
+                $tab.find( '> a' ).text( model.getParam( 'title' ) );
+                return $tab;
+            }
+        }
+
+        // extends gutenberg editor
+        if ($(document.body).hasClass('block-editor-page')) {
+            if ($('#custom_css').length && $('#custom_css').val() && !$('head > style#porto_custom_css').length) {
+                $('<style></style>').attr('id', 'porto_custom_css').appendTo('head').html($('#custom_css').val().replace('/<script.*?\/script>/s', ''));
+            }
+            $('#custom_css').on('change', function(e) {
+                if (!$('head > style#porto_custom_css').length) {
+                    $('<style></style>').attr('id', 'porto_custom_css').appendTo('head');
+                }
+                $('style#porto_custom_css').html($(this).val().replace('/<script.*?\/script>/s', ''));
+            });
+        }
+
+        // Pre-Order
+        var porto_pre_order = {
+            init: function() {
+                $(document.body).on('change', 'input.variable_is_preorder', function(e) {
+                    if ($(this).is(':checked')) {
+                        $(this).closest('.woocommerce_variation').find('.show_if_pre_order').show();
+                    } else {
+                        $(this).closest('.woocommerce_variation').find('.show_if_pre_order').hide();
+                    }
+                });
+
+                $(document.body).on('change', '#_porto_pre_order', function(e) {
+                    if ($(this).is(':hidden')) {
+                        return;
+                    }
+                    if ($(this).is(':checked')) {
+                        $(this).closest('#woocommerce-product-data').find('.show_if_pre_order').show();
+                        $(this).closest('#woocommerce-product-data').find('.general_options > a').click();
+                    } else {
+                        $(this).closest('#woocommerce-product-data').find('.show_if_pre_order').hide();
+                    }
+                });
+                this.variations_loaded(null);
+
+                $(document.body).on('woocommerce_variations_added', this.variation_added);
+                $('#woocommerce-product-data').on('woocommerce_variations_loaded', this.variations_loaded);
+            },
+            variations_loaded: function(event, updated) {
+                updated = updated || false;
+                if (!updated) {
+                    $('#woocommerce-product-data').find('input.variable_is_preorder, #_porto_pre_order').change();
+                }
+
+                $('#woocommerce-product-data .pre_order_available_date').datepicker({
+                    defaultDate:     '',
+                    dateFormat:      'yy-mm-dd',
+                    numberOfMonths:  1,
+                    showButtonPanel: true,
+                    minDate        : new Date(),
+                });
+            },
+            variation_added: function(e, qty) {
+                if (1 === qty) {
+                    porto_pre_order.variations_loaded(null);
+                }
+            }
+        };
+        if ($('#woocommerce-product-data').length) {
+            porto_pre_order.init();
+        }
     });
 
 });

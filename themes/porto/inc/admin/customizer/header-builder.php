@@ -46,6 +46,8 @@ class Porto_Header_Builder {
 			'contact'           => __( 'Contact', 'porto' ),
 			'currency-switcher' => __( 'Currency Switcher', 'porto' ),
 			'language-switcher' => __( 'Language Switcher', 'porto' ),
+			'myaccount'         => __( 'My Account', 'porto' ),
+			'wishlist'          => __( 'Wishlist', 'porto' ),
 			'porto_block'       => __( 'Porto Block', 'porto' ),
 			'html'              => __( 'HTML', 'porto' ),
 			'row'               => __( 'Row', 'porto' ),

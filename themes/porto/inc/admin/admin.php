@@ -12,7 +12,9 @@ class Porto_Admin {
 	private $activation_url = 'https://sw-themes.com/activation/porto_wp/verify_purchase.php';
 
 	public function __construct() {
-		add_action( 'wp_before_admin_bar_render', array( $this, 'add_wp_toolbar_menu' ) );
+		if ( is_admin_bar_showing() ) {
+			add_action( 'wp_before_admin_bar_render', array( $this, 'add_wp_toolbar_menu' ) );
+		}
 		add_action( 'admin_menu', array( $this, 'admin_menu' ) );
 		add_action( 'after_switch_theme', array( $this, 'after_switch_theme' ) );
 		add_action( 'admin_enqueue_scripts', array( $this, 'add_theme_update_url' ), 1001 );

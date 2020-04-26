@@ -140,16 +140,16 @@
     background-color: #1d1e20;
     color: #fff;
     -webkit-overflow-scrolling: touch;
-    transform: translate(if-ltr(-260px, 260px));
-    @include transition(transform .3s);
+    transform: translateX(if-ltr(-260px, 260px));
+    transition: transform .3s;
 
     &.panel-left  {
         #{$left}: 0;
         #{$right}: auto;
         @if $rtl == 1 {
-            transform: translate(260px);
+            transform: translateX(260px);
         } @else {
-            transform: translate(-260px);
+            transform: translateX(-260px);
         }
     }
 
@@ -157,9 +157,9 @@
         #{$right}: 0;
         #{$left}: auto;
         @if $rtl == 1 {
-            transform: translate(-260px);
+            transform: translateX(-260px);
         } @else {
-            transform: translate(260px);
+            transform: translateX(260px);
         }
     }
 
@@ -222,7 +222,7 @@ html.panel-opened {
     }
 
     #side-nav-panel {
-        transform: none;
+        transform: translateX(0);
     }
 }
 

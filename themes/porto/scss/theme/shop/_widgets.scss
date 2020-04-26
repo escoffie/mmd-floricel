@@ -353,9 +353,9 @@
                 a {
                     min-width: 32px;
                     text-align: center;
-                    margin: side-values(.3846em .3846em .3846em 0);
-                    padding: .3846em;
-                    line-height: 1.2;
+                    margin: side-values(3px 6px 3px 0);
+                    padding: 4px 8px;
+                    line-height: 16px;
                 }
                 &.chosen a,
                 a:hover {
@@ -367,25 +367,20 @@
 }
 
 // Woocommerce products widget
+.widget .product_list_widget li {
+    padding: .5rem 0;
+}
 ul.product_list_widget {
     list-style: none outside;
     padding: 0;
-    margin: 0;
+    margin: -.5rem 0;
     border-width: 0 !important;
     li {
         @include display-flex;
         -ms-flex-align: center; align-items: center;
         border-width: 0;
         position: relative;
-        padding: .5714em 0;
-
-        &:first-child {
-            padding-top: 0;
-        }
-
-        &:last-child {
-            padding-bottom: 0;
-        }
+        padding: .5rem 0;
 
         .product-image {
             width: 84px;
@@ -544,18 +539,13 @@ ul.product_list_widget {
     }
 }
 
-.widget .product_list_widget li {
-    padding: .5714em 0;
-}
-
 ul.cart_list{
     li {
         &.empty {
             padding-#{$left}: 0;
         }
         .quantity {
-            vertical-align: baseline;
-            .amount {
+            &, .amount {
                 vertical-align: baseline;
             }
         }
@@ -585,22 +575,11 @@ ul.cart_list{
 
 .widget_recent_reviews {
     .product_list_widget {
-        margin-top: -.5714em;
-        margin-bottom: -.5714em;
-        @include display-flex;
         -ms-flex-wrap: wrap; flex-wrap: wrap;
         li {
-            width: 50%;
-            flex: 0 0 50%;
-            padding: .5714em 1%;
+            padding: .5rem 1%;
             display: block;
             text-align: center;
-            &:first-child {
-                padding-top: .5714em;
-            }
-            &:last-child {
-                padding-bottom: .5714em;
-            }
             a {
                 display: block;
                 position: relative;

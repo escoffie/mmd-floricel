@@ -40,4 +40,30 @@
     .product-image-slider.owl-carousel {
         overflow: hidden;
     }
+
+    .woocommerce-product-rating:after {
+        content: none;
+    }
+}
+
+.quickview-wrap .summary {
+    .added_to_cart {
+        font-size: .8em;
+        font-weight: 700;
+        text-transform: uppercase;
+        text-decoration: underline;
+        margin-#{$left}: .2em;
+    }
+    .single_add_to_cart_button {
+        &.loading {
+            pointer-events: none;
+            opacity: .75;
+        }
+    }
+    .porto-loading-icon {
+        position: static;
+        width: 25px;
+        height: 25px;
+        margin: .5em;
+    }
 }

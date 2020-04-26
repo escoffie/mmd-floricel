@@ -33,7 +33,6 @@ if ( isset( $porto_woocommerce_loop['column_width'] ) && $porto_woocommerce_loop
 	$item_width = $woocommerce_loop['column_width'];
 }
 
-$cols_arr = porto_generate_column_classes( $cols, true );
 switch ( $cols ) {
 	case 1:
 		$cols_md = 1;
@@ -225,6 +224,11 @@ if ( $view_mode ) {
 
 if ( ! $view_mode ) {
 	$classes[] = 'grid';
+	$view_mode = 'grid';
+}
+
+if ( 'grid' == $view_mode  && (int) $cols >= 7 ) {
+	$classes[] = 'gap-narrow';
 }
 
 if ( ! isset( $porto_woocommerce_loop['view'] ) || 'creative' != $porto_woocommerce_loop['view'] ) {
@@ -240,21 +244,14 @@ if ( ! isset( $porto_woocommerce_loop['view'] ) || 'creative' != $porto_woocomme
 	$classes[] = 'pwidth-xs-' . $item_width_xs;
 	$classes[] = 'pwidth-ls-' . $item_width_ls;
 } elseif ( ! isset( $porto_woocommerce_loop['creative_grid'] ) ) {
-	$ms     = 1;
-	$ms_col = '';
-	foreach ( $porto_woocommerce_loop['grid_layout'] as $layout ) {
-		$width_arr = explode( '-', $layout['width'] );
-		if ( count( $width_arr ) > 1 ) {
-			$width = (int) $width_arr[0] / (int) $width_arr[1];
-		} else {
-			$width = (int) $width_arr[0];
-		}
-		if ( $width < $ms ) {
-			$ms     = $width;
-			$ms_col = $layout['width'];
-		}
-	}
-	$attrs = ' data-plugin-masonry data-plugin-options="' . esc_attr( json_encode( array( 'itemSelector' => '.product-col', 'masonry' => array( 'columnWidth' => '.product-col.grid-col-' . $ms_col ) ) ) ) . '"';
+	$attrs = ' data-plugin-masonry data-plugin-options="' . esc_attr(
+		json_encode(
+			array(
+				'itemSelector' => '.product-col',
+				'masonry'      => array( 'columnWidth' => '.grid-col-sizer' ),
+			)
+		)
+	) . '"';
 }
 
 $options                = array();
@@ -272,6 +269,12 @@ if ( isset( $porto_woocommerce_loop['view'] ) && 'products-slider' == $porto_woo
 	}
 	if ( isset( $porto_woocommerce_loop['pagination'] ) && $porto_woocommerce_loop['pagination'] ) {
 		$options['dots'] = true;
+	}
+	if ( isset( $porto_woocommerce_loop['autoplay'] ) ) {
+		$options['autoplay'] = $porto_woocommerce_loop['autoplay'];
+	}
+	if ( isset( $porto_woocommerce_loop['autoplay_timeout'] ) ) {
+		$options['autoplayTimeout'] = (int) $porto_woocommerce_loop['autoplay_timeout'];
 	}
 	if ( isset( $porto_woocommerce_loop['stage_padding'] ) && $porto_woocommerce_loop['stage_padding'] ) {
 		$options['stagePadding'] = intval( $porto_woocommerce_loop['stage_padding'] );
@@ -316,14 +319,14 @@ if ( 'list' == $view_mode || ( isset( $porto_settings['product-desc'] ) && $port
 
 if ( ! empty( $porto_settings['show-skeleton-screen'] ) && in_array( 'shop', $porto_settings['show-skeleton-screen'] ) && ( function_exists( 'wc_get_loop_prop' ) && ! wc_get_loop_prop( 'is_paginated' ) ) || isset( $porto_woocommerce_loop['view'] ) || ! isset( $_COOKIE['gridcookie'] ) || 'list' != $_COOKIE['gridcookie'] ) {
 	if ( isset( $woocommerce_loop['addlinks_pos'] ) && 'quantity' == $woocommerce_loop['addlinks_pos'] ) {
-		$attrs .= 'data-product_layout="product-wq_onimage"';
+		$attrs .= ' data-product_layout="product-wq_onimage"';
 	} elseif ( isset( $woocommerce_loop['addlinks_pos'] ) ) {
 		if ( 'outimage_aq_onimage2' == $woocommerce_loop['addlinks_pos'] ) {
-			$attrs .= 'data-product_layout="product-outimage_aq_onimage with-padding"';
+			$attrs .= ' data-product_layout="product-outimage_aq_onimage with-padding"';
 		} elseif ( 'onhover' == $woocommerce_loop['addlinks_pos'] ) {
-			$attrs .= 'data-product_layout="product-default show-links-hover"';
+			$attrs .= ' data-product_layout="product-default show-links-hover"';
 		} else {
-			$attrs .= 'data-product_layout="product-' . esc_attr( $woocommerce_loop['addlinks_pos'] ) . '"';
+			$attrs .= ' data-product_layout="product-' . esc_attr( $woocommerce_loop['addlinks_pos'] ) . '"';
 		}
 	}
 }
@@ -331,3 +334,5 @@ if ( ! empty( $porto_settings['show-skeleton-screen'] ) && in_array( 'shop', $po
 <ul class="<?php echo esc_attr( implode( ' ', $classes ) ); ?>"
 	<?php if ( isset( $porto_woocommerce_loop['view'] ) && 'products-slider' == $porto_woocommerce_loop['view'] ) : ?>
 	data-plugin-options="<?php echo esc_attr( $options ); ?>"<?php endif; ?><?php echo porto_filter_output( $attrs ); ?>>
+<?php
+	do_action( 'porto_woocommerce_shop_loop_start' );

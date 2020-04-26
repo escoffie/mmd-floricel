@@ -13,7 +13,7 @@
     font-size: 16px;
     line-height: 1.2em
 }
-.default-icon .porto-sicon-header > p:last-child {
+.porto-sicon-header > p:last-child {
     margin-bottom: 0;
 }
 .porto-sicon-description {
@@ -42,6 +42,7 @@ a.porto-sicon-box-link {
 .porto-sicon-box.flex-wrap {
     .porto-sicon-header {
         -ms-flex: 1; flex: 1;
+        min-width: 50%
     }
 }
 .default-icon .porto-sicon-default .porto-icon,
@@ -67,61 +68,44 @@ a.porto-sicon-box-link {
 .top-icon .porto-sicon-header+.porto-sicon-description {
     margin-top: 0
 }
-.porto-sicon-box.left-icon {
-    display: inline-block
-}
-.left-icon .porto-sicon-left {
-    display: table-cell;
-    vertical-align: top
+.porto-sicon-box.left-icon,
+.porto-sicon-box.right-icon {
+    display: -ms-flexbox;
+    display: flex;
 }
 .left-icon .porto-sicon-left .porto-icon,
 .left-icon .porto-sicon-left .porto-sicon-img {
     margin-#{$right}: 20px;
 }
-.left-icon .porto-sicon-body {
-    display: table-cell;
-    vertical-align: middle
+.left-icon .porto-sicon-body,
+.right-icon .porto-sicon-body {
+    -ms-flex: 1;
+    flex: 1;
+    max-width: 100%;
 }
-.left-icon .porto-sicon-description,
-.left-icon .porto-sicon-header {
-    float: $left;
-    width: 100%
-}
+
 .porto-sicon-box.top-icon {
     text-align: center
 }
 .porto-sicon-box .porto-just-icon-wrapper {
     line-height: 1em;
 }
-.porto-sicon-box.right-icon {
-    display: inline-block;
-    width: 100%
-}
-.right-icon .porto-sicon-right {
-    display: table-cell;
-    vertical-align: top;
-    width: 100%
-}
+
 .right-icon .porto-sicon-right .porto-icon,
 .right-icon .porto-sicon-right .porto-sicon-img {
     margin-#{$left}: 15px;
 }
-.right-icon .porto-sicon-body {
-    display: table-cell;
-    vertical-align: middle;
-    width: 100%
-}
 .right-icon .porto-sicon-body,
 .right-icon .porto-sicon-body *,
-.right-icon .porto-sicon-header h3.porto-sicon-title,
+.right-icon .porto-sicon-header .porto-sicon-title,
 .right-icon .porto-sicon-description {
     text-align: $right;
 }
-.right-icon .porto-sicon-description,
+/*.right-icon .porto-sicon-description,
 .right-icon .porto-sicon-header {
     float: $right;
     width: 100%
-}
+}*/
 .heading-right-icon .porto-sicon-heading-right {
     display: table-cell;
     vertical-align: middle;
@@ -145,7 +129,7 @@ a.porto-sicon-box-link {
     text-align: $right;
 }
 
-.wpb_wrapper {
+html {
     .top-icon {
         .porto-just-icon-wrapper {
             margin-bottom: 15px;
@@ -180,7 +164,7 @@ a.porto-sicon-box-link {
         margin-bottom: 15px;
     }
     .porto-sicon-header + .porto-sicon-description {
-        margin-top: 5px;
+        margin-top: 7px;
     }
 }
 .porto-sicon-box {

@@ -107,8 +107,11 @@ if ( $porto_settings['category-ajax'] ) {
 				$porto_woocommerce_loop['el_class'] .= ' skeleton-loading';
 			}
 			$porto_settings['skeleton_lazyload'] = true;
+
+			remove_filter( 'woocommerce_product_loop_start', 'woocommerce_maybe_show_product_subcategories' );
 		}
 			woocommerce_product_loop_start();
+
 		if ( $skeleton_lazyload ) {
 			$porto_woocommerce_loop['el_class'] = str_replace( 'skeleton-loading', 'skeleton-body', $porto_woocommerce_loop['el_class'] );
 			$skeleton_body_start                = woocommerce_product_loop_start( false );
@@ -129,6 +132,7 @@ if ( $porto_settings['category-ajax'] ) {
 			}
 
 			ob_start();
+			echo woocommerce_maybe_show_product_subcategories();
 			$products_count = 0;
 		}
 		?>
@@ -154,11 +158,17 @@ if ( $porto_settings['category-ajax'] ) {
 		}
 			woocommerce_product_loop_end();
 		if ( $skeleton_lazyload ) {
+			if ( $products_count < 1 ) {
+				global $porto_products_cols_lg;
+				$products_count = $porto_products_cols_lg;
+			}
 			echo porto_filter_output( $skeleton_body_start );
 			for ( $i = 0; $i < $products_count; $i++ ) {
 				echo '<li class="' . esc_attr( $sp_class ) . '"></li>';
 			}
 			woocommerce_product_loop_end();
+
+			add_filter( 'woocommerce_product_loop_start', 'woocommerce_maybe_show_product_subcategories' );
 		}
 		?>
 

@@ -25,6 +25,9 @@ $post_class  = join( ' ', wc_get_product_class( '', $product ) );
 $post_class .= ' product-layout-' . esc_attr( $porto_product_layout );
 
 $skeleton_lazyload = apply_filters( 'porto_skeleton_lazyload', ! empty( $porto_settings['show-skeleton-screen'] ) && in_array( 'product', $porto_settings['show-skeleton-screen'] ) && ! porto_is_ajax(), 'single-product' );
+if ( $skeleton_lazyload && ( ( function_exists( 'vc_is_inline' ) && vc_is_inline() ) || porto_is_elementor_preview() ) ) {
+	$skeleton_lazyload = false;
+}
 ?>
 
 <div id="product-<?php the_ID(); ?>" class="<?php echo esc_attr( $post_class ), ! $skeleton_lazyload ? '' : ' skeleton-loading'; ?>">
@@ -62,7 +65,8 @@ if ( 'builder' == $porto_product_layout ) :
 			$the_post     = get_post( $post_id, null, 'display' );
 			$post_content = $the_post->post_content;
 
-			$shortcodes_custom_css  = get_post_meta( $post_id, '_wpb_shortcodes_custom_css', true );
+			$shortcodes_custom_css  = get_post_meta( $post_id, 'porto_product_layout_css', true );
+			$shortcodes_custom_css .= get_post_meta( $post_id, '_wpb_shortcodes_custom_css', true );
 			$shortcodes_custom_css .= get_post_meta( $post_id, 'custom_css', true );
 			if ( $shortcodes_custom_css ) {
 				echo '<style>';

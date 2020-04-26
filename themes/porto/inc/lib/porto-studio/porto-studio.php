@@ -31,6 +31,13 @@ if ( ! class_exists( 'Porto_Studio' ) ) :
 		private $update_period = HOUR_IN_SECONDS * 24 * 30; // a month
 
 		/**
+		 * Page Builder Type
+		 *
+		 * This should be 'v' if using Visual Composer and 'e' if using Elementor Page Builder.
+		 */
+		private $page_type = 'v';
+
+		/**
 		 * constructor
 		 */
 		public function __construct() {
@@ -44,6 +51,10 @@ if ( ! class_exists( 'Porto_Studio' ) ) :
 				}
 				return;
 			}
+
+			if ( wp_doing_ajax() && isset( $_POST['type'] ) ) {
+				$this->page_type = sanitize_text_field( $_POST['type'] );
+			}
 			add_action( 'wp_ajax_porto_studio_import', array( $this, 'import' ) );
 			add_action( 'wp_ajax_nopriv_porto_studio_import', array( $this, 'import' ) );
 
@@ -54,10 +65,24 @@ if ( ! class_exists( 'Porto_Studio' ) ) :
 			add_action( 'wp_ajax_nopriv_porto_studio_save', array( $this, 'update_custom_meta_fields_in_fronteditor' ) );
 
 			if ( 'post.php' == $GLOBALS['pagenow'] || 'post-new.php' == $GLOBALS['pagenow'] ) {
-				add_filter( 'vc_nav_controls', array( $this, 'add_studio_control' ) );
-				add_filter( 'vc_nav_front_controls', array( $this, 'add_studio_control' ) );
-				add_action( 'admin_enqueue_scripts', array( $this, 'enqueue' ), 1001 );
-				add_action( 'admin_footer', array( $this, 'get_page_content' ) );
+				if ( defined( 'WPB_VC_VERSION' ) ) {
+					add_filter( 'vc_nav_controls', array( $this, 'add_studio_control' ) );
+					add_filter( 'vc_nav_front_controls', array( $this, 'add_studio_control' ) );
+					add_action( 'admin_enqueue_scripts', array( $this, 'enqueue' ), 1001 );
+					add_action( 'admin_footer', array( $this, 'get_page_content' ) );
+				}
+				if ( defined( 'ELEMENTOR_VERSION' ) ) {
+					add_action( 'elementor/editor/footer', array( $this, 'elementor_get_page_content' ) );
+					add_action(
+						'elementor/editor/after_enqueue_styles',
+						function() {
+							wp_enqueue_style( 'porto_admin', PORTO_CSS . '/admin.css', array( 'porto-studio-fonts' ), PORTO_VERSION, 'all' );
+							wp_enqueue_script( 'porto-admin', PORTO_JS . '/admin/admin.min.js', array( 'common', 'jquery', 'media-upload', 'thickbox', 'wp-color-picker' ), PORTO_VERSION, true );
+							$this->enqueue();
+						},
+						30
+					);
+				}
 			}
 		}
 
@@ -116,7 +141,9 @@ if ( ! class_exists( 'Porto_Studio' ) ) :
 				if ( isset( $block['posts'] ) ) {
 					$block_content = $this->process_posts( $block_content, $block['posts'], false );
 				}
-
+				if ( 'e' == $this->page_type ) {
+					$block_content = json_decode( $block_content, true );
+				}
 				$result = array( 'content' => $block_content );
 				if ( isset( $block['meta'] ) && $block['meta'] ) {
 					$result['meta'] = json_decode( $block['meta'], true );
@@ -134,17 +161,23 @@ if ( ! class_exists( 'Porto_Studio' ) ) :
 			$count_per_page = $this->limit;
 			$page           = isset( $_POST['page'] ) && $_POST['page'] ? (int) $_POST['page'] : 1;
 
-			$blocks = get_site_transient( 'porto_blocks' );
+			if ( 'e' == $this->page_type ) {
+				$transient_key = 'porto_blocks_e';
+			} else {
+				$transient_key = 'porto_blocks';
+			}
+			$blocks = get_site_transient( $transient_key );
 			if ( ! $blocks ) {
 				require_once PORTO_PLUGINS . '/importer/importer-api.php';
 				$importer_api = new Porto_Importer_API();
 				$args         = $importer_api->generate_args( false );
+				$args['type'] = $this->page_type;
 				$blocks       = $importer_api->get_response( add_query_arg( $args, $importer_api->get_url( 'blocks' ) ) );
 				if ( is_wp_error( $blocks ) || ! $blocks ) {
 					echo 'error';
 					exit;
 				}
-				set_site_transient( 'porto_blocks', $blocks, $this->update_period );
+				set_site_transient( $transient_key, $blocks, $this->update_period );
 			}
 			$category_blocks = array();
 			if ( isset( $_POST['category_id'] ) && $_POST['category_id'] ) {
@@ -169,6 +202,7 @@ if ( ! class_exists( 'Porto_Studio' ) ) :
 					'block_categories'    => array(),
 					'blocks'              => $category_blocks,
 					'default_category_id' => $this->default_category_id,
+					'page_type'           => $this->page_type,
 				);
 				if ( isset( $total_pages ) ) {
 					$args['total_pages'] = $total_pages;
@@ -198,8 +232,8 @@ if ( ! class_exists( 'Porto_Studio' ) ) :
 					$importer_api   = new Porto_Importer_API( $posts['revslider'][0] );
 					$demo_file_path = $importer_api->get_remote_demo();
 					if ( $demo_file_path && ! is_wp_error( $demo_file_path ) ) {
-						$slider         = new RevSlider();
-						$imported       = $slider->importSliderFromPost( true, false, $demo_file_path . '/' . $posts['revslider'][1] );
+						$slider   = new RevSlider();
+						$imported = $slider->importSliderFromPost( true, false, $demo_file_path . '/' . $posts['revslider'][1] );
 						$importer_api->delete_temp_dir();
 						if ( is_array( $imported ) && $imported['success'] && isset( $imported['sliderID'] ) ) {
 							$block_content = str_replace( '{{{' . $posts['revslider'][2] . '}}}', $imported['sliderID'], $block_content );
@@ -308,31 +342,45 @@ if ( ! class_exists( 'Porto_Studio' ) ) :
 
 		public function get_page_content() {
 
-			$block_categories = get_site_transient( 'porto_block_categories' );
+			// get block categories
+			if ( 'e' == $this->page_type ) {
+				$transient_key = 'porto_block_categories_e';
+			} else {
+				$transient_key = 'porto_block_categories';
+			}
+			$block_categories = get_site_transient( $transient_key );
 			if ( ! $block_categories ) {
 				require_once PORTO_PLUGINS . '/importer/importer-api.php';
 				$importer_api     = new Porto_Importer_API();
 				$args             = $importer_api->generate_args( false );
 				$args['limit']    = $this->limit;
+				$args['type']     = $this->page_type;
 				$block_categories = $importer_api->get_response( add_query_arg( $args, $importer_api->get_url( 'block_categories' ) ) );
 				if ( is_wp_error( $block_categories ) || ! $block_categories ) {
 					return esc_html__( 'Could not connect to the API Server! Please try again later.', 'porto' );
 				}
-				set_site_transient( 'porto_block_categories', $block_categories, $this->update_period );
+				set_site_transient( $transient_key, $block_categories, $this->update_period );
 			}
 
-			$blocks = get_site_transient( 'porto_blocks' );
+			// get blocks
+			if ( 'e' == $this->page_type ) {
+				$transient_key = 'porto_blocks_e';
+			} else {
+				$transient_key = 'porto_blocks';
+			}
+			$blocks = get_site_transient( $transient_key );
 			if ( ! $blocks ) {
 				if ( ! isset( $importer_api ) ) {
 					require_once PORTO_PLUGINS . '/importer/importer-api.php';
 					$importer_api = new Porto_Importer_API();
 					$args         = $importer_api->generate_args( false );
+					$args['type'] = $this->page_type;
 				}
 				$blocks = $importer_api->get_response( add_query_arg( $args, $importer_api->get_url( 'blocks' ) ) );
 				if ( is_wp_error( $blocks ) || ! $blocks ) {
 					return esc_html__( 'Could not connect to the API Server! Please try again later.', 'porto' );
 				}
-				set_site_transient( 'porto_blocks', $blocks, $this->update_period );
+				set_site_transient( $transient_key, $blocks, $this->update_period );
 			}
 			$latest_blocks = array();
 			foreach ( $blocks as $block ) {
@@ -350,10 +398,16 @@ if ( ! class_exists( 'Porto_Studio' ) ) :
 						'block_categories'    => $block_categories,
 						'blocks'              => array_slice( $latest_blocks, 0, $this->limit ),
 						'default_category_id' => $this->default_category_id,
+						'page_type'           => $this->page_type,
 					)
 				);
 			}
 
+		}
+
+		public function elementor_get_page_content() {
+			$this->page_type = 'e';
+			$this->get_page_content();
 		}
 
 		/**

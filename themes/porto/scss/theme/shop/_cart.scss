@@ -117,6 +117,12 @@
 		font-size: 20px;
 		line-height: 27px;
 		margin: 0 0 20px;
+		display: -ms-flexbox;
+		display: flex;
+		-ms-flex-pack: between;
+		justify-content: space-between;
+		-ms-flex-align: center;
+		align-items: center;
 	}
 	.proceed-to-checkout {
 		letter-spacing: normal;

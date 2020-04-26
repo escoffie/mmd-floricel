@@ -5,7 +5,7 @@
  * @package Porto
  */
 
-add_action( 'porto_before_wrapper', 'porto_add_html_before_wrapper' );
+add_action( 'porto_wrapper_start', 'porto_add_html_before_wrapper' );
 add_action( 'porto_before_banner', 'porto_add_html_before_banner' );
 add_action( 'porto_before_content_top', 'porto_add_html_before_content_top' );
 add_action( 'porto_before_content_inner_top', 'porto_add_html_content_inner_top' );

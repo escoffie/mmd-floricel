@@ -88,9 +88,14 @@ $el_class .= ' ' . $type;
  */
 $tabs = array();
 if ( isset( $matches[0] ) ) {
-	$tabs = $matches[0]; }
+	$tabs = $matches[0];
+}
 $tabs_nav  = '';
-$tabs_nav .= '<ul class="nav nav-tabs ' . $ul_class . ( 'tabs-simple' == $type ? ' featured-boxes ' . esc_attr( $icon_style ) : '' ) . '">';
+
+if ( vc_is_inline() ) {
+	$ul_class .= ' wpb_tabs_nav ui-tabs-nav vc_clearfix';
+}
+$tabs_nav .= '<ul class="nav nav-tabs' . $ul_class . ( 'tabs-simple' == $type ? ' featured-boxes ' . esc_attr( $icon_style ) : '' ) . '">';
 foreach ( $tabs as $tab ) {
 	preg_match( '/ title="([^\"]+)\"/i', $tab[0], $title_matches, PREG_OFFSET_CAPTURE );
 	preg_match( '/ tab_id="([^\"]+)\"/i', $tab[0], $tab_id_matches, PREG_OFFSET_CAPTURE );
@@ -445,6 +450,11 @@ if ( 'custom' != $skin ) {
 	$css_class .= ' tabs-' . $skin;
 }
 
+if ( vc_is_inline() ) {
+	$output    .= '<div class="wpb_tabs wpb_content_element">';
+	$css_class .= ' wpb_wrapper wpb_tour_tabs_wrapper ui-tabs vc_clearfix';
+}
+
 $output .= '<div class="' . esc_attr( $css_class ) . '">';
 $output .= wpb_widget_title(
 	array(
@@ -455,12 +465,21 @@ $output .= wpb_widget_title(
 if ( ! in_array( $position, array( 'bottom-left', 'bottom-right', 'bottom-justify', 'bottom-center', 'vertical-right' ) ) ) {
 	$output .= $tabs_nav;
 }
-$output .= '<div class="tab-content">';
-$output .= preg_replace( '/tab-pane/', 'tab-pane active', wpb_js_remove_wpautop( $content ), 1 );
-$output .= '</div>';
+
+$child_content = preg_replace( '/tab-pane/', 'tab-pane active', wpb_js_remove_wpautop( $content ), 1 );
+if ( vc_is_inline() ) {
+	$output .= $child_content;
+} else {
+	$output .= '<div class="tab-content">' . $child_content . '</div>';
+}
+
 if ( in_array( $position, array( 'bottom-left', 'bottom-right', 'bottom-justify', 'bottom-center', 'vertical-right' ) ) ) {
 	$output .= $tabs_nav;
 }
 $output .= '</div>';
+
+if ( vc_is_inline() ) {
+	$output .= '</div>';
+}
 
 echo porto_filter_output( $output );

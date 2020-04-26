@@ -1298,9 +1298,11 @@ jQuery(document).ready(function($) {
 			if ($obj.data('timeout')) {
 				timeout = parseInt($obj.data('timeout'), 10);
 			}
-			setTimeout(function() {
-				porto_modal_open($obj);
-			}, timeout);
+			$(window).on('load', function() {
+				setTimeout(function() {
+					porto_modal_open($obj);
+				}, timeout);
+			});
 		}
 		$('.porto-modal-trigger').on('click', function(e) {
 			e.preventDefault();

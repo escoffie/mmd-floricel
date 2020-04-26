@@ -51,6 +51,8 @@ if ( ! class_exists( 'Porto_Theme_Setup_Wizard' ) ) {
 				'shop'      => 'Shop',
 				'classic'   => 'Classic',
 				'blog'      => 'Blog',
+				'elementor' => 'Elementor',
+				'gutenberg' => 'Gutenberg',
 			);
 		}
 
@@ -64,7 +66,7 @@ if ( ! class_exists( 'Porto_Theme_Setup_Wizard' ) ) {
 					'grouped'    => true,
 				),
 				'shop'                => array(
-					'alt'        => 'Shop Demo <small>(31 VARIATIONS)</small>',
+					'alt'        => 'Shop Demo <small>(33 VARIATIONS)</small>',
 					'slider_cat' => 'shop',
 					'img'        => PORTO_OPTIONS_URI . '/demos/shop1.jpg',
 					'filter'     => 'all open-shop',
@@ -80,74 +82,86 @@ if ( ! class_exists( 'Porto_Theme_Setup_Wizard' ) ) {
 				'classic-original'    => array(
 					'alt'       => 'Main Demo',
 					'img'       => PORTO_OPTIONS_URI . '/demos/classic_original.jpg',
-					'filter'    => 'classic',
+					'filter'    => 'classic elementor gutenberg',
 					'revslider' => array( 'full-width-slider.zip', 'full-width-video.zip', 'home-classic-original.zip', 'media-gallery.zip' ),
+					'plugins'   => array( 'js_composer' ),
 				),
 				'construction'        => array(
 					'alt'       => 'Construction',
 					'img'       => PORTO_OPTIONS_URI . '/demos/demo_construction.jpg',
-					'filter'    => 'business all',
+					'filter'    => 'business elementor all',
 					'revslider' => array( 'demo-construction.zip' ),
+					'plugins'   => array( 'js_composer' ),
 				),
 				'hotel'               => array(
 					'alt'       => 'Hotel',
 					'img'       => PORTO_OPTIONS_URI . '/demos/demo_hotel.jpg',
 					'filter'    => 'business all',
 					'revslider' => array( 'demo-hotel.zip' ),
+					'plugins'   => array( 'js_composer' ),
 				),
 				'restaurant'          => array(
 					'alt'       => 'Restaurant',
 					'img'       => PORTO_OPTIONS_URI . '/demos/demo_restaurant.jpg',
 					'filter'    => 'business all',
 					'revslider' => array( 'demo-restaurant.zip' ),
+					'plugins'   => array( 'js_composer' ),
 				),
 				'law-firm'            => array(
 					'alt'       => 'Law Firm',
 					'img'       => PORTO_OPTIONS_URI . '/demos/demo_law_firm.jpg',
 					'filter'    => 'business all',
 					'revslider' => array( 'demo-law-firm.zip' ),
+					'plugins'   => array( 'js_composer' ),
 				),
 				'digital-agency'      => array(
 					'alt'       => 'Digital Agency',
 					'img'       => PORTO_OPTIONS_URI . '/demos/demo_digital_agency.jpg',
 					'filter'    => 'business all',
 					'revslider' => array( 'demo-digital-agency.zip' ),
+					'plugins'   => array( 'js_composer' ),
 				),
 				'medical'             => array(
 					'alt'       => 'Medical',
 					'img'       => PORTO_OPTIONS_URI . '/demos/demo_medical.jpg',
 					'filter'    => 'business all',
 					'revslider' => array( 'demo-medical.zip' ),
+					'plugins'   => array( 'js_composer' ),
 				),
 				'wedding'             => array(
 					'alt'       => 'Wedding',
 					'img'       => PORTO_OPTIONS_URI . '/demos/demo_wedding.jpg',
 					'filter'    => 'business onepage all',
 					'revslider' => array( 'demo-wedding.zip' ),
+					'plugins'   => array( 'js_composer' ),
 				),
 				'photography1'        => array(
 					'alt'       => 'Photography 1',
 					'img'       => PORTO_OPTIONS_URI . '/demos/demo_photography_1.jpg',
 					'filter'    => 'business portfolio all',
 					'revslider' => array( 'Photography1-About-us.zip', 'Photography1-Fullscreen.zip', 'Photography1-Home.zip', 'Photography1-Kenburns.zip' ),
+					'plugins'   => array( 'js_composer' ),
 				),
 				'photography2'        => array(
 					'alt'       => 'Photography 2',
 					'img'       => PORTO_OPTIONS_URI . '/demos/demo_photography_2.jpg',
 					'filter'    => 'business portfolio all',
 					'revslider' => array( 'Photography2-aboutus.zip', 'Photography2-Fullscreen.zip', 'Photography2-Home.zip', 'Photography2-Kenburns.zip' ),
+					'plugins'   => array( 'js_composer' ),
 				),
 				'photography3'        => array(
 					'alt'       => 'Photography 3',
 					'img'       => PORTO_OPTIONS_URI . '/demos/demo_photography_3.jpg',
 					'filter'    => 'business portfolio all',
 					'revslider' => array( 'Photography3-AboutUs.zip', 'Photography3-Fullscreen.zip', 'Photography3-Home.zip', 'Photography3-Home_2.zip', 'Photography3-Kenburns.zip' ),
+					'plugins'   => array( 'js_composer' ),
 				),
 				'business-consulting' => array(
 					'alt'       => 'Business Consulting',
 					'img'       => PORTO_OPTIONS_URI . '/demos/demo_busi_cons.jpg',
 					'filter'    => 'business all',
 					'revslider' => array( 'home-BC.zip' ),
+					'plugins'   => array( 'js_composer' ),
 				),
 				'gym'                 => array(
 					'alt'       => 'Gym',
@@ -155,519 +169,572 @@ if ( ! class_exists( 'Porto_Theme_Setup_Wizard' ) ) {
 					'filter'    => 'business all',
 					'revslider' => array( 'home-gym.zip' ),
 					'plugins'   => array( 'instagram-slider-widget' ),
+					'plugins'   => array( 'js_composer' ),
 				),
 				'event'               => array(
 					'alt'       => 'Event',
 					'img'       => PORTO_OPTIONS_URI . '/demos/demo_event.jpg',
 					'filter'    => 'business all',
 					'revslider' => array( 'home-event.zip' ),
+					'plugins'   => array( 'js_composer' ),
 				),
 				'resume'              => array(
-					'alt'    => 'Resume',
-					'img'    => PORTO_OPTIONS_URI . '/demos/demo_resume.jpg',
-					'filter' => 'business onepage portfolio all',
+					'alt'     => 'Resume',
+					'img'     => PORTO_OPTIONS_URI . '/demos/demo_resume.jpg',
+					'filter'  => 'business onepage portfolio all',
+					'plugins' => array( 'js_composer' ),
 				),
 				'church'              => array(
 					'alt'       => 'Church',
 					'img'       => PORTO_OPTIONS_URI . '/demos/demo_church.jpg',
 					'filter'    => 'business all',
 					'revslider' => array( 'demo-church.zip' ),
+					'plugins'   => array( 'js_composer' ),
 				),
 				'finance'             => array(
 					'alt'       => 'Finance',
 					'img'       => PORTO_OPTIONS_URI . '/demos/demo_finance.jpg',
 					'filter'    => 'business all',
 					'revslider' => array( 'home-finance.zip' ),
+					'plugins'   => array( 'js_composer' ),
 				),
 				'agency-one-page'     => array(
 					'alt'       => 'Agency Onepage',
 					'img'       => PORTO_OPTIONS_URI . '/demos/agency_onepage.jpg',
 					'filter'    => 'business onepage portfolio all',
 					'revslider' => array( 'agency-onepage.zip' ),
+					'plugins'   => array( 'js_composer' ),
 				),
 				'app-landing'         => array(
-					'alt'    => 'App Landing',
-					'img'    => PORTO_OPTIONS_URI . '/demos/demo_applanding.jpg',
-					'filter' => 'business onepage all',
+					'alt'     => 'App Landing',
+					'img'     => PORTO_OPTIONS_URI . '/demos/demo_applanding.jpg',
+					'filter'  => 'business onepage all',
+					'plugins' => array( 'js_composer' ),
 				),
 				'real-estate'         => array(
 					'alt'       => 'Real Estate',
 					'img'       => PORTO_OPTIONS_URI . '/demos/demo_real_estate.jpg',
 					'filter'    => 'business all',
 					'revslider' => array( 'real-estate-home.zip' ),
+					'plugins'   => array( 'js_composer' ),
 				),
 				'education'           => array(
 					'alt'       => 'Education',
 					'img'       => PORTO_OPTIONS_URI . '/demos/demo_education.jpg',
 					'filter'    => 'business all',
 					'revslider' => array( 'home_education.zip' ),
+					'plugins'   => array( 'js_composer' ),
 				),
 				'insurance'           => array(
 					'alt'       => 'Insurance',
 					'img'       => PORTO_OPTIONS_URI . '/demos/demo_insurance.jpg',
 					'filter'    => 'business all',
 					'revslider' => array( 'home-insurance.zip' ),
+					'plugins'   => array( 'js_composer' ),
 				),
 				'seo'                 => array(
-					'alt'    => 'SEO',
-					'img'    => PORTO_OPTIONS_URI . '/demos/demo_seo.jpg',
-					'filter' => 'business all onepage',
+					'alt'     => 'SEO',
+					'img'     => PORTO_OPTIONS_URI . '/demos/demo_seo.jpg',
+					'filter'  => 'business all onepage',
+					'plugins' => array( 'js_composer' ),
 				),
 				'coffee'              => array(
 					'alt'       => 'Coffee Shop',
 					'img'       => PORTO_OPTIONS_URI . '/demos/demo_coffee.jpg',
 					'filter'    => 'business all onepage',
 					'revslider' => array( 'home-coffee.zip' ),
+					'plugins'   => array( 'js_composer' ),
 				),
 				'sass'                => array(
-					'alt'    => 'Sass',
-					'img'    => PORTO_OPTIONS_URI . '/demos/demo_sass.jpg',
-					'filter' => 'business all onepage',
+					'alt'     => 'Sass',
+					'img'     => PORTO_OPTIONS_URI . '/demos/demo_sass.jpg',
+					'filter'  => 'business all onepage',
+					'plugins' => array( 'js_composer' ),
 				),
 				'architecture'        => array(
 					'alt'       => 'Architecture & Interior Design',
 					'img'       => PORTO_OPTIONS_URI . '/demos/demo_architecture.jpg',
 					'filter'    => 'business all onepage',
 					'revslider' => array( 'home-architecture.zip' ),
+					'plugins'   => array( 'js_composer' ),
 				),
 				'barber'              => array(
 					'alt'       => 'Barber Shop',
 					'img'       => PORTO_OPTIONS_URI . '/demos/demo_barber.jpg',
 					'filter'    => 'business all onepage',
 					'revslider' => array( 'home-barber.zip' ),
-					'plugins'   => array( 'instagram-slider-widget' ),
+					'plugins'   => array( 'instagram-slider-widget', 'js_composer' ),
 				),
 				'band'                => array(
 					'alt'       => 'Band',
 					'img'       => PORTO_OPTIONS_URI . '/demos/demo_band.jpg',
 					'filter'    => 'business all onepage',
 					'revslider' => array( 'home-band.zip' ),
+					'plugins'   => array( 'js_composer' ),
 				),
 				'classic-one-page'    => array(
 					'alt'       => 'Classic One Page',
 					'img'       => PORTO_OPTIONS_URI . '/demos/classic_one_page.jpg',
 					'filter'    => 'classic onepage',
 					'revslider' => array( 'home-one-page.zip' ),
+					'plugins'   => array( 'js_composer' ),
 				),
 				'classic-color'       => array(
 					'alt'       => 'Classic Color',
 					'img'       => PORTO_OPTIONS_URI . '/demos/classic_color.jpg',
 					'filter'    => 'classic',
-					'revslider' => array( 'full-width-slider.zip', 'full-width-video.zip', 'home-classic-color.zip', 'media-gallery.zip' ),
+					'revslider' => array( 'full-width-video.zip', 'home-classic-color.zip', 'media-gallery.zip' ),
+					'plugins'   => array( 'js_composer' ),
 				),
 				'classic-light'       => array(
 					'alt'       => 'Classic Light',
 					'img'       => PORTO_OPTIONS_URI . '/demos/classic_light.jpg',
 					'filter'    => 'classic',
-					'revslider' => array( 'full-width-slider.zip', 'full-width-video.zip', 'home-classic-light.zip', 'media-gallery.zip' ),
+					'revslider' => array( 'full-width-video.zip', 'home-classic-light.zip', 'media-gallery.zip' ),
+					'plugins'   => array( 'js_composer' ),
 				),
 				'classic-video'       => array(
 					'alt'       => 'Classic Video',
 					'img'       => PORTO_OPTIONS_URI . '/demos/classic_video.jpg',
 					'filter'    => 'classic',
-					'revslider' => array( 'full-width-slider.zip', 'full-width-video.zip', 'home-classic-video.zip', 'media-gallery.zip' ),
+					'revslider' => array( 'full-width-video.zip', 'home-classic-video.zip', 'media-gallery.zip' ),
+					'plugins'   => array( 'js_composer' ),
 				),
 				'classic-video-light' => array(
 					'alt'       => 'Classic Video Light',
 					'img'       => PORTO_OPTIONS_URI . '/demos/classic_video_light.jpg',
 					'filter'    => 'classic',
-					'revslider' => array( 'full-width-slider.zip', 'full-width-video.zip', 'home-classic-video-light.zip', 'media-gallery.zip' ),
+					'revslider' => array( 'full-width-video.zip', 'home-classic-video-light.zip', 'media-gallery.zip' ),
+					'plugins'   => array( 'js_composer' ),
 				),
 				'corporate1'          => array(
 					'alt'       => 'Corporate 1',
 					'img'       => PORTO_OPTIONS_URI . '/demos/corporate_1.jpg',
 					'filter'    => 'classic',
-					'revslider' => array( 'full-width-slider.zip', 'full-width-video.zip', 'home-corporate1.zip', 'media-gallery.zip' ),
+					'revslider' => array( 'full-width-video.zip', 'home-corporate1.zip', 'media-gallery.zip' ),
+					'plugins'   => array( 'js_composer' ),
 				),
 				'corporate2'          => array(
 					'alt'       => 'Corporate 2',
 					'img'       => PORTO_OPTIONS_URI . '/demos/corporate_2.jpg',
 					'filter'    => 'classic',
-					'revslider' => array( 'full-width-slider.zip', 'full-width-video.zip', 'home-corporate2.zip', 'media-gallery.zip' ),
+					'revslider' => array( 'full-width-video.zip', 'home-corporate2.zip', 'media-gallery.zip' ),
+					'plugins'   => array( 'js_composer' ),
 				),
 				'corporate3'          => array(
 					'alt'       => 'Corporate 3',
 					'img'       => PORTO_OPTIONS_URI . '/demos/corporate_3.jpg',
 					'filter'    => 'classic',
-					'revslider' => array( 'full-width-slider.zip', 'full-width-video.zip', 'home-corporate3.zip', 'media-gallery.zip' ),
+					'revslider' => array( 'full-width-video.zip', 'home-corporate3.zip', 'media-gallery.zip' ),
+					'plugins'   => array( 'js_composer' ),
 				),
 				'corporate4'          => array(
 					'alt'       => 'Corporate 4',
 					'img'       => PORTO_OPTIONS_URI . '/demos/corporate_4.jpg',
 					'filter'    => 'classic',
-					'revslider' => array( 'full-width-slider.zip', 'full-width-video.zip', 'home-corporate4.zip', 'media-gallery.zip' ),
+					'revslider' => array( 'full-width-video.zip', 'home-corporate4.zip', 'media-gallery.zip' ),
+					'plugins'   => array( 'js_composer' ),
 				),
 				'corporate5'          => array(
 					'alt'       => 'Corporate 5',
 					'img'       => PORTO_OPTIONS_URI . '/demos/corporate_5.jpg',
 					'filter'    => 'classic',
-					'revslider' => array( 'full-width-slider.zip', 'full-width-video.zip', 'home-corporate5.zip', 'media-gallery.zip' ),
+					'revslider' => array( 'full-width-video.zip', 'home-corporate5.zip', 'media-gallery.zip' ),
+					'plugins'   => array( 'js_composer' ),
 				),
 				'corporate6'          => array(
 					'alt'       => 'Corporate 6',
 					'img'       => PORTO_OPTIONS_URI . '/demos/corporate_6.jpg',
 					'filter'    => 'classic',
-					'revslider' => array( 'full-width-slider.zip', 'full-width-video.zip', 'home-corporate6.zip', 'media-gallery.zip' ),
+					'revslider' => array( 'full-width-video.zip', 'home-corporate6.zip', 'media-gallery.zip' ),
+					'plugins'   => array( 'js_composer' ),
 				),
 				'corporate7'          => array(
 					'alt'       => 'Corporate 7',
 					'img'       => PORTO_OPTIONS_URI . '/demos/corporate_7.jpg',
 					'filter'    => 'classic',
-					'revslider' => array( 'full-width-slider.zip', 'full-width-video.zip', 'home-corporate7.zip', 'media-gallery.zip' ),
+					'revslider' => array( 'full-width-video.zip', 'home-corporate7.zip', 'media-gallery.zip' ),
+					'plugins'   => array( 'js_composer' ),
 				),
 				'corporate8'          => array(
 					'alt'       => 'Corporate 8',
 					'img'       => PORTO_OPTIONS_URI . '/demos/corporate_8.jpg',
 					'filter'    => 'classic',
-					'revslider' => array( 'full-width-slider.zip', 'full-width-video.zip', 'home-corporate8.zip', 'media-gallery.zip' ),
+					'revslider' => array( 'full-width-video.zip', 'home-corporate8.zip', 'media-gallery.zip' ),
+					'plugins'   => array( 'js_composer' ),
 				),
 				'corporate9'          => array(
 					'alt'       => 'Corporate 9',
 					'img'       => PORTO_OPTIONS_URI . '/demos/corporate_9.jpg',
 					'filter'    => 'classic',
-					'revslider' => array( 'full-width-slider.zip', 'full-width-video.zip', 'home-corporate9.zip', 'media-gallery.zip' ),
+					'revslider' => array( 'full-width-video.zip', 'home-corporate9.zip', 'media-gallery.zip' ),
+					'plugins'   => array( 'js_composer' ),
 				),
 				'corporate10'         => array(
 					'alt'       => 'Corporate 10',
 					'img'       => PORTO_OPTIONS_URI . '/demos/corporate_10.jpg',
 					'filter'    => 'classic',
-					'revslider' => array( 'full-width-slider.zip', 'full-width-video.zip', 'home-corporate10.zip', 'media-gallery.zip' ),
+					'revslider' => array( 'full-width-video.zip', 'home-corporate10.zip', 'media-gallery.zip' ),
+					'plugins'   => array( 'js_composer' ),
 				),
 				'corporate11'         => array(
 					'alt'       => 'Corporate 11',
 					'img'       => PORTO_OPTIONS_URI . '/demos/corporate_11.jpg',
 					'filter'    => 'classic',
-					'revslider' => array( 'full-width-slider.zip', 'full-width-video.zip', 'home-corporate11.zip', 'media-gallery.zip' ),
+					'revslider' => array( 'full-width-video.zip', 'home-corporate11.zip', 'media-gallery.zip' ),
+					'plugins'   => array( 'js_composer' ),
 				),
 				'corporate12'         => array(
 					'alt'       => 'Corporate 12',
 					'img'       => PORTO_OPTIONS_URI . '/demos/corporate_12.jpg',
 					'filter'    => 'classic',
-					'revslider' => array( 'full-width-slider.zip', 'full-width-video.zip', 'home-corporate12.zip', 'media-gallery.zip' ),
+					'revslider' => array( 'full-width-video.zip', 'home-corporate12.zip', 'media-gallery.zip' ),
+					'plugins'   => array( 'js_composer' ),
 				),
 				'corporate13'         => array(
 					'alt'       => 'Corporate 13',
 					'img'       => PORTO_OPTIONS_URI . '/demos/corporate_13.jpg',
 					'filter'    => 'classic',
-					'revslider' => array( 'full-width-slider.zip', 'full-width-video.zip', 'home-corporate13.zip', 'media-gallery.zip' ),
+					'revslider' => array( 'full-width-video.zip', 'home-corporate13.zip', 'media-gallery.zip' ),
+					'plugins'   => array( 'js_composer' ),
 				),
 				'corporate14'         => array(
 					'alt'       => 'Corporate 14',
 					'img'       => PORTO_OPTIONS_URI . '/demos/corporate_14.jpg',
 					'filter'    => 'classic',
-					'revslider' => array( 'full-width-slider.zip', 'full-width-video.zip', 'home-corporate14.zip', 'media-gallery.zip' ),
+					'revslider' => array( 'full-width-video.zip', 'home-corporate14.zip', 'media-gallery.zip' ),
+					'plugins'   => array( 'js_composer' ),
 				),
 				'corporate-hosting'   => array(
 					'alt'       => 'Corporate Hosting',
 					'img'       => PORTO_OPTIONS_URI . '/demos/corporate_hosting.jpg',
 					'filter'    => 'classic',
-					'revslider' => array( 'full-width-slider.zip', 'full-width-video.zip', 'home-corporate-hosting.zip', 'media-gallery.zip' ),
+					'revslider' => array( 'full-width-video.zip', 'home-corporate-hosting.zip', 'media-gallery.zip' ),
+					'plugins'   => array( 'js_composer' ),
 				),
 				'corporate15'         => array(
 					'alt'       => 'Corporate 15',
 					'img'       => PORTO_OPTIONS_URI . '/demos/corporate_15.jpg',
 					'filter'    => 'classic',
-					'revslider' => array( 'full-width-slider.zip', 'full-width-video.zip', 'home-corporate15.zip', 'media-gallery.zip' ),
+					'revslider' => array( 'full-width-video.zip', 'home-corporate15.zip', 'media-gallery.zip' ),
+					'plugins'   => array( 'js_composer' ),
 				),
 				'corporate16'         => array(
 					'alt'       => 'Corporate 16',
 					'img'       => PORTO_OPTIONS_URI . '/demos/corporate_16.jpg',
 					'filter'    => 'classic',
-					'revslider' => array( 'full-width-slider.zip', 'full-width-video.zip', 'home-corporate16.zip', 'media-gallery.zip' ),
+					'revslider' => array( 'full-width-video.zip', 'home-corporate16.zip', 'media-gallery.zip' ),
+					'plugins'   => array( 'js_composer' ),
 				),
 				'corporate17'         => array(
 					'alt'       => 'Corporate 17',
 					'img'       => PORTO_OPTIONS_URI . '/demos/corporate_17.jpg',
 					'filter'    => 'classic',
-					'revslider' => array( 'full-width-slider.zip', 'full-width-video.zip', 'media-gallery.zip' ),
+					'revslider' => array( 'full-width-video.zip', 'media-gallery.zip' ),
+					'plugins'   => array( 'js_composer' ),
 				),
 				'corporate18'         => array(
 					'alt'       => 'Corporate 18',
 					'img'       => PORTO_OPTIONS_URI . '/demos/corporate_18.jpg',
 					'filter'    => 'classic',
-					'revslider' => array( 'full-width-slider.zip', 'full-width-video.zip', 'home-corporate18.zip', 'media-gallery.zip' ),
+					'revslider' => array( 'full-width-video.zip', 'home-corporate18.zip', 'media-gallery.zip' ),
+					'plugins'   => array( 'js_composer' ),
 				),
 				'corporate19'         => array(
 					'alt'       => 'Corporate 19',
 					'img'       => PORTO_OPTIONS_URI . '/demos/corporate_19.jpg',
 					'filter'    => 'classic',
-					'revslider' => array( 'full-width-slider.zip', 'full-width-video.zip', 'home-corporate19.zip', 'media-gallery.zip' ),
+					'revslider' => array( 'full-width-video.zip', 'home-corporate19.zip', 'media-gallery.zip' ),
+					'plugins'   => array( 'js_composer' ),
 				),
 				'corporate20'         => array(
 					'alt'       => 'Corporate 20',
 					'img'       => PORTO_OPTIONS_URI . '/demos/corporate_20.jpg',
 					'filter'    => 'classic',
-					'revslider' => array( 'full-width-slider.zip', 'full-width-video.zip', 'media-gallery.zip' ),
+					'revslider' => array( 'full-width-video.zip', 'media-gallery.zip' ),
+					'plugins'   => array( 'js_composer' ),
 				),
 				'shop1'               => array(
 					'alt'     => 'Shop 1',
 					'img'     => PORTO_OPTIONS_URI . '/demos/shop1.jpg',
-					'filter'  => 'shop',
-					'plugins' => array( 'woocommerce' ),
+					'filter'  => 'shop elementor gutenberg',
+					'plugins' => array( 'js_composer', 'woocommerce' ),
 				),
 				'shop2'               => array(
 					'alt'     => 'Shop 2',
 					'img'     => PORTO_OPTIONS_URI . '/demos/shop2.jpg',
-					'filter'  => 'shop',
-					'plugins' => array( 'woocommerce' ),
+					'filter'  => 'shop elementor gutenberg',
+					'plugins' => array( 'js_composer', 'woocommerce' ),
 				),
 				'shop3'               => array(
 					'alt'     => 'Shop 3',
 					'img'     => PORTO_OPTIONS_URI . '/demos/shop3.jpg',
-					'filter'  => 'shop',
-					'plugins' => array( 'woocommerce' ),
+					'filter'  => 'shop elementor',
+					'plugins' => array( 'js_composer', 'woocommerce' ),
 				),
 				'shop4'               => array(
 					'alt'     => 'Shop 4',
 					'img'     => PORTO_OPTIONS_URI . '/demos/shop4.jpg',
-					'filter'  => 'shop',
-					'plugins' => array( 'woocommerce' ),
+					'filter'  => 'shop elementor gutenberg',
+					'plugins' => array( 'js_composer', 'woocommerce' ),
 				),
 				'shop5'               => array(
 					'alt'     => 'Shop 5',
 					'img'     => PORTO_OPTIONS_URI . '/demos/shop5.jpg',
-					'filter'  => 'shop',
-					'plugins' => array( 'woocommerce' ),
+					'filter'  => 'shop elementor',
+					'plugins' => array( 'js_composer', 'woocommerce' ),
 				),
 				'shop6'               => array(
 					'alt'     => 'Shop 6',
 					'img'     => PORTO_OPTIONS_URI . '/demos/shop6.jpg',
-					'filter'  => 'shop',
-					'plugins' => array( 'woocommerce' ),
+					'filter'  => 'shop elementor',
+					'plugins' => array( 'js_composer', 'woocommerce' ),
 				),
 				'shop7'               => array(
 					'alt'     => 'Shop 7',
 					'img'     => PORTO_OPTIONS_URI . '/demos/shop7.jpg',
 					'filter'  => 'shop',
-					'plugins' => array( 'woocommerce' ),
+					'plugins' => array( 'js_composer', 'woocommerce' ),
 				),
 				'shop8'               => array(
 					'alt'     => 'Shop 8',
 					'img'     => PORTO_OPTIONS_URI . '/demos/shop8.jpg',
 					'filter'  => 'shop',
-					'plugins' => array( 'woocommerce' ),
+					'plugins' => array( 'js_composer', 'woocommerce' ),
 				),
 				'shop9'               => array(
 					'alt'     => 'Shop 9',
 					'img'     => PORTO_OPTIONS_URI . '/demos/shop9.jpg',
 					'filter'  => 'shop',
-					'plugins' => array( 'woocommerce' ),
+					'plugins' => array( 'js_composer', 'woocommerce' ),
 				),
 				'shop10'              => array(
 					'alt'     => 'Shop 10',
 					'img'     => PORTO_OPTIONS_URI . '/demos/shop10.jpg',
 					'filter'  => 'shop',
-					'plugins' => array( 'woocommerce' ),
+					'plugins' => array( 'js_composer', 'woocommerce' ),
 				),
 				'shop11'              => array(
 					'alt'     => 'Shop 11',
 					'img'     => PORTO_OPTIONS_URI . '/demos/shop11.jpg',
 					'filter'  => 'shop',
-					'plugins' => array( 'woocommerce' ),
+					'plugins' => array( 'js_composer', 'woocommerce' ),
 				),
 				'shop12'              => array(
 					'alt'     => 'Shop 12',
 					'img'     => PORTO_OPTIONS_URI . '/demos/shop12.jpg',
 					'filter'  => 'shop',
-					'plugins' => array( 'woocommerce' ),
+					'plugins' => array( 'js_composer', 'woocommerce' ),
 				),
 				'shop13'              => array(
 					'alt'     => 'Shop 13',
 					'img'     => PORTO_OPTIONS_URI . '/demos/shop13.jpg',
 					'filter'  => 'shop',
-					'plugins' => array( 'woocommerce' ),
+					'plugins' => array( 'js_composer', 'woocommerce' ),
 				),
 				'shop14'              => array(
 					'alt'     => 'Shop 14',
 					'img'     => PORTO_OPTIONS_URI . '/demos/shop14.jpg',
 					'filter'  => 'shop',
-					'plugins' => array( 'woocommerce' ),
+					'plugins' => array( 'js_composer', 'woocommerce' ),
 				),
 				'shop15'              => array(
 					'alt'     => 'Shop 15',
 					'img'     => PORTO_OPTIONS_URI . '/demos/shop15.jpg',
 					'filter'  => 'shop',
-					'plugins' => array( 'woocommerce' ),
+					'plugins' => array( 'js_composer', 'woocommerce' ),
 				),
 				'shop16'              => array(
 					'alt'     => 'Shop 16 (Parallax)',
 					'img'     => PORTO_OPTIONS_URI . '/demos/shop16.jpg',
 					'filter'  => 'shop',
-					'plugins' => array( 'woocommerce' ),
+					'plugins' => array( 'js_composer', 'woocommerce' ),
 				),
 				'shop17'              => array(
 					'alt'     => 'Shop 17',
 					'img'     => PORTO_OPTIONS_URI . '/demos/shop17.jpg',
 					'filter'  => 'shop',
-					'plugins' => array( 'woocommerce' ),
+					'plugins' => array( 'js_composer', 'woocommerce' ),
 				),
 				'shop18'              => array(
 					'alt'     => 'Shop 18',
 					'img'     => PORTO_OPTIONS_URI . '/demos/shop18.jpg',
 					'filter'  => 'shop',
-					'plugins' => array( 'woocommerce' ),
+					'plugins' => array( 'js_composer', 'woocommerce' ),
 				),
 				'shop19'              => array(
 					'alt'     => 'Shop 19',
 					'img'     => PORTO_OPTIONS_URI . '/demos/shop19.jpg',
 					'filter'  => 'shop',
-					'plugins' => array( 'woocommerce' ),
+					'plugins' => array( 'js_composer', 'woocommerce' ),
 				),
 				'shop20'              => array(
 					'alt'     => 'Shop 20',
 					'img'     => PORTO_OPTIONS_URI . '/demos/shop20.jpg',
-					'filter'  => 'shop',
-					'plugins' => array( 'woocommerce', 'instagram-slider-widget' ),
+					'filter'  => 'shop elementor',
+					'plugins' => array( 'js_composer', 'woocommerce' ),
 				),
 				'shop21'              => array(
 					'alt'     => 'Shop 21',
 					'img'     => PORTO_OPTIONS_URI . '/demos/shop21.jpg',
 					'filter'  => 'shop',
-					'plugins' => array( 'woocommerce' ),
+					'plugins' => array( 'js_composer', 'woocommerce' ),
 				),
 				'shop22'              => array(
 					'alt'     => 'Shop 22 (Multi-Vendor, Marketplace)',
 					'img'     => PORTO_OPTIONS_URI . '/demos/shop22.jpg',
-					'filter'  => 'shop',
-					'plugins' => array( 'woocommerce', 'dokan-lite' ),
+					'filter'  => 'shop elementor',
+					'plugins' => array( 'js_composer', 'woocommerce', 'dokan-lite' ),
 				),
 				'shop23'              => array(
 					'alt'     => 'Shop 23 (Baby Shop)',
 					'img'     => PORTO_OPTIONS_URI . '/demos/shop23.jpg',
 					'filter'  => 'shop',
-					'plugins' => array( 'woocommerce' ),
+					'plugins' => array( 'js_composer', 'woocommerce' ),
 				),
 				'shop24'              => array(
 					'alt'     => 'Shop 24 (Digital Product)',
 					'img'     => PORTO_OPTIONS_URI . '/demos/shop24.jpg',
 					'filter'  => 'shop',
-					'plugins' => array( 'woocommerce' ),
+					'plugins' => array( 'js_composer', 'woocommerce' ),
 				),
 				'shop25'              => array(
 					'alt'     => 'Shop 25 (Book Store)',
 					'img'     => PORTO_OPTIONS_URI . '/demos/shop25.jpg',
 					'filter'  => 'shop',
-					'plugins' => array( 'woocommerce' ),
+					'plugins' => array( 'js_composer', 'woocommerce' ),
 				),
 				'shop26'              => array(
 					'alt'     => 'Shop 26',
 					'img'     => PORTO_OPTIONS_URI . '/demos/shop26.jpg',
-					'filter'  => 'shop',
-					'plugins' => array( 'woocommerce' ),
+					'filter'  => 'shop elementor gutenberg',
+					'plugins' => array( 'js_composer', 'woocommerce' ),
 				),
 				'shop27'              => array(
 					'alt'     => 'Shop 27 (Bike Store)',
 					'img'     => PORTO_OPTIONS_URI . '/demos/shop27.jpg',
 					'filter'  => 'shop',
-					'plugins' => array( 'woocommerce', 'instagram-slider-widget' ),
+					'plugins' => array( 'js_composer', 'woocommerce', 'instagram-slider-widget' ),
 				),
 				'shop28'              => array(
 					'alt'     => 'Shop 28 (Single Product)',
 					'img'     => PORTO_OPTIONS_URI . '/demos/shop28.jpg',
 					'filter'  => 'shop onepage',
-					'plugins' => array( 'woocommerce' ),
+					'plugins' => array( 'js_composer', 'woocommerce' ),
 				),
 				'shop29'              => array(
 					'alt'     => 'Shop 29',
 					'img'     => PORTO_OPTIONS_URI . '/demos/shop29.jpg',
 					'filter'  => 'shop',
-					'plugins' => array( 'woocommerce', 'instagram-slider-widget' ),
+					'plugins' => array( 'js_composer', 'woocommerce', 'instagram-slider-widget' ),
 				),
 				'shop30'              => array(
 					'alt'     => 'Shop 30',
 					'img'     => PORTO_OPTIONS_URI . '/demos/shop30.jpg',
 					'filter'  => 'shop',
-					'plugins' => array( 'woocommerce' ),
+					'plugins' => array( 'js_composer', 'woocommerce' ),
 				),
 				'shop31'              => array(
 					'alt'     => 'Shop 31 (Game Store)',
 					'img'     => PORTO_OPTIONS_URI . '/demos/shop31.jpg',
 					'filter'  => 'shop',
-					'plugins' => array( 'woocommerce' ),
+					'plugins' => array( 'js_composer', 'woocommerce' ),
 				),
 				'shop32'              => array(
 					'alt'     => 'Shop 32',
 					'img'     => PORTO_OPTIONS_URI . '/demos/shop32.jpg',
 					'filter'  => 'shop',
-					'plugins' => array( 'woocommerce', 'instagram-slider-widget' ),
+					'plugins' => array( 'js_composer', 'woocommerce', 'instagram-slider-widget' ),
 				),
 				'shop33'              => array(
 					'alt'     => 'Shop 33',
 					'img'     => PORTO_OPTIONS_URI . '/demos/shop33.jpg',
 					'filter'  => 'shop',
-					'plugins' => array( 'woocommerce', 'instagram-slider-widget' ),
+					'plugins' => array( 'js_composer', 'woocommerce', 'instagram-slider-widget' ),
 				),
 				'dark'                => array(
 					'alt'       => 'Dark Original',
 					'img'       => PORTO_OPTIONS_URI . '/demos/dark_original.jpg',
 					'filter'    => 'classic',
-					'revslider' => array( 'full-width-slider.zip', 'full-width-video.zip', 'home-dark.zip', 'media-gallery.zip' ),
+					'revslider' => array( 'full-width-video.zip', 'home-dark.zip', 'media-gallery.zip' ),
+					'plugins'   => array( 'js_composer' ),
 				),
 				'rtl'                 => array(
 					'alt'       => 'RTL Original',
 					'img'       => PORTO_OPTIONS_URI . '/demos/rtl_original.jpg',
 					'filter'    => 'classic',
-					'revslider' => array( 'full-width-slider.zip', 'full-width-video.zip', 'home-rtl.zip', 'media-gallery.zip' ),
+					'revslider' => array( 'full-width-video.zip', 'home-rtl.zip', 'media-gallery.zip' ),
+					'plugins'   => array( 'js_composer' ),
 				),
 				'blog1'               => array(
 					'alt'       => 'Blog 1',
 					'img'       => PORTO_OPTIONS_URI . '/demos/blog1.jpg',
 					'filter'    => 'blog all',
-					'revslider' => array( 'full-width-slider.zip', 'full-width-video.zip', 'media-gallery.zip' ),
+					'revslider' => array( 'full-width-video.zip', 'media-gallery.zip' ),
+					'plugins'   => array( 'js_composer' ),
 				),
 				'blog2'               => array(
 					'alt'       => 'Blog 2',
 					'img'       => PORTO_OPTIONS_URI . '/demos/blog2.jpg',
 					'filter'    => 'blog all',
-					'revslider' => array( 'full-width-slider.zip', 'full-width-video.zip', 'media-gallery.zip' ),
+					'revslider' => array( 'full-width-video.zip', 'media-gallery.zip' ),
+					'plugins'   => array( 'js_composer' ),
 				),
 				'blog3'               => array(
 					'alt'       => 'Blog 3',
 					'img'       => PORTO_OPTIONS_URI . '/demos/blog3.jpg',
 					'filter'    => 'blog all',
-					'revslider' => array( 'full-width-slider.zip', 'full-width-video.zip', 'media-gallery.zip' ),
+					'revslider' => array( 'full-width-video.zip', 'media-gallery.zip' ),
+					'plugins'   => array( 'js_composer' ),
 				),
 				'blog4'               => array(
 					'alt'       => 'Blog 4',
 					'img'       => PORTO_OPTIONS_URI . '/demos/blog4.jpg',
 					'filter'    => 'blog all',
-					'revslider' => array( 'full-width-slider.zip', 'full-width-video.zip', 'media-gallery.zip' ),
+					'revslider' => array( 'full-width-video.zip', 'media-gallery.zip' ),
+					'plugins'   => array( 'js_composer' ),
 				),
 				'blog5'               => array(
 					'alt'       => 'Blog 5',
 					'img'       => PORTO_OPTIONS_URI . '/demos/blog5.jpg',
 					'filter'    => 'blog all',
-					'revslider' => array( 'full-width-slider.zip', 'full-width-video.zip', 'media-gallery.zip' ),
+					'revslider' => array( 'full-width-video.zip', 'media-gallery.zip' ),
+					'plugins'   => array( 'js_composer' ),
 				),
 				'portfolio1'          => array(
 					'alt'       => 'Portfolio 1',
 					'img'       => PORTO_OPTIONS_URI . '/demos/portfolio1.jpg',
 					'filter'    => 'portfolio all',
-					'revslider' => array( 'full-width-slider.zip', 'full-width-video.zip', 'media-gallery.zip' ),
+					'revslider' => array( 'full-width-video.zip', 'media-gallery.zip' ),
+					'plugins'   => array( 'js_composer' ),
 				),
 				'portfolio2'          => array(
 					'alt'       => 'Portfolio 2',
 					'img'       => PORTO_OPTIONS_URI . '/demos/portfolio2.jpg',
 					'filter'    => 'portfolio all',
-					'revslider' => array( 'full-width-slider.zip', 'full-width-video.zip', 'media-gallery.zip' ),
+					'revslider' => array( 'full-width-video.zip', 'media-gallery.zip' ),
+					'plugins'   => array( 'js_composer' ),
 				),
 				'portfolio3'          => array(
 					'alt'       => 'Portfolio 3',
 					'img'       => PORTO_OPTIONS_URI . '/demos/portfolio3.jpg',
 					'filter'    => 'portfolio all',
-					'revslider' => array( 'full-width-slider.zip', 'full-width-video.zip', 'media-gallery.zip' ),
+					'revslider' => array( 'full-width-video.zip', 'media-gallery.zip' ),
+					'plugins'   => array( 'js_composer' ),
 				),
 				'portfolio4'          => array(
 					'alt'       => 'Portfolio 4',
 					'img'       => PORTO_OPTIONS_URI . '/demos/portfolio4.jpg',
 					'filter'    => 'portfolio all',
-					'revslider' => array( 'full-width-slider.zip', 'full-width-video.zip', 'media-gallery.zip' ),
+					'revslider' => array( 'full-width-video.zip', 'media-gallery.zip' ),
+					'plugins'   => array( 'js_composer' ),
 				),
 				'portfolio5'          => array(
 					'alt'       => 'Portfolio 5',
 					'img'       => PORTO_OPTIONS_URI . '/demos/portfolio5.jpg',
 					'filter'    => 'portfolio all',
-					'revslider' => array( 'full-width-slider.zip', 'full-width-video.zip', 'media-gallery.zip' ),
+					'revslider' => array( 'full-width-video.zip', 'media-gallery.zip' ),
+					'plugins'   => array( 'js_composer' ),
 				),
 			);
 		}
@@ -1384,6 +1451,13 @@ if ( ! class_exists( 'Porto_Theme_Setup_Wizard' ) ) {
 				}
 					$time_limit    = ini_get( 'max_execution_time' );
 					$server_status = $memory_limit >= 268435456 && ( $time_limit >= 600 || 0 == $time_limit );
+				if ( is_plugin_inactive( 'elementor/elementor.php' ) && is_plugin_inactive( 'js_composer/js_composer.php' ) ) {
+					$active_p = 'gutenberg';
+				} elseif ( ! is_plugin_inactive( 'elementor/elementor.php' ) ) {
+					$active_p = 'elementor';
+				} else {
+					$active_p = 'js_composer';
+				}
 				?>
 
 				<div class="porto-install-demo mfp-hide">
@@ -1410,13 +1484,37 @@ if ( ! class_exists( 'Porto_Theme_Setup_Wizard' ) ) {
 									<label for="porto-override-contents"><input type="checkbox" id="porto-override-contents" value="1" checked="checked" /> <?php esc_html_e( 'Override existing contents', 'porto' ); ?></label>
 								</div>
 								<p><?php esc_html_e( 'Do you want to install demo? It can also take a minute to complete.', 'porto' ); ?></p>
-								<button class="btn <?php echo ! $server_status ? 'btn-quaternary' : 'btn-primary'; ?> porto-import-yes"<?php echo ! $server_status ? ' disabled="disabled"' : ''; ?>><?php esc_html_e( 'Standard Import', 'porto' ); ?></button>
-								<?php if ( ! $server_status ) : ?>
-								<p><?php esc_html_e( 'Your server performance does not satisfy Porto demo importer engine\'s requirement. We recommend you to use alternative method to perform demo import without any issues but it may take much time than standard import.', 'porto' ); ?></p>
-								<?php else : ?>
-								<p><?php esc_html_e( 'If you have any issues with standard import, please use Alternative mode. But it may take much time than standard import.', 'porto' ); ?></p>
-								<?php endif; ?>
-								<button class="btn btn-primary porto-import-yes alternative"><?php esc_html_e( 'Alternative Mode', 'porto' ); ?></button>
+								<div class="pagebuilder-selector" style="display: none" data-active-p="<?php echo esc_attr( $active_p ); ?>">
+									<label class="radio js_composer<?php echo is_plugin_inactive( 'js_composer/js_composer.php' ) ? ' notinstalled' : ''; ?>">
+										<input type="radio" name="page_builder" value="js_composer" <?php checked( $active_p, 'js_composer' ); ?>> <?php esc_html_e( 'WPBakery Page Builder', 'porto' ); ?>
+									</label>
+									<label class="radio elementor<?php echo is_plugin_inactive( 'elementor/elementor.php' ) ? ' notinstalled' : ''; ?>">
+										<input type="radio" name="page_builder" value="elementor" <?php checked( $active_p, 'js_composer' ); ?>> <?php esc_html_e( 'Elementor', 'porto' ); ?>
+									</label>
+									<label class="radio gutenberg">
+										<input type="radio" name="page_builder" value="gutenberg" <?php checked( $active_p, 'js_composer' ); ?>> <?php esc_html_e( 'Gutenberg', 'porto' ); ?>
+									</label>
+									<div class="message-section d-none">
+										<div class="js_composer d-flex">
+											<div style="width: 40px; padding-right: 8px"><img src="<?php echo PORTO_PLUGINS_URI . '/images/js_composer.png'; ?>" alt="<?php esc_html_e( 'WPBakery Page Builder', 'porto' ); ?>" /></div>
+											<h5><?php esc_html_e( 'WPBakery Page Builder is required.', 'porto' ); ?></h5>
+										</div>
+										<div class="elementor d-flex d-none">
+											<div style="width: 40px; padding-right: 8px; text-align: center;"><img src="<?php echo PORTO_PLUGINS_URI . '/images/elementor.png'; ?>" alt="<?php esc_html_e( 'Elementor', 'porto' ); ?>" /></div>
+											<h5><?php esc_html_e( 'Elementor is required.', 'porto' ); ?></h5>
+										</div>
+										<p><?php printf( esc_html__( 'Please go to %1$sPlugins step%2$s and install required plugins.', 'porto' ), '<a href="' . esc_url( $this->get_step_link( 'default_plugins' ) ) . '">', '</a>' ); ?></p>
+									</div>
+								</div>
+								<div class="btn-actions"<?php echo is_plugin_inactive( 'js_composer/js_composer.php' ) ? ' style="display:none"' : ''; ?>>
+									<button class="btn <?php echo ! $server_status ? 'btn-quaternary' : 'btn-primary'; ?> porto-import-yes"<?php echo ! $server_status ? ' disabled="disabled"' : ''; ?>><?php esc_html_e( 'Standard Import', 'porto' ); ?></button>
+									<?php if ( ! $server_status ) : ?>
+									<p><?php esc_html_e( 'Your server performance does not satisfy Porto demo importer engine\'s requirement. We recommend you to use alternative method to perform demo import without any issues but it may take much time than standard import.', 'porto' ); ?></p>
+									<?php else : ?>
+									<p><?php esc_html_e( 'If you have any issues with standard import, please use Alternative mode. But it may take much time than standard import.', 'porto' ); ?></p>
+									<?php endif; ?>
+									<button class="btn btn-primary porto-import-yes alternative"><?php esc_html_e( 'Alternative Mode', 'porto' ); ?></button>
+								</div>
 							<?php endif; ?>
 						</div>
 						<?php if ( ! Porto()->is_registered() ) : ?>
@@ -1442,9 +1540,20 @@ if ( ! class_exists( 'Porto_Theme_Setup_Wizard' ) ) {
 						}
 						if ( ! empty( $demo_details['plugins'] ) ) {
 							foreach ( $demo_details['plugins'] as $plugin ) {
-								if ( is_plugin_inactive( $all_plugins[ $plugin ]['url'] ) ) {
+								if ( ( 'js_composer' != $plugin || ( 'js_composer' == $plugin && false === strpos( $demo_details['filter'], 'elementor' ) ) ) && is_plugin_inactive( $all_plugins[ $plugin ]['url'] ) ) {
 									$uninstalled_demo_plugins[ $plugin ] = $all_plugins[ $plugin ];
 								}
+							}
+						}
+						if ( 'landing' == $demo ) {
+							$demo_sites = array( 'js_composer' => $this->porto_url );
+						} else {
+							$demo_sites = array( 'js_composer' => $this->porto_url . $demo );
+							if ( false !== strpos( $demo_details['filter'], 'elementor' ) ) {
+								$demo_sites['elementor'] = $this->porto_url . 'elementor-' . $demo;
+							}
+							if ( false !== strpos( $demo_details['filter'], 'gutenberg' ) ) {
+								$demo_sites['gutenberg'] = $this->porto_url . 'gutenberg-' . $demo;
 							}
 						}
 						?>
@@ -1453,7 +1562,7 @@ if ( ! class_exists( 'Porto_Theme_Setup_Wizard' ) ) {
 								<div class="theme-screenshot">
 									<img src="<?php echo esc_url( $demo_details['img'] ); ?>" />
 								</div>
-								<h3 class="theme-name" id="<?php echo esc_attr( $demo ); ?>" data-live-url="<?php echo esc_url( 'landing' != $demo ? $this->porto_url . $demo : $this->porto_url ); ?>"><?php echo porto_filter_output( $demo_details['alt'] ); ?></h3>
+								<h3 class="theme-name" id="<?php echo esc_attr( $demo ); ?>" data-live-url="<?php echo esc_attr( json_encode( $demo_sites ) ); ?>"><?php echo porto_filter_output( $demo_details['alt'] ); ?></h3>
 								<?php if ( ! empty( $uninstalled_demo_plugins ) ) : ?>
 									<ul class="plugins-used">
 										<?php foreach ( $uninstalled_demo_plugins as $plugin ) : ?>
@@ -2041,6 +2150,7 @@ if ( ! class_exists( 'Porto_Theme_Setup_Wizard' ) ) {
 			}
 			if ( current_user_can( 'manage_options' ) ) {
 				$demo = ( isset( $_POST['demo'] ) && $_POST['demo'] ) ? sanitize_text_field( $_POST['demo'] ) : 'landing';
+				$demo = str_replace( array( 'elementor-', 'gutenberg-' ), '', $demo );
 				// Import Revolution Slider
 				if ( class_exists( 'RevSlider' ) ) {
 					$demos = $this->porto_demo_types();
@@ -2435,6 +2545,12 @@ if ( ! class_exists( 'Porto_Theme_Setup_Wizard' ) ) {
 				if ( $menu && $onepage ) {
 					$menu_id = $menu->term_id;
 					update_post_meta( $onepage->ID, 'main_menu', $menu_id );
+				}
+
+				if ( false !== strpos( $demo, 'elementor-' ) ) { // Elementor demo
+					update_option( 'elementor_disable_color_schemes', 'yes' );
+					update_option( 'elementor_disable_typography_schemes', 'yes' );
+					update_option( '_elementor_settings_update_time', time() );
 				}
 			} else {
 				// Import widgets

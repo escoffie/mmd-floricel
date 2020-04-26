@@ -2,7 +2,7 @@
 global $porto_settings, $porto_layout, $post, $porto_member_socials;
 $member_advance_layout = $porto_settings['member-page-style'];
 ?>
-<article <?php post_class(); ?>>
+<article <?php post_class( 'member' ); ?>>
 
 <?php
 	$social_share = isset( $porto_member_socials ) && 'no' === $porto_member_socials ? false : true;
@@ -88,7 +88,7 @@ if ( $social_share ) {
 	<?php if ( ! $member_advance_layout ) : ?>
 
 		<?php
-		if ( is_single() && 'widewidth' === $porto_layout ) {
+		if ( is_singular( 'member' ) && 'widewidth' === $porto_layout ) {
 			echo '<div class="container m-t-lg">';}
 		?>
 	<div class="member-overview row">
@@ -114,7 +114,7 @@ if ( $social_share ) {
 							</div>
 						</div>
 					<?php endif; ?>
-					<div class="member-slideshow porto-carousel owl-carousel">
+					<div class="member-slideshow porto-carousel owl-carousel has-ccols ccols-1">
 						<?php
 						foreach ( $featured_images as $featured_image ) {
 							$attachment_medium = porto_get_attachment( $featured_image['attachment_id'], 'blog-masonry' );
@@ -192,19 +192,19 @@ if ( $social_share ) {
 			<?php
 				echo do_shortcode( get_post_meta( $post->ID, 'member_overview', true ) );
 			?>
-			<?php if ( $member_link || ! is_single() || ( $social_share && $share_links && '' == $porto_settings['member-socials-pos'] && isset( $social_links_adv_pos ) && ! $social_links_adv_pos ) ) : ?>
+			<?php if ( $member_link || ! is_singular( 'member' ) || ( $social_share && $share_links && '' == $porto_settings['member-socials-pos'] && isset( $social_links_adv_pos ) && ! $social_links_adv_pos ) ) : ?>
 				<hr class="tall">
 			<?php endif; ?>
 			<div class="row align-items-center">
 			<?php
 
-			if ( $member_link || ! is_single() ) :
+			if ( $member_link || ! is_singular( 'member' ) ) :
 				?>
 				<div class="col-lg-6">
 				<?php if ( $member_link ) : ?>
 					<a<?php echo porto_filter_output( $target ); ?> class="btn btn-dark btn-modern mb-3 mb-lg-0" href="<?php echo esc_url( $member_link ); ?>"><?php esc_html_e( 'Get In Touch', 'porto' ); ?></a>
 				<?php endif; ?>
-				<?php if ( ! is_single() ) : ?>
+				<?php if ( ! is_singular( 'member' ) ) : ?>
 					<a class="btn btn-primary btn-modern mb-3 mb-lg-0" href="<?php the_permalink(); ?>"><?php esc_html_e( 'More', 'porto' ); ?></a>
 				<?php endif; ?>
 				</div>
@@ -219,11 +219,11 @@ if ( $social_share ) {
 		</div>
 	</div>
 		<?php
-		if ( is_single() && 'widewidth' === $porto_layout ) {
+		if ( is_singular( 'member' ) && 'widewidth' === $porto_layout ) {
 			echo '</div>';}
 		?>
 <?php endif; ?>
-	<?php if ( is_single() && get_the_content() ) : ?>
+	<?php if ( is_singular( 'member' ) && ( get_the_content() || porto_is_elementor_preview() ) ) : ?>
 		<div class="post-content">
 			<?php
 			the_content();

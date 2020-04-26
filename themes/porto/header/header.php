@@ -1,6 +1,6 @@
 <?php
 global $porto_layout;
-if ( ! isset( $porto_layout ) ) {
+if ( empty( $porto_layout ) ) {
 	$porto_layout = porto_meta_layout();
 	$porto_layout = $porto_layout[0];
 }

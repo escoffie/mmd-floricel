@@ -109,21 +109,25 @@
                         var elements_left = elements.length;
                         settings.appear.call(self, elements_left, settings);
                     }
-                    var o_img_attr = $self.attr('data-oi') ? 'data-oi' : "data-" + settings.data_attribute;
+                    var o_img_attr = $self.attr('data-oi') ? 'data-oi' : ($self.attr('data-' + settings.data_attribute) ? 'data-' + settings.data_attribute : 'data-src');
                     $("<img />")
                         .bind("load", function() {
 
                             var original = $self.attr(o_img_attr),
                                 srcset = $self.attr("data-" + settings.data_srcset);
                             if ($self.is("img")) {
-                                $self.hide().addClass('no-transition');
+                                if ($self.is(':visible')) {
+                                    $self.hide().addClass('no-transition');
+                                }
                                 $self.attr("src", original);
                                 if(srcset) {
                                     $self.attr("srcset", srcset);
                                 }
-                                $self[settings.effect](settings.effect_speed, function() {
-                                  $self.removeClass('no-transition');
-                                });
+                                if ($self.hasClass('no-transition')) {
+                                    $self[settings.effect](settings.effect_speed, function() {
+                                      $self.removeClass('no-transition');
+                                    });
+                                }
                             } else {
                                 $self.css("background-image", "url('" + original + "')").removeAttr(o_img_attr);
                             }

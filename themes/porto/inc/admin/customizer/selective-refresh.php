@@ -10,11 +10,9 @@
 defined( 'ABSPATH' ) || exit;
 
 function porto_customizer_current_state_options() {
-	if ( is_customize_preview() ) {
-		global $reduxPortoSettings, $porto_settings;
-		$new_options    = get_option( $reduxPortoSettings->args['opt_name'] );
-		$porto_settings = wp_parse_args( $new_options, $porto_settings );
-	}
+	global $reduxPortoSettings, $porto_settings;
+	$new_options    = get_option( $reduxPortoSettings->args['opt_name'] );
+	$porto_settings = wp_parse_args( $new_options, $porto_settings );
 }
 add_action( 'wp_loaded', 'porto_customizer_current_state_options', 99 );
 

@@ -4,7 +4,13 @@
  *
  * @version     2.0.0
  */
-global $woocommerce_loop;
+global $woocommerce_loop, $porto_woocommerce_loop;
+
+if ( isset( $porto_woocommerce_loop['view'] ) && 'creative' == $porto_woocommerce_loop['view'] && ! isset( $porto_woocommerce_loop['creative_grid'] ) ) {
+	echo '<li class="grid-col-sizer"></li>';
+}
+
+do_action( 'porto_woocommerce_shop_loop_end' );
 
 $woocommerce_loop['product_loop']  = '';
 $woocommerce_loop['cat_loop']      = '';
