@@ -1,7 +1,7 @@
 ---
 deployment:
   tasks:
-    - export DEPLOYPATH=/home/pagina12/floricel.paginas-internet.com.mx/wp-content
+    - export DEPLOYPATH=/home/rafael345/staging.floricelonline.com/wp-content
     - /bin/cp -R index.php $DEPLOYPATH
     - /bin/cp -R languages $DEPLOYPATH/
     - /bin/cp -R plugins $DEPLOYPATH/
