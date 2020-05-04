@@ -1,9 +1,9 @@
-﻿=== Loco Automatic Translate Addon ===
+=== Loco Automatic Translate Addon ===
 Contributors:narinder-singh,satindersingh,coolplugins
 Donate link: https://paypal.me/CoolPlugins/10USD/
 Tags:loco,translate,translation,translator,localization,language,translations,loco translate,loco addon
 Requires at least:4.5
-Tested up to:5.3
+Tested up to:5.4
 Requires PHP:5.6
 Stable tag:trunk
 License:GPLv2 or later
@@ -56,7 +56,7 @@ This addon supports Yandex Translate API for free users and Yandex, Google & Mic
 
 > “Many people make the mistake of saving money by wasting time.”
 
-https://youtu.be/pjKNbkQNQDU
+https://www.youtube.com/watch?v=pjKNbkQNQDU
 
 = Who's Behind: =
 
@@ -90,6 +90,7 @@ This plugin works as an addon for **Loco Translate** plugin. First you need to i
 Free license users can only use - **[Yandex Translate API](https://tech.yandex.com/translate/)**, you can read more about its terms to use at here - https://yandex.com/legal/translate_api/
 Also grab a free API key at here:- [https://translate.yandex.com/developers/keys](https://translate.yandex.com/developers/keys)
 
+API Terms Of Service :- [https://translate.yandex.com/developers/offer](https://translate.yandex.com/developers/offer)
 But if you are using a premium license then you can also use Google Translate API and Microsoft Translator API
 
 = Is there any translation limit? =
@@ -110,6 +111,11 @@ Microsoft Translator API provides free 2,000,000 char / month for translations.
 4. Free Translation Limit by API Providers
 
 == Changelog ==
+<strong>Version 1.7.1 | 28 APR 2020</strong>
+<pre>
+Fixed: Index per request not working issue.
+Updated: Updated new logo and all assets
+</pre>
 <strong>Version 1.7 | 13 FEB 2020</strong>
 <pre>
 Added: Added Chinese languages support

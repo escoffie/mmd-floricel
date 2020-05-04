@@ -884,7 +884,7 @@ jQuery(document).on('atlt_run_translation',function(){
     if( ATLT.api_key['atlt_index-per-request'] != "" && typeof ATLT.api_key['atlt_index-per-request'] != "undefined" ){
         indexRequest = ATLT.api_key['atlt_index-per-request'];
     }
-   
+  
     //save pending array in window object for later use
     if( typeof textToTranslate == "object" && textToTranslate.length >= 1 ){
         // update object for later us
