@@ -45,10 +45,6 @@ function woocommerce_checkout_field_editor( $fields ) {
         'options'     => array(
             'G01' => __('G01 - Adquisición de mercancias', 'woocommerce' ),
             'G03' => __('G03 - Gastos en general', 'woocommerce' ),
-            'I01' => __('I01 - Construcciones', 'woocommerce' ),
-            'I02' => __('I02 - Mobilario y equipo de oficina por inversiones', 'woocommerce' ),
-            'I05' => __('I05 - Dados, troqueles, moldes, matrices y herramental	', 'woocommerce' ),
-            'I08' => __('I08 - Otra maquinaria y equipo', 'woocommerce' ),
             'P01' => __('P01 - Por definir', 'woocommerce' ),
             )
         );
