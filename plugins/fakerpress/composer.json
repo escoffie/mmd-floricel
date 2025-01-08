@@ -3,6 +3,6 @@
     "type": "wordpress-plugin",
     "require": {
         "fzaninotto/faker": "^1.6",
-        "nesbot/carbon": "^1.21"
+        "nesbot/carbon": "^2.72"
     }
 }
